@@ -29,7 +29,6 @@
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="MapperProfiles\" />
     <Folder Include="Areas\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
