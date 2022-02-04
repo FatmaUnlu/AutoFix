@@ -1,3 +1,4 @@
+using AutoFix.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,7 +27,7 @@ namespace AutoFix
         {
             services.AddControllersWithViews();
             //IoC Container
-            services.AddDbContext<DbContext>(options =>
+            services.AddDbContext<MyContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"));
             });
