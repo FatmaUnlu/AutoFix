@@ -55,6 +55,9 @@ namespace AutoFix
 
             app.UseEndpoints(endpoints =>
             {
+                //Area Ýçin
+                endpoints.MapAreaControllerRoute("Admin", "Admin", "Admin/{controller=Manage}/{action=Index}/{Id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
