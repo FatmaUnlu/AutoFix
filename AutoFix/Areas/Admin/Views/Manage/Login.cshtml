@@ -1,0 +1,471 @@
+﻿@*@model LoginViewModel*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zxx">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <!-- Meanmenu CSS -->
+        <link rel="stylesheet" href="assets/css/meanmenu.css">
+        <!-- Boxicons CSS -->
+        <link rel="stylesheet" href="assets/css/boxicons.min.css">
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+        <!-- Magnific Popup CSS -->
+        <link rel="stylesheet" href="assets/css/magnific-popup.min.css">
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="assets/css/responsive.css">
+
+        <title>Audeck - Auto Service and Car Repair HTML Template</title>
+
+        <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    </head>
+
+    <body>
+        <!-- Preloader -->
+        <div class="loader">
+            <div class="d-table">
+                <div class="d-table-cell">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Preloader -->
+
+        <!-- Start Navbar Area -->
+        <div class="navbar-area fixed-top">
+            <!-- Menu For Mobile Device -->
+            <div class="mobile-nav">
+                <a href="index.html" class="logo">
+                    <img src="assets/img/logo.png" alt="Logo">
+                </a>
+            </div>
+
+            <!-- Menu For Desktop Device -->
+            <div class="main-nav">
+                <div class="container">
+                    <nav class="navbar navbar-expand-md navbar-light">
+                        <a class="navbar-brand" href="index.html">
+                            <img src="assets/img/logo.png" alt="Logo">
+                        </a>
+                        <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link dropdown-toggle">Home</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a href="index.html" class="nav-link">Home Page One</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="index-2.html" class="nav-link">Home Page Two</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="index-3.html" class="nav-link">Home Page Three</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="about.html" class="nav-link">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link dropdown-toggle">Services</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a href="service.html" class="nav-link">Service</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="service-details.html" class="nav-link">Service Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pricing.html" class="nav-link">Pricing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link dropdown-toggle">Blog</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a href="blog.html" class="nav-link">Blog</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="blog-details.html" class="nav-link">Blog Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link dropdown-toggle active">Pages</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a href="shop.html" class="nav-link">Shop</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="shop-details.html" class="nav-link">Shop Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="cart.html" class="nav-link">Cart</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="checkout.html" class="nav-link">Checkout</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="sign-up.html" class="nav-link active">Sign Up</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="sign-in.html" class="nav-link">Sign In</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="engineer.html" class="nav-link">Engineer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="testimonial.html" class="nav-link">Testimonial</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="faq.html" class="nav-link">FAQ</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="coming-soon.html" class="nav-link">Coming Soon</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="terms-and-conditions.html" class="nav-link">Terms & Conditions</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="contact.html" class="nav-link">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="cmn-btn">
+                            <a class="banner-btn-left" href="sign-in.html">
+                                <i class='bx bxs-user-plus'></i>
+                                Sign In
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- End Navbar Area -->
+
+        <!-- Page Title -->
+        <div class="page-title-area">
+            <img src="assets/img/home-one/footer-car.png" alt="Title">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Sign Up</h2>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-chevron-right'></i>
+                        </li>
+                        <li>Sign Up</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Title -->
+
+        <!-- Sign Up -->
+        <div class="signup-area pt-100 pb-70">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="signup-item">
+                            <h2>WELCOME!</h2>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker</p>
+                            <h3>Sign Up instead:</h3>
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-facebook'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-instagram'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-pinterest-alt'></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="signup-item">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>First Name:</label>
+                                            <input type="text" class="form-control" placeholder="First Name">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Last Name:</label>
+                                            <input type="text" class="form-control" placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Username:</label>
+                                    <input type="text" class="form-control" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input type="email" class="form-control" placeholder="Enter Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password:</label>
+                                    <input type="password" class="form-control" placeholder="Enter Password">
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn signup-btn">Register</button>
+                                </div>
+                            </form>
+                            <span>Already a member? <a href="login.html">Sign In</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Sign Up -->
+
+        <!-- Footer -->
+        <footer class="footer-area-two pt-100">
+            <div class="footer-img">
+                <img src="assets/img/home-one/footer-car.png" alt="Footer">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="footer-item">
+                            <div class="footer-logo">
+                                <a href="index.html">
+                                    <img src="assets/img/logo-two.png" alt="Logo">
+                                </a>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam nobis et praesentium architecto ex laudantium voluptates in dolore</p>
+                                <ul>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bxl-youtube'></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bxl-facebook'></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bxl-instagram-alt'></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bxl-twitter'></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="footer-item">
+                            <div class="footer-service">
+                                <h3>Services</h3>
+                                <ul>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Automobile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Tyre Service
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Repair Service
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Engine Service
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            System Service
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="footer-item">
+                            <div class="footer-service">
+                                <h3>Quick Links</h3>
+                                <ul>
+                                    <li>
+                                        <a href="index.html" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="about.html" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            About Us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="blog.html" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Blogs
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="engineer.html" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Team
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="testimonial.html" target="_blank">
+                                            <i class='bx bx-chevron-right'></i>
+                                            Testimonials
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="footer-item">
+                            <div class="footer-service footer-find">
+                                <h3>Find Us</h3>
+                                <ul>
+                                    <li>
+                                        <i class='bx bx-location-plus'></i>
+                                        28/A Street, New York City
+                                    </li>
+                                    <li>
+                                        <i class='bx bx-phone-call'></i>
+                                        <a href="tel:+880123456789">
+                                            +88 0123 456 789
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class='bx bx-phone-call'></i>
+                                        <a href="tel:+880563246378">
+                                            +88 0563 246 378
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class='bx bx-mail-send'></i>
+                                        <a href="mailto:info@audeck.com">
+                                            info@audeck.com
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class='bx bx-mail-send'></i>
+                                        <a href="mailto:hello@audeck.com">
+                                            hello@audeck.com
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright-area">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="copyright-item">
+                                <p>Copyright ©2021 Audeck. Designed By <a href="https://hibootstrap.com/" target="_blank">HiBootstrap</a></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="copyright-item copyright-right">
+                                <ul>
+                                    <li>
+                                        <a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a>
+                                    </li>
+                                    <li>
+                                        <span>-</span>
+                                    </li>
+                                    <li>
+                                        <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End Footer -->
+
+        
+        <!-- Essential JS -->
+        <script src="assets/js/jquery-3.5.1.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <!-- Meanmenu JS -->
+        <script src="assets/js/jquery.meanmenu.js"></script>
+        <!-- Mixitup JS -->
+        <script src="assets/js/jquery.mixitup.min.js"></script>
+        <!-- Owl Carousel JS -->
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <!-- Magnific Popup JS -->
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!-- Form Ajaxchimp JS -->
+		<script src="assets/js/jquery.ajaxchimp.min.js"></script>
+		<!-- Form Validator JS -->
+		<script src="assets/js/form-validator.min.js"></script>
+		<!-- Contact JS -->
+        <script src="assets/js/contact-form-script.js"></script>
+        <!-- Wow JS -->
+        <script src="assets/js/wow.min.js"></script>
+        <!-- Custom JS -->
+        <script src="assets/js/custom.js"></script>
+    </body>
+</html>
