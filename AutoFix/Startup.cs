@@ -28,7 +28,34 @@ namespace AutoFix
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddIdentity<ApplicationUser, AplicationRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 5;
+
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.AllowedForNewUsers = false;
+
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            }).AddEntityFrameworkStores<MyContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+            services.AddScoped<IMyDependency, NewMyDependency>();
+
+            
             //IoC Container
             services.AddDbContext<MyContext>(options =>
             {

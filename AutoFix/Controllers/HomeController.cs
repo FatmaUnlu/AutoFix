@@ -1,25 +1,25 @@
-﻿using AutoFix.Models;
+﻿using AutoFix.Inject;
+using AutoFix.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoFix.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMyDependency _myDependency;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMyDependency myDependency)
         {
             _logger = logger;
+            _myDependency = myDependency;
         }
 
         public IActionResult Index()
         {
+            _myDependency.Log("Home/Index'e girildi");
             return View();
         }
 
