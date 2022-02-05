@@ -16,10 +16,6 @@ namespace AutoFix.Extensions
                 options.AddProfile(typeof(AccountProfile));
             });
             services.AddTransient<IEmailSender, EmailSender>();
-
-
-
-
             return services;
         }
     }
