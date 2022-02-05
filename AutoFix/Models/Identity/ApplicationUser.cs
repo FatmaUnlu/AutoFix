@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoFix.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutoFix.Models.Identity
@@ -13,7 +15,7 @@ namespace AutoFix.Models.Identity
         public string Surname { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        //public virtual List<Address> Addresses { get; set; }
+        public virtual List<Address> Addresses { get; set; }
 
         //public virtual List<Subscription> Subscriptions { get; set; }
     }

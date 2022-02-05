@@ -25,10 +25,8 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="MapperProfiles\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Areas\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

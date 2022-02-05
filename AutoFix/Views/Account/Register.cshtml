@@ -1,6 +1,117 @@
-﻿
+﻿@model RegisterViewModel
 @{
 
-    ViewBag.Title = "Login Ekranı";
+    ViewBag.Title = "Register Ekranı";
 }
 
+    <!-- Page Title -->
+        <div class="page-title-area">
+            <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Sign Up</h2>
+                    <ul>
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-chevron-right'></i>
+                        </li>
+                        <li>Sign Up</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Title -->
+
+        <!-- Sign Up -->
+        <div class="signup-area pt-100 pb-70">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="signup-item">
+                            <h2>WELCOME!</h2>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker</p>
+                            <h3>Sign Up instead:</h3>
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-facebook'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-instagram'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxl-pinterest-alt'></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="signup-item">
+                            <form method="post" asp-controller="Account" asp-action="Register">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Ad:</label>
+                                            <input asp-for="Name" type="text" class="form-control" placeholder="Ad">
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Soyad:</label>
+                                            <input asp-for="Surname" type="text" class="form-control" placeholder="Soyad">
+                                            <span asp-validation-for="Surname" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Kullanıcı Adı:</label>
+                                    <input asp-for="UserName" type="text" class="form-control" placeholder="Kullanıcı Adı">
+                                     <span asp-validation-for="UserName" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                                     <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                 <div class="form-group">
+                                    <label>Telefon Numarası:</label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Telefon Numarası">
+                                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Şifre:</label>
+                                    <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
+                                     <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Şifre Doğrulama:</label>
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Şifre Doğrulama">
+                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn signup-btn">Kayıt Ol</button>
+                                </div>
+                            </form>
+                            <span>Zten bir hesabınız var mı? <a asp-controller="Account" asp-action="Login">Giriş Yap</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Sign Up -->
