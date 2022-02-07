@@ -1,7 +1,7 @@
 ﻿@model LoginViewModel
 @{
 
-    ViewBag.Title = "Login Ekranı";
+    ViewBag.Title = "Giriş Ekranı";
 }
 
  
@@ -26,25 +26,32 @@
         <!-- End Page Title -->
 
         <!-- Login -->
-        <div class="login-area ptb-100">
+         <div class="login-area ptb-100">
             <div class="container">
                 <div class="login-item">
-                    <form method="post" asp-controller="Account" asp-action="Login" >
+                    <form method="post" asp-controller="Account" asp-action="Login">
                         <div class="form-group">
-                            <label>Username:</label>
-                            <input type="text" class="form-control" placeholder="Username" asp-for="UserName">
-                             <span asp-validation-for="UserName" class="text-danger"></span>
+                            <label asp-for="UserName"></label>
+                            <input type="text" class="form-control" placeholder="Kullanıcı Adı" asp-for="UserName">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label>Password:</label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Password">
+                            <label asp-for="Password"></label>
+                            <input type="password" class="form-control" placeholder="Şifre" asp-for="Password">
                              <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                    </form>
-                    <div class="text-center">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="RememberMe"></label>
+                                    <input asp-for="RememberMe" />
+                                </div>
+                            </div>
+                            <div class="text-center">
                         <button type="submit" class="btn login-btn">Login</button>
                     </div>
-                    <span>New member? <a asp-controller="Account" asp-action="Register">Register Now</a></span>
+                    <span>Yeni üye misiniz? <a asp-controller="Account" asp-action="Register">Kayıt Ol</a></span>
+                    </form>
+                    
                 </div>
             </div>
         </div>
