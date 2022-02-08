@@ -22,15 +22,16 @@ namespace AutoFix.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<AplicationRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-
-        public AccountController(IEmailSender emailSender, UserManager<ApplicationUser> userManager, RoleManager<AplicationRole> roleManager, IMapper mapper)
-        {
-           
+        public AccountController(IEmailSender emailSender, UserManager<ApplicationUser> userManager, RoleManager<AplicationRole> roleManager, IMapper mapper, SignInManager<ApplicationUser> signInManager)
+        {          
             _emailSender = emailSender;
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _signInManager = signInManager;
+
             CheckRoles();
         }
         private void CheckRoles()
@@ -63,12 +64,7 @@ namespace AutoFix.Controllers
             await _emailSender.SendAsyc(emailMesage);
 
         }
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return View();
-        }
+       
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -158,5 +154,41 @@ namespace AutoFix.Controllers
 
             return View();
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result =
+                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, true);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre hatalı");
+                return View(model);
+            }
+        }
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
+

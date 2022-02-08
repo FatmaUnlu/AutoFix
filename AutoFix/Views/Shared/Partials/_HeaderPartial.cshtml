@@ -1,4 +1,9 @@
-﻿   <!-- Start Navbar Area -->
+﻿@using AutoFix.Models.Identity
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager   
+ <!-- Start Navbar Area -->
         <div class="navbar-area fixed-top">
             <!-- Menu For Mobile Device -->
             <div class="mobile-nav">
@@ -104,12 +109,21 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="cmn-btn">
-                            <a class="banner-btn-left" asp-controller="Account" asp-action="Login">
-                                <i class='bx bxs-user-plus'></i>
-                                Sign In
-                            </a>
-                        </div>
+                        <div class="cmn-btn">                           
+                        @if (signInManager.IsSignedIn(Context.User))
+                        {
+                            <a asp-controller="Account" asp-action="Logout">Çıkış Yap <i class="fal fa-long-arrow-right"></i></a>                           
+                            @if (Context.User.IsInRole(RoleNames.Admin))
+                            {
+                                <a asp-area ="Admin" asp-controller ="Manage" asp-action=Index> Admin Panel <i class="fal fa-long-arrow-right"></i></a>
+                                
+                            }
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login">Giriş Yap <i class="fal fa-long-arrow-right"></i></a>
+                        }
+                        </div> 
                     </nav>
                 </div>
             </div>

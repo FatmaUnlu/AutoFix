@@ -15,6 +15,7 @@ namespace AutoFix.Extensions
                 //Mapper ile eşlenecek modellerin Profileri eklenmek zorundadır.
                 options.AddProfile(typeof(AccountProfile));
             });
+
             services.AddTransient<IEmailSender, EmailSender>();
             return services;
         }
