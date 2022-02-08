@@ -104,28 +104,37 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item navbar-btn">
                                     <a href="contact.html" class="nav-link">Contact</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="cmn-btn">                           
-                        @if (signInManager.IsSignedIn(Context.User))
+                        <div class="cmn-btn row">                           
+                       
+                            @if (signInManager.IsSignedIn(Context.User))
                         {
-                            <a asp-controller="Account" asp-action="Logout">Çıkış Yap <i class="fal fa-long-arrow-right"></i></a>                           
+                            <a asp-controller="Account" asp-action="Logout" class=" banner-btn-left">Çıkış Yap <i></i></a>                           
                             @if (Context.User.IsInRole(RoleNames.Admin))
                             {
-                                <a asp-area ="Admin" asp-controller ="Manage" asp-action=Index> Admin Panel <i class="fal fa-long-arrow-right"></i></a>
+                                <a asp-area ="Admin" asp-controller ="Manage" asp-action="Index" class=" banner-btn-left" > Admin Panel <i></i></a>
                                 
                             }
                         }
                         else
                         {
-                            <a asp-controller="Account" asp-action="Login">Giriş Yap <i class="fal fa-long-arrow-right"></i></a>
+                            <a asp-controller="Account" asp-action="Login" class="banner-btn-left">Giriş Yap <i class="fal fa-long-arrow-right"></i></a>
                         }
+                       
                         </div> 
                     </nav>
                 </div>
             </div>
         </div>
         <!-- End Navbar Area -->
+@section Styles{
+      .main-nav nav .cmn-btn 
+       width: 30%;
+       text-align: right;
+
+}
+      
