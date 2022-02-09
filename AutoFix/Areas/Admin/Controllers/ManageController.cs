@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoFix.Areas.Admin.Controllers
 {
-    public class ManageController : Controller
+    public class ManageController : AdminBaseController
     {
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult User()
+        public IActionResult Users()
         {
             return View();
         }

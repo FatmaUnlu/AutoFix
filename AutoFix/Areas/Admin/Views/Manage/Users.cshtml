@@ -1,0 +1,143 @@
+﻿<div class="container-fluid">
+
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="card-title">Kullanıcı Detayları</h4>
+                        </div><!--end col-->
+                    </div>  <!--end row-->
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div id="dxGrid"></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+</div>
+
+@section Scripts
+{
+<script src="~/vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
+<script>
+    var dataGrid = null;
+    $(() => {
+        var url = '../../../api/userapi';
+        function loadGrid() {
+            dataGrid = $('#dxGrid').dxDataGrid({
+                remoteOperations: { paging: true, filtering: true, sorting: true, grouping: true, summary: true, groupPaging: true },
+                dataSource: DevExpress.data.AspNet.createStore({
+                    key: 'id',
+                    loadUrl: `${url}/getusers`,
+                    updateUrl: `${url}/updateusers`
+                    //insertUrl: `${url}/InsertOrder`,
+                    //deleteUrl: `${url}/DeleteOrder`,
+                    //onBeforeSend(method, ajaxOptions) {
+                    //    ajaxOptions.xhrFields = { withCredentials: true };
+                    //}
+                }),
+                editing: {
+                    mode: 'form',
+                    allowUpdating: true
+                },
+                showColumnLines: true,
+                allowColumnResizing: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Ara..."
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                headerFilter: {
+                    visible: true
+                },
+                export: {
+                    enabled: true,
+                    fileName: `Tüm Kullanıcılar_${parseInt(Math.random() * 1000000000)}`,
+                    allowExportSelectedData: true
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [5, 15, 30, 45],
+                    showInfo: true
+                },
+                selection: {
+                    mode: "multiple"
+                },
+                columns: [
+                    {
+                        caption: 'Id',
+                        dataField: "id",
+                        visible: false,
+                        allowFiltering: false,
+                        formItem: { visible: false }
+                    },
+                    {
+                        caption: 'Ad',
+                        dataField: "name"
+                    },
+                    {
+                        caption: 'Soyad',
+                        dataField: "surname"
+                    },
+                    {
+                        caption: 'E-Posta',
+                        dataField: "email"
+                    },
+                    {
+                        caption: 'Email Onay',
+                        dataField: 'emailConfirmed',
+                        dataType: 'boolean'
+                    },
+                    {
+                        caption: 'Telefon Numarası',
+                        dataField: 'phoneNumber',
+                    },
+                    {
+                        caption: 'Kayıt Tarihi',
+                        dataField: "createDate",
+                        dataType: "date",
+                        format: 'dd/MM/yyyy',
+                        sortOrder: "desc"
+                    },
+                     {
+                                        caption : "Rol Atama",                                        
+                                        //dataField: "id",
+                                        lookup: {
+                                            dataSource: {
+                                                store: DevExpress.data.AspNet.createStore({
+                                                    key: "id",
+                                                    loadUrl: "../../../api/userapi/roleslookup",
+                                                    //loadParams: { userId:'id'  },
+
+                                                }),
+                                                _fnFeatureHtmlPaginate: true,
+                                                pageSize: 10
+                                            },
+                                            displayExpr: "text",
+                                            valueExpr: "value"
+                                        }
+                                       
+                                    }
+
+                ]
+            }).dxDataGrid("instance");
+        }
+
+        loadGrid();
+    });
+</script>
+}
