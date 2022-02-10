@@ -25,6 +25,7 @@
 <script src="~/vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
 <script>
     var dataGrid = null;
+    var editingUserId = null;
     $(() => {
         var url = '../../../api/userapi';
         function loadGrid() {
@@ -113,27 +114,34 @@
                         format: 'dd/MM/yyyy',
                         sortOrder: "desc"
                     },
-                     {
-                                        caption : "Rol Atama",                                        
-                                        //dataField: "id",
-                                        lookup: {
-                                            dataSource: {
-                                                store: DevExpress.data.AspNet.createStore({
-                                                    key: "id",
-                                                    loadUrl: "../../../api/userapi/roleslookup",
-                                                    //loadParams: { userId:'id'  },
+                    {
+                        caption : "Rol Atama",
+                        //dataField: "id",
+                        lookup: {
+                            dataSource: {
+                               store: DevExpress.data.AspNet.createStore({
+                               key: "id",
+                               loadUrl: "../../../api/userapi/roleslookup",
+                               onBeforeSend(method, ajaxOptions) {
+                                   ajaxOptions.data.userId = editingUserId;
+                                console.log(ajaxOptions);
+                            },
+                               
+                               }),
+                             _fnFeatureHtmlPaginate: true,
+                              pageSize: 10
+                              
+                           },
+                           displayExpr: "text",
+                           valueExpr: "value"
+                        }
+                     }
 
-                                                }),
-                                                _fnFeatureHtmlPaginate: true,
-                                                pageSize: 10
-                                            },
-                                            displayExpr: "text",
-                                            valueExpr: "value"
-                                        }
-                                       
-                                    }
-
-                ]
+                ],
+                onEditingStart : function (options){
+                    editingUserId = options.key;
+                    console.log(editingUserId);
+                }
             }).dxDataGrid("instance");
         }
 

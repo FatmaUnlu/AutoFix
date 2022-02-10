@@ -22,10 +22,10 @@ namespace AutoFix.Areas.Admin.Controllers
     public class UserApiController : ControllerBase
     {
         private readonly MyContext _dbContext;
-        private readonly UserManager <ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         public UserApiController(UserManager<ApplicationUser> userManager, MyContext dbContext)
         {
-            _userManager= userManager;
+            _userManager = userManager;
             _dbContext = dbContext;
         }
 
@@ -62,16 +62,18 @@ namespace AutoFix.Areas.Admin.Controllers
             return Ok(new JsonResponseViewModel());
         }
         [HttpGet]
-        public object RolesLookUp( DataSourceLoadOptions loadOptions)
+        public object RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
         {
             var data = _dbContext.Roles
-                .OrderBy(x => x.Id)
-                .Select(x => new
-                {
-                    //id = x.Id,
-                    Value = x.Id,
-                    Text = $"{x.Name}"
-                });
+               .OrderBy(x => x.Id)
+               .Select(x => new
+               {
+                   //id = x.Id,
+                   Value = x.Id,
+                   Text = $"{x.Name}"
+               });
+
+            var userRoles = _dbContext.UserRoles.Where(x => x.UserId == userId).Select(x => x.RoleId).ToList();
 
             return Ok(DataSourceLoader.Load(data, loadOptions));
         }
