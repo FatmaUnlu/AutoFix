@@ -44,7 +44,7 @@
                 editing: {
                     mode: 'form',
                     allowUpdating: true
-                },
+                },    
                 showColumnLines: true,
                 allowColumnResizing: true,
                 showRowLines: true,
@@ -114,28 +114,28 @@
                         format: 'dd/MM/yyyy',
                         sortOrder: "desc"
                     },
-                    {
-                        caption : "Rol Atama",
-                        //dataField: "id",
-                        lookup: {
-                            dataSource: {
-                               store: DevExpress.data.AspNet.createStore({
-                               key: "id",
-                               loadUrl: "../../../api/userapi/roleslookup",
-                               onBeforeSend(method, ajaxOptions) {
-                                   ajaxOptions.data.userId = editingUserId;
-                                console.log(ajaxOptions);
-                            },
-                               
-                               }),
-                             _fnFeatureHtmlPaginate: true,
-                              pageSize: 10
-                              
-                           },
-                           displayExpr: "text",
-                           valueExpr: "value"
-                        }
-                     }
+                    //{
+                    //    caption : "Rol Atama",
+                    //    //dataField: "id",
+                    //    lookup: {
+                    //        dataSource: {
+                    //           store: DevExpress.data.AspNet.createStore({
+                    //           key: "id",
+                    //           loadUrl: "../../../api/userapi/roleslookup",
+                    //           onBeforeSend(method, ajaxOptions) {
+                    //               ajaxOptions.data.userId = editingUserId;
+                    //            console.log(ajaxOptions);
+                    //        },
+
+                    //           }),
+                    //         _fnFeatureHtmlPaginate: true,
+                    //          pageSize: 10
+
+                    //       },
+                    //       displayExpr: "text",
+                    //       valueExpr: "value"
+                    //    }
+                    // }
 
                 ],
                 onEditingStart : function (options){

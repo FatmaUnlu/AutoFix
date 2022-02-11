@@ -8,9 +8,9 @@ namespace AutoFix.MapperProfiles
     {
         public AccountProfile()
         {
-            //CreateMap<ApplicationUser, UserProfileViewModel>().ReverseMap();
+            CreateMap<ApplicationUser, UserProfileViewModel>().ReverseMap();
             // CreateMap<UserProfileViewModel,ApplicationUser>()  // Yukarda ReverseMap() işlemi yapıldığı için 
-           
+
         }
     }
 }
