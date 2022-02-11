@@ -19,6 +19,11 @@ namespace AutoFix.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Role()
+        {
+            return View();
+        }
         public IActionResult ServiceProducts()
         {
             return View();

@@ -277,6 +277,104 @@ namespace AutoFix.Controllers
             }
         }
 
+        public async Task<IActionResult> Profile()
+        
+        {
+            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
+
+            //var model = new UserProfileViewModel()
+            //{
+            //    Email = user.Email,
+            //    Name = user.Name,
+            //    Surname = user.Surname
+            //};
+
+            var model = _mapper.Map<UserProfileViewModel>(user);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserProfileViewModel model)
+        {
+            //var userModel = _mapper.Map<ApplicationUser>(model);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
+
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.PhoneNumber = model.PhoneNumber;
+            
+            if (user.Email != model.Email)//mail adresini değiştirmiş!!!
+            {
+                await _userManager.RemoveFromRoleAsync(user, RoleNames.Musteri);
+                await _userManager.AddToRoleAsync(user, RoleNames.Passive);
+
+                user.Email = model.Email;
+                user.EmailConfirmed = false;
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                var emailMessage = new EmailMessage()
+                {
+                    Contacts = new string[] { user.Email },
+                    Body =
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                    Subject = "Confirm your email"
+                };
+
+                await _emailSender.SendAsyc(emailMessage);
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, ModelState.ToFullErrorString());
+            }
+
+            return View(model);
+        }
+
+        public IActionResult PasswordUpdate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordUpdate(PasswordUpdateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                //email gönder.
+                TempData["Message"] = "Şifre değiştirme işleminiz başarılı";
+                return View();
+            }
+            else
+            {
+                var message = string.Join("<br", result.Errors.Select(x => x.Description));
+                TempData["Message"] = message;
+                return View();
+            }
+
+
+            return View();
+        }
+
     }
 }
 
