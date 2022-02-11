@@ -1,4 +1,5 @@
-﻿using AutoFix.Models.Identity;
+﻿using AutoFix.Models;
+using AutoFix.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +12,7 @@ namespace AutoFix.Data
         {
 
         }
+
+        public DbSet<ServiceProduct> ServiceProducts { get; set; }
     }
 }

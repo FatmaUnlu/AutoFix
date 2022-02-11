@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Servis-Ürün Ekleme";
+}
+<input type="file"></input>
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="float-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Metrica</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item">
+                            <a href="#">CRM</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item active">Users</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Contacts</h4>
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div>
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="card-title">Ürünler</h4>
+                        </div><!--end col-->
+                    </div>  <!--end row-->
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div id="dxGrid"></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+</div>
+
+
+
+@section Scripts
+{
+    <script src="~/vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
+    <script>
+    var dataGrid = null;
+    $(()=>{
+        var url = '../../../api/serviceproductapi';
+        dataGrid=$("#dxGrid").dxDataGrid({
+             remoteOperations:
+             { 
+                 paging: true,
+                 filtering: true,
+                 sorting: true,
+                 grouping: true,
+                 summary: true,
+                 groupPaging: true
+             },
+                dataSource: DevExpress.data.AspNet.createStore({
+                    key: 'id',
+                    loadUrl: `${url}/get`,
+                    updateUrl: `${url}/update`,
+                    insertUrl: `${url}/insert`,
+                    deleteUrl: `${url}/delete`
+                    //onBeforeSend(method, ajaxOptions) {
+                    //    ajaxOptions.xhrFields = { withCredentials: true };
+                    //    console.log(method);
+                    //    console.log(ajaxOptions);
+                    //}
+                }),
+                editing: {
+                    mode: 'popup',
+                    allowUpdating: true,
+                    allowAdding:true,
+                    allowDeleting:true
+                },
+                showColumnLines: true,
+                allowColumnResizing: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Ara..."
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                headerFilter: {
+                    visible: true
+                },
+                 export: {
+                    enabled: true,
+                    fileName: `Tüm Hizmetler_${parseInt(Math.random() * 1000000000)}`,
+                    allowExportSelectedData: true
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [5, 15, 30, 45],
+                    showInfo: true
+                },
+                selection: {
+                    mode: "multiple"
+                },
+                columns:[
+                 {
+                        caption: 'Id',
+                        dataField: "id",
+                        visible: false,
+                        allowFiltering: false,
+                        formItem: { visible: false }
+                },
+                {
+                        caption: 'Hizmet-Ürün',
+                        dataField: "name"
+                },
+                {
+                        caption: 'Resim Yolu',
+                        dataField: "picturePath"
+                },
+                
+                {
+                        caption: 'Fiyat',
+                        dataField: "price",
+                        dataType:"number",
+                        format:"#.00₺"
+                }
+                ]
+        }).dxDataGrid("instance");
+    });
+
+    </script>
+}
