@@ -28,6 +28,9 @@
         <!-- Login -->
          <div class="login-area ptb-100">
             <div class="container">
+                <div class="user-actions mb-40">               
+                <div asp-validation-summary="All" class="text-danger"></div> <!-- validation mesajlarını göstermeye yarar.-->
+            </div>
                 <div class="login-item">
                     <form method="post" asp-controller="Account" asp-action="Login">
                         <div class="form-group">
@@ -49,7 +52,9 @@
                             <div class="text-center">
                         <button type="submit" class="btn login-btn">Login</button>
                     </div>
-                    <span>Yeni üye misiniz? <a asp-controller="Account" asp-action="Register">Kayıt Ol</a></span>
+                    <span>Yeni üye misiniz? <a asp-controller="Account" asp-action="Register">Kayıt Olun</a></span>
+                    <span>Şifremi Unuttum <a asp-controller="Account" asp-action="ResetPassword">Şifrenizi Sıfırlayın</a></span>
+
                     </form>
                     
                 </div>

@@ -5,7 +5,7 @@ namespace AutoFix.Models
     public class RoleNames
     {
         public static string Admin = "Admin";
-        public static string Operator = "Operatör";
+        public static string Operator = "Operator";
         public static string Teknisyen = "Teknisyen";
         public static string Musteri = "Müşteri";
         public static string Passive = "Passive";

@@ -1,0 +1,28 @@
+{
+  "name": "autofix",
+  "version": "1.0.0",
+  "description": "autoFix",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FatmaUnlu/AutoFix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FatmaUnlu/AutoFix/issues"
+  },
+  "homepage": "https://github.com/FatmaUnlu/AutoFix#readme",
+  "dependencies": {
+    "devextreme": "^21.2.4",
+    "devextreme-aspnet-data": "^2.8.6",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.6.0",
+    "jszip": "^3.7.1"
+  },
+  "devDependencies": {}
+}
