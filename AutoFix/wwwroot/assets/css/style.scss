@@ -3522,3 +3522,29 @@ footer {
     }
 }
 /*----- End Back to Top CSS -----*/
+#map {
+    height: 100%;
+    
+}
+
+/* Optional: Makes the sample page fill the window. */
+#mapbody {
+    height: 100%;
+    height: 550px;
+    width: 550px;
+    border: 1px solid black;
+}
+
+#floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+}

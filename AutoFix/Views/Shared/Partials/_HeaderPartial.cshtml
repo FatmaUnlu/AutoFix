@@ -116,10 +116,16 @@
                        
                             @if (signInManager.IsSignedIn(Context.User))
                         {
-                            <a asp-controller="Account" asp-action="Logout" class=" banner-btn-left">Çıkış Yap <i></i></a>                           
+                            
+                           <div class="col-lg-5">
+                                <a asp-controller="Account" asp-action="Logout" class=" banner-btn-left">Çıkış Yap <i></i></a> 
+                           </div> 
+                           
                             @if (Context.User.IsInRole(RoleNames.Admin))
                             {
-                                <a asp-area ="Admin" asp-controller ="Manage" asp-action="Index" class=" banner-btn-left" > Admin Panel <i></i></a>
+                                <div class="col-lg-5">
+                                <a asp-area ="Admin" asp-controller ="Manage" asp-action="Index" class="banner-btn-left " > Admin Panel <i></i></a>
+                                </div>
                                 
                             }
                         }

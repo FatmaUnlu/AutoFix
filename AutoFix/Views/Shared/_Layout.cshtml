@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AutoFix</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+  
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
@@ -28,6 +27,8 @@
         <title>Audeck - Auto Service and Car Repair HTML Template</title>
 
         <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    @await RenderSectionAsync("Styles", required: false)
+
 </head>
 <body>
      <!-- Preloader -->
@@ -56,9 +57,9 @@
      <!--====== Footer PART START ======-->
      <partial name="Partials/_FooterPartial"/>
     <!--====== Footer PART ENDS ======-->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>*@
 
       <!-- Essential JS -->
         <script src="~/assets/js/jquery-3.5.1.min.js"></script>
