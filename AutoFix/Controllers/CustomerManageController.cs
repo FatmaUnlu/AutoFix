@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoFix.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AutoFix.Controllers
 {
@@ -11,6 +13,21 @@ namespace AutoFix.Controllers
         public IActionResult FailureLogging()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> FailureLogging(string lat, string lng, FailureLogging model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(model);
+            }
+
+
+
+
+
+
+            return Ok(model);
         }
     }
 }

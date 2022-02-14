@@ -1,5 +1,7 @@
-﻿using AutoFix.Data;
+﻿using AutoFix.Areas.Admin.ViewModels;
+using AutoFix.Data;
 using AutoFix.Extensions;
+using AutoFix.Models;
 using AutoFix.Models.Identity;
 using AutoFix.ViewModels;
 using DevExtreme.AspNet.Data;
@@ -38,6 +40,7 @@ namespace AutoFix.Areas.Admin.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUsers(string key, string values)
         {
+            //Kullanıcı 
             var data = _userManager.Users.FirstOrDefault(x => x.Id == key);
 
             if (data == null)
@@ -46,6 +49,21 @@ namespace AutoFix.Areas.Admin.Controllers
                     IsSuccess = false,
                     ErrorMessage = "Kullanıcı Bulunamadı"
                 });
+
+            var userRoleUpdateModel = new UserRoleUpdateViewModel();
+            var useroldrole = _dbContext.UserRoles.Where(x => x.UserId == data.Id).Select(x=>x.RoleId).Single();
+            
+            string oldRoleName =  _dbContext.Roles.SingleOrDefault(r => r.Id == useroldrole).Name;
+            
+            JsonConvert.PopulateObject(values, userRoleUpdateModel);
+            string newroleName = _dbContext.Roles.SingleOrDefault(r => r.Id == userRoleUpdateModel.RoleId).Name;
+
+            if (!string.IsNullOrEmpty(userRoleUpdateModel.RoleId))
+            {
+                 await _userManager.RemoveFromRoleAsync(data,oldRoleName);
+                 await _userManager.AddToRoleAsync(data, newroleName);
+                
+            }
 
             JsonConvert.PopulateObject(values, data); //değişiklik varsa değişiklik olanları günceller
             if (!TryValidateModel(data))
@@ -62,15 +80,23 @@ namespace AutoFix.Areas.Admin.Controllers
             return Ok(new JsonResponseViewModel());
         }
         [HttpGet]
-        public object RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
+        public async Task<object> RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
         {
+            string role = string.Empty;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                role = _userManager.GetRolesAsync(user).Result.First();
+            }
+
             var data = _dbContext.Roles
                .OrderBy(x => x.Id)
                .Select(x => new
                {
                    //id = x.Id,
                    Value = x.Id,
-                   Text = $"{x.Name}"
+                   Text = $"{x.Name}",
+                   Selected = x.Name == role ? true : false
                });
 
             var userRoles = _dbContext.UserRoles.Where(x => x.UserId == userId).Select(x => x.RoleId).ToList();
