@@ -114,28 +114,58 @@
                         format: 'dd/MM/yyyy',
                         sortOrder: "desc"
                     },
+                    {
+                        caption : "Rol Atama",
+                        dataField: "roleId",
+                        lookup: {
+                            dataSource: {
+                               store: DevExpress.data.AspNet.createStore({
+                               key: "id",
+                               loadUrl: "../../../api/userapi/roleslookup",
+                               onBeforeSend(method, ajaxOptions) {
+                                   ajaxOptions.data.userId = editingUserId;
+                                    console.log(ajaxOptions);
+                            },
+                               
+                               }),
+                             _fnFeatureHtmlPaginate: true,
+                              pageSize: 10
+                              
+                           },
+                           displayExpr: "text",
+                           valueExpr: "value"
+                        }
+                     }
                     //{
-                    //    caption : "Rol Atama",
-                    //    //dataField: "id",
-                    //    lookup: {
+                    //    caption:"Rol Atama",
+                    //    dataField:"roleId",
+                    //    showSelectionControls: true,
+                    //    applyValueMode: 'useButtons',
+                    //    cellTemplate: function (container, options) 
+                    //    {
+                    //        container.append($("<div class='list-InGrid'>" + 'States Here ' +           options.value + "</div>"));
+                    //    },
+                    //    editCellTemplate: function($cell, cellData)({
+                    //        var $tagBox = $("<div>").dxTagBox({
                     //        dataSource: {
-                    //           store: DevExpress.data.AspNet.createStore({
-                    //           key: "id",
-                    //           loadUrl: "../../../api/userapi/roleslookup",
-                    //           onBeforeSend(method, ajaxOptions) {
-                    //               ajaxOptions.data.userId = editingUserId;
+                    //            store: DevExpress.data.AspNet.createStore({
+                    //            key: "id",
+                    //            loadUrl: "../../../api/userapi/roleslookup",
+                    //            onBeforeSend(method, ajaxOptions) {
+                    //            ajaxOptions.data.userId = editingUserId;
                     //            console.log(ajaxOptions);
+                    //            }
+                    //            }),
+                    //            _fnFeatureHtmlPaginate: true,
+                    //            pageSize: 10 
                     //        },
-
-                    //           }),
-                    //         _fnFeatureHtmlPaginate: true,
-                    //          pageSize: 10
-
-                    //       },
-                    //       displayExpr: "text",
-                    //       valueExpr: "value"
-                    //    }
-                    // }
+                    //        searchEnabled: true, placeholder: "Select Vertical(s)",
+                    //        hideSelectedItems: true,   acceptCustomValue: false,
+                    //        displayExpr:"text",
+                    //        valueExpr: "value"
+                    //    });
+                    //    $cell.append($tagBox);
+                    //}
 
                 ],
                 onEditingStart : function (options){
@@ -144,7 +174,6 @@
                 }
             }).dxDataGrid("instance");
         }
-
         loadGrid();
     });
 </script>

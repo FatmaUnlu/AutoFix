@@ -8,21 +8,24 @@ namespace AutoFix.Models.Entities
     {
         public string FailureName { get; set; }
         public string FailureDescription{ get; set; }
-        public string FailureSatus { get; set; }
+        public string FailureStatus { get; set; }
         public float Latitude { get; set; }//Enlem
         public float Longitude { get; set; }//Boylam
         public string AddressDetail { get; set; }
         public Guid UserId { get; set; }
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
 
-        
+       
 
-
-
-
-
-
+    }
+    public enum FailureStatus
+    {
+        Alındı,
+        Yönlendirildi,
+        Beklemede,
+        HizmetVeriliyor,
+        Tamamlandi
     }
 }

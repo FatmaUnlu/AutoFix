@@ -12,13 +12,6 @@ function konumBul() {
                 lat: data.coords.latitude,
                 lng: data.coords.longitude
             };
-            //  const haritaDiv =document.getElementById('map');
-            //    googleMap = new google.maps.Map(haritaDiv,
-            //     {
-            //     center:konum,
-            //     zoom:15,
-            //     mapTypeId: 'satellite'
-            // });
 
             $(document).ready(function () {
 
@@ -29,23 +22,35 @@ function konumBul() {
 
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
-
+                var marker;
                 google.maps.event.addListener(map, 'click', function (e) {
-                    var marker = new google.maps.Marker({
-                        position: e["latLng"],
-                        title: "Hello World!"
-                    });
-                    marker.setMap(map);
-                    document.getElementById("lat").value = marker.getPosition().lat();
-                    document.getElementById("lng").value = marker.getPosition().lng();
+                    if (marker == null) {
+                        marker = new google.maps.Marker({
+                            position: e["latLng"],
+                            title: "Hello World!"
+                        });
+                        marker.setMap(map);
+                        console.log(marker.getPosition().lat());
+                    }
+                    else {
+                        marker.setMap(null);
+                        marker = new google.maps.Marker({
+                            position: e["latLng"],
+                            title: "Hello World!"
+                        });
+                        marker.setMap(map);
+                        console.log(marker.getPosition().lat());
+                        console.log(marker.getPosition().lng());
+                        document.getElementById("lat").value = marker.getPosition().lat();
+                        document.getElementById("lng").value = marker.getPosition().lng();
 
-                    console.log(marker.getPosition().lat());
-                    console.log(marker.getPosition().lng());
-
-
+                    }
                 });
+                
+                /*console.log(marker.getPosition().lat());*/
+
             });
-            //placeMarker(konum);
+
         }, function (error) {
             alert.apply(error.message);
         })
@@ -55,38 +60,4 @@ function konumBul() {
 
 }
 
-//function placeMarker(location) {
-//    if (!marker || !marker.setPosition) {
-//        marker = new google.maps.Marker({
-//            position: location,
-//            map: map,
-//        });
-//    } else {
-//        marker.setPosition(location);
-//    }
-//    if (!!infowindow && !!infowindow.close) {
-//        infowindow.close();
-//    }
-//    infowindow = new google.maps.InfoWindow({
-//        content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
-//    });
-//    infowindow.open(map, marker);
-//}
-
-//google.maps.event.addDomListener(window, 'load', initialize);
-
 konumBul();
-
-// var marker;
-
-// function placeMarker(location) {
-//   if ( marker ) {
-//     marker.setPosition(location);
-//   } 
-//   else {
-//     marker = new google.maps.Marker({
-//       position: location,
-//       map: map
-//     });
-//   }
-// }
