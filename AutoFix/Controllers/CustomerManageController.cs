@@ -1,4 +1,5 @@
 ﻿using AutoFix.Models.Entities;
+using AutoFix.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,6 +7,13 @@ namespace AutoFix.Controllers
 {
     public class CustomerManageController : CustomerBaseController
     {
+        private readonly FailureRepo _failureRepo;
+
+        public CustomerManageController(FailureRepo failureRepo)
+        {
+            _failureRepo = failureRepo;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -19,7 +27,7 @@ namespace AutoFix.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Ok(model);
+                return View(model);
             }
 
 
@@ -27,7 +35,9 @@ namespace AutoFix.Controllers
 
 
 
-            return Ok(model);
+
+
+            return View(model);
         }
     }
 }

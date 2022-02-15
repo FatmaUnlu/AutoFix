@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ServiceProductViewModel
+@{
     ViewBag.Title = "Servis-Ürün Ekleme";
 }
 <div class="container-fluid">
@@ -39,7 +40,9 @@
         </div> <!--end col-->
     </div><!--end row-->
     @*<div id="resimSec"></div>*@
-   
+
+
+
 
 </div>
 
@@ -50,166 +53,188 @@
 <script src="~/vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
 
 <script>
-        var dataGrid = null;
-        $(()=>{
-            var url = '../../../api/serviceproductapi';
-            dataGrid=$("#dxGrid").dxDataGrid({
-                 remoteOperations:
-                 {
-                     paging: true,
-                     filtering: true,
-                     sorting: true,
-                     grouping: true,
-                     summary: true,
-                     groupPaging: true
-                 },
-                    dataSource: DevExpress.data.AspNet.createStore({
-                        key: 'id',
-                        loadUrl: `${url}/get`,
-                        updateUrl: `${url}/update`,
-                        insertUrl: `${url}/insert`,
-                        deleteUrl: `${url}/delete`
-                        //onBeforeSend(method, ajaxOptions) {
-                        //    ajaxOptions.xhrFields = { withCredentials: true };
-                        //    console.log(method);
-                        //    console.log(ajaxOptions);
-                        //}
-                    }),
-                    editing: {
-                        mode: 'popup',
-                        allowUpdating: true,
-                        allowAdding:true,
-                        allowDeleting:true
-                    },
-                    showColumnLines: true,
-                    allowColumnResizing: true,
-                    showRowLines: true,
-                    rowAlternationEnabled: true,
-                    showBorders: true,
-                    searchPanel: {
-                        visible: true,
-                        width: 240,
-                        placeholder: "Ara..."
-                    },
-                    filterRow: {
-                        visible: true,
-                        applyFilter: "auto"
-                    },
-                    headerFilter: {
-                        visible: true
-                    },
-                     export: {
-                        enabled: true,
-                        fileName: `Tüm Hizmetler_${parseInt(Math.random() * 1000000000)}`,
-                        allowExportSelectedData: true
-                    },
-                    paging: {
-                        pageSize: 20
-                    },
-                    pager: {
-                        showPageSizeSelector: true,
-                        allowedPageSizes: [5, 15, 30, 45],
-                        showInfo: true
-                    },
-                    selection: {
-                        mode: "multiple"
-                    },
-                    columns:[
-                        {
-                        dataField:'picturePath',
-                         width: 50,
-                         height:50,
-                         allowFiltering: false,
-                         allowSorting: false,
-                         cellTemplate: cellTemplate,
-      //                   cellTemplate(container, options) {
-      //  $('<div>')
-      //    .append($('<img>', { src:"~/"+ options.value }))
-      //    .appendTo(container);
-      //},
-                         editCellTemplate: editCellTemplate
+         var url = '../../../api/serviceproductapi';
+         var reader = null;
+         var fileInfo=null;
+            var dataGrid = null;
+            $(()=>{
+                
+                dataGrid=$("#dxGrid").dxDataGrid({
+                     remoteOperations:
+                     {
+                         paging: true,
+                         filtering: true,
+                         sorting: true,
+                         grouping: true,
+                         summary: true,
+                         groupPaging: true
+                     },
+                        dataSource: DevExpress.data.AspNet.createStore({
+                            key: 'id',
+                            loadUrl: `${url}/get`,
+                            updateUrl: `${url}/update`,
+                            insertUrl: `${url}/insert`,
+                            deleteUrl: `${url}/delete`,
+                            onBeforeSend(method, ajaxOptions) {
+                                ajaxOptions.xhrFields = { withCredentials: true };
+                                if(method == "insert"){
+                                    //console.log(fileInfo.value);
+                                      var dataStr = ajaxOptions.data.values;
+                                      console.log(dataStr);
+                                      var data = JSON.parse(dataStr);
+                                      data.file = fileInfo;
+                                      dataStr = JSON.stringify(data);
+                                      ajaxOptions.data.values=dataStr;
+                                    console.log(ajaxOptions);
+                                }
+                                 //console.log(ajaxOptions);
+                            }
+                        }),
+                        editing: {
+                            mode: 'popup',
+                            allowUpdating: true,
+                            allowAdding:true,
+                            allowDeleting:true
                         },
-                        {
-                            caption: 'Id',
-                            dataField: "id",
-                            visible: false,
-                            allowFiltering: false,
-                            formItem: { visible: false }
+                        showColumnLines: true,
+                        allowColumnResizing: true,
+                        showRowLines: true,
+                        rowAlternationEnabled: true,
+                        showBorders: true,
+                        searchPanel: {
+                            visible: true,
+                            width: 240,
+                            placeholder: "Ara..."
                         },
-                        {
-                            caption: 'Hizmet-Ürün',
-                            dataField: "name"
+                        filterRow: {
+                            visible: true,
+                            applyFilter: "auto"
                         },
+                        headerFilter: {
+                            visible: true
+                        },
+                         export: {
+                            enabled: true,
+                            fileName: `Tüm Hizmetler_${parseInt(Math.random() * 1000000000)}`,
+                            allowExportSelectedData: true
+                        },
+                        paging: {
+                            pageSize: 20
+                        },
+                        pager: {
+                            showPageSizeSelector: true,
+                            allowedPageSizes: [5, 15, 30, 45],
+                            showInfo: true
+                        },
+                        selection: {
+                            mode: "multiple"
+                        },
+                        columns:[
+                            {
+                            dataField:'file',
+                            datatype:'string'
+                             width: 50,
+                             height:50,
+                             allowFiltering: false,
+                             allowSorting: false,
+                             cellTemplate: cellTemplate,
+                            editCellTemplate: editCellTemplate
+                            },
+                            {
+                                caption: 'Id',
+                                dataField: "id",
+                                visible: false,
+                                allowFiltering: false,
+                                formItem: { visible: false }
+                            },
+                            {
+                                caption: 'Hizmet-Ürün',
+                                dataField: "name"
+                            },
 
-                        {
-                            caption: 'Fiyat',
-                            dataField: "price",
-                            dataType:"number",
-                            format:"#.00₺"
-                        }
+                            {
+                                caption: 'Fiyat',
+                                dataField: "price",
+                                dataType:"number",
+                                format:"#.00₺"
+                            },
+                            //{
+                            //    caption: 'File',
+                            //    dataField: "file",
+                            //    dataType:"file",
+                            //    //format:"#.00₺"
+                            //    visible:true,
+                            //    editCellTemplate: editCellTemplate
+                            //}
 
-                    ]
-            }).dxDataGrid("instance");
-        });
+                        ]
+                }).dxDataGrid("instance");
+            });
 
 
-function cellTemplate(container, options) {
-  let imgElement = document.createElement("img");
-  imgElement.setAttribute("src", options.value);
-  container.append(imgElement);
-}
-
-function editCellTemplate(cellElement, cellInfo) {
-  let buttonElement = document.createElement("div");
-  buttonElement.classList.add("retryButton");
-  let retryButton = $(buttonElement).dxButton({
-    text: "Retry",
-    visible: false,
-    onClick: function() {
-      // The retry UI/API is not implemented. Use a private API as shown at T611719.
-      for (var i = 0; i < fileUploader._files.length; i++) {
-        delete fileUploader._files[i].uploadStarted;
-      }
-      fileUploader.upload();
+    function cellTemplate(container, options) {
+      let imgElement = document.createElement("img");
+      imgElement.setAttribute("src", options.value);
+      container.append(imgElement);
     }
-  }).dxButton("instance");
 
-  let fileUploaderElement = document.createElement("div");
-  let fileUploader = $(fileUploaderElement).dxFileUploader({
-    multiple: false,
-    accept: "image/*",
-    uploadMode: "instantly",
-    //uploadUrl: "../../../api/serviceproductapi/",
-    onValueChanged: function(e) {
-      let reader = new FileReader();
-      reader.onload = function(args) {
-        imageElement.setAttribute('src', args.target.result);
-      }
-      reader.readAsDataURL(e.value[0]); // convert to base64 string
-    },
-    onUploaded: function(e){
-      cellInfo.setValue("~/assets/img/ServiceProducts/"+e.file.name);
-      retryButton.option("visible", false);
-    }//,
-    //onUploadError: function(e){
-    //  let xhttp = e.request;
-    //  if(xhttp.status === 400){
-    //    e.message = e.error.responseText;
-    //  }
-    //  if(xhttp.readyState === 4 && xhttp.status === 0) {
-    //    e.message = "Connection refused";
-    //  }
-    //  retryButton.option("visible", true);
-    //}
-  }).dxFileUploader("instance");
+    function editCellTemplate(cellElement, cellInfo) {
+      let buttonElement = document.createElement("div");
+      buttonElement.classList.add("retryButton");
+      let retryButton = $(buttonElement).dxButton({
+        text: "Retry",
+        visible: false,
+        onClick: function() {
+          // The retry UI/API is not implemented. Use a private API as shown at T611719.
+          for (var i = 0; i < fileUploader._files.length; i++) {
+            delete fileUploader._files[i].uploadStarted;
+          }
+          fileUploader.upload();
+        }
+      }).dxButton("instance");
 
-  let imageElement = document.createElement("img");
-  imageElement.classList.add("uploadedImage");
-  imageElement.setAttribute('src',cellInfo.value);
+      let fileUploaderElement = document.createElement("div");
+      let fileUploader = $(fileUploaderElement).dxFileUploader({
+        multiple: false,
+        accept: "image/*",
+        uploadMode: "instantly",
+        uploadUrl: "../../../api/serviceproductapi/",
+        onValueChanged: function(e) {
+            fileInfo=e.value;
+            console.log(e);
+            console.log(fileInfo);
+          reader = new FileReader();
+          reader.onload = function(args) {
+            imageElement.setAttribute('src', args.target.result);
+          }
+          reader.readAsDataURL(e.value[0]); // convert to base64 string
+        },
+        onUploaded: function(e){
+            console.log(e.file.name);
+          //cellInfo.setValue("../../../assets/img/ServiceProducts/"+e.file.name);
+          cellInfo.setValue(e.file);
+          console.log(e.file.name);
+          retryButton.option("visible", false);
+        }//,
+        //onUploadError: function(e){
+        //  let xhttp = e.request;
+        //  if(xhttp.status === 400){
+        //    e.message = e.error.responseText;
+        //  }
+        //  if(xhttp.readyState === 4 && xhttp.status === 0) {
+        //    e.message = "Connection refused";
+        //  }
+        //  retryButton.option("visible", true);
+        //}
+      }).dxFileUploader("instance");
 
-  cellElement.append(imageElement);
-  cellElement.append(fileUploaderElement);
-  cellElement.append(buttonElement);
-}
+      let imageElement = document.createElement("img");
+      imageElement.classList.add("uploadedImage");
+      imageElement.setAttribute('src',cellInfo.value);
+
+      cellElement.append(imageElement);
+      cellElement.append(fileUploaderElement);
+      cellElement.append(buttonElement);
+    }
 </script>
 }
