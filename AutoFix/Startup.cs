@@ -69,6 +69,7 @@ namespace AutoFix
 
             });
             services.AddApplicationServices(this.Configuration);
+            services.AddAppRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
