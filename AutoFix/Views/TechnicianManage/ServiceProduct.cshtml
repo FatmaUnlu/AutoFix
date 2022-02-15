@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Ürün Servis Sayfası";
+}
+ <!-- Page Title -->
+        <div class="page-title-area">
+            <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Shop</h2>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-chevron-right'></i>
+                        </li>
+                        <li>Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Title -->
+
+          <!-- Parts -->
+         <section class="parts-area pt-100 pb-70">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our All Parts</h2>
+                </div>
+                <div class="sorting-menu">
+                    <ul> 
+                       <li class="filter active" data-filter="all">all</li>
+                       <li class="filter" data-filter=".tyre">wheels</li>
+                       <li class="filter" data-filter=".web">steering</li>
+                       <li class="filter" data-filter=".ui">brakes</li>
+                       <li class="filter" data-filter=".ux">suspention</li>
+                       <li class="filter" data-filter=".branding">tyre</li>
+                    </ul>
+                </div>
+              
+                    <div id="Container" class="row">
+            @for(int i = 0; i < 10; i++)
+            {
+                <div class="col-sm-6 col-lg-3 mix ui tyre">
+                        <div class="parts-item">
+                            <div class="parts-top">
+                                <img src="assets/img/home-one/parts/1.png" alt="Parts">
+                            </div>
+                            <h3>Audeck Tyre 200</h3>
+                            <span>$120.00</span>
+                            <div class="cmn-btn">
+                                <a class="banner-btn-left" href="cart.html">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+            }
+        
+            
+                </div>
+               
+            </div>
+        </section>
+        <!-- End Parts -->

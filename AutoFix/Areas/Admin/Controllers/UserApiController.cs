@@ -1,7 +1,6 @@
 ﻿using AutoFix.Areas.Admin.ViewModels;
 using AutoFix.Data;
 using AutoFix.Extensions;
-using AutoFix.Models;
 using AutoFix.Models.Identity;
 using AutoFix.ViewModels;
 using DevExtreme.AspNet.Data;
@@ -9,10 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

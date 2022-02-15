@@ -4,7 +4,7 @@ namespace AutoFix.Controllers
 {
     public class TechnicianManageController : TechnicianBaseController
     {
-        public IActionResult Index()
+        public IActionResult ServiceProduct()
         {
             return View();
         }
