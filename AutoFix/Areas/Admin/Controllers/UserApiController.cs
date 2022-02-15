@@ -21,10 +21,12 @@ namespace AutoFix.Areas.Admin.Controllers
     {
         private readonly MyContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserApiController(UserManager<ApplicationUser> userManager, MyContext dbContext)
+        private readonly RoleManager<AplicationRole> _roleManager;
+        public UserApiController(UserManager<ApplicationUser> userManager, MyContext dbContext, RoleManager<AplicationRole> roleManager)
         {
             _userManager = userManager;
             _dbContext = dbContext;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -47,8 +49,10 @@ namespace AutoFix.Areas.Admin.Controllers
                 });
 
             var userRoleUpdateModel = new UserRoleUpdateViewModel();
+            
             var useroldrole = _dbContext.UserRoles.Where(x => x.UserId == data.Id).Select(x=>x.RoleId).Single();
             
+
             string oldRoleName =  _dbContext.Roles.SingleOrDefault(r => r.Id == useroldrole).Name;
             
             JsonConvert.PopulateObject(values, userRoleUpdateModel);

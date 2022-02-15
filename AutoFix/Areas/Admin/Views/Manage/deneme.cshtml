@@ -1,1 +1,14 @@
-﻿
+﻿<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Deneme" asp-controller="Manage" enctype="multipart/form-data" method="POST">
+            <h2 class="text-center lead"> Resim Yükle</h2>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Resim Bilgileri</label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+            <div class="form-group text-right">
+                <input type="submit" class="btn btn-success btn-sm w-25" value="Resim Yükle" />
+            </div>
+        </form>
+    </div>
+</div>

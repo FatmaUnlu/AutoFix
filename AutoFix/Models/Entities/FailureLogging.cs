@@ -1,10 +1,11 @@
-﻿using AutoFix.Models.Identity;
+﻿using AutoFix.Models.Abstracts;
+using AutoFix.Models.Identity;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoFix.Models.Entities
 {
-    public class FailureLogging:BaseEntity
+    public class FailureLogging:BaseEntity<Guid>
     {
         public string FailureName { get; set; }
         public string FailureDescription{ get; set; }
