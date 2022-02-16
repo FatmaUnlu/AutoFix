@@ -32,6 +32,8 @@
                                 <th class="table-head" scope="col">Adres Detayı</th>
                                 <th class="table-head" scope="col">Hizmet Durumu</th>
                                 <th class="table-head" scope="col">Sil</th>
+                                <th class="table-head" scope="col">Güncelle</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -43,12 +45,24 @@
                                 <td>@item.FailureDescription</td>
                                 <td>@item.AddressDetail</td>
                                 <td>@item.FailureStatus</td>
-                                <td>
+                                
+                                @if (item.FailureStatus == FailureStatus.Alındı.ToString())
+                                {
+                                    <td>
                                     <a class="btn btn-danger p-1" asp-controller ="CustomerManage" asp-action="FailureDelete" asp-route-id="@item.Id">
                                         <i class='bx bx-x '></i>
                                       @*  <i class="bi bi-trash"></i>*@
                                     </a>
                                 </td>
+                                <td class="row">
+                                    <a class="btn btn-success"  asp-controller ="CustomerManage" asp-action="FailureUpdate" asp-route-id="@item.Id">
+                                        <i class='bx bx-x '></i>
+                                      @*  <i class="bi bi-trash"></i>*@
+                                    </a>
+                                </td>
+
+                                }
+                                
                             </tr>
                         
                             }

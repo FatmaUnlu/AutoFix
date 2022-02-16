@@ -1,0 +1,112 @@
+﻿@model FailureLoggingViewModel
+@{
+    ViewData["Title"] = "Arıza Güncelleme Sayfası";
+}
+
+
+<!-- Page Title -->
+<div class="page-title-area">
+    <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>ARIZA GÜNCELLE</h2>
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li>
+                    <i class='bx bx-chevron-right'></i>
+                </li>
+                <li>Arıza Kayıt </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Sign Up -->
+<div class="signup-area pt-100 pb-70 mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-12">
+                <div class="signup-item">
+                    <form method="post" asp-controller="CustomerManage" asp-action="FailureLogging">
+                        <input asp-for="Longitude" type="hidden" id="lng" name="lng" />
+                        <input asp-for="Latitude" type="hidden" id="lat" name="lat" />
+
+                        <div class="row">
+                            <div class="col-lg-6 p-4">
+                                <div class="form-group">
+                                    <label>Arıza Bilgisi:</label>
+                                    <input asp-for="FailureName" type="text" class="form-control" placeholder="Arıza bilgisi">
+                                    <span asp-validation-for="FailureName" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Arıza Açıklama:</label>
+                                    <input asp-for="FailureDescription" type="text" class="form-control" placeholder="Arıza açıklama:">
+                                    <span asp-validation-for="FailureDescription" class="text-danger"></span>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Adres Detay:</label>
+                                    <input asp-for="AddressDetail" type="text" class="form-control" placeholder="Yıldız İşhanı Kat:5">
+                                    <span asp-validation-for="AddressDetail" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="map">
+                                <div id="floating-panel">
+                                </div>
+                                <div id="map"></div>
+                                <p>Click on the map to add markers.</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn signup-btn mt-lg-3">Arıza Kayıt</button>
+                        </div>
+                    </form>
+                    @*<span>Zten bir hesabınız var mı? <a asp-controller="Account" asp-action="Login">Giriş Yap</a></span>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Sign Up -->
+@section Styles{
+    #map{
+            height: 550px;
+            width: 550px;
+            border: 1px solid black;
+        }
+}
+@section Scripts{
+
+<script src="~/assets/js/harita.js"></script>
+
+<script>
+
+    $(()=>{
+     var lat=document.getElementById("lat");
+     console.log(lat.value);
+     //lat=parseFloat(lat.value);
+
+     var lng=document.getElementById("lng");
+     console.log(lng.value);
+      //lng=parseFloat(lat.value);
+
+      var position = {
+          lat :lat.value,
+          lng: lng.value
+      };
+        konumBul(position);
+    })
+
+</script>
+}
