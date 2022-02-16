@@ -1,0 +1,56 @@
+﻿@model List<RoleAssignViewModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="container-fluid">
+
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="card-title">Rol Atama</h4>
+                        </div><!--end col-->
+                    </div>  <!--end row-->
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div id="dxGrid"></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+</div>
+
+<form asp-action="RoleAssign" asp-controller="Manage">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Roller
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td><input type="checkbox" asp-for="@Model[i].HasAssign" /> </td>
+                    <td>
+                        @Model[i].RoleName
+                        <input type="hidden" asp-for="@Model[i].RoleId" />
+                        <input type="hidden" asp-for="@Model[i].RoleName" />
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2">
+                    <button>Rol Ata</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
