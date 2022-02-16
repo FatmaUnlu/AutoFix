@@ -59,7 +59,7 @@ namespace AutoFix.Controllers
             model.Longitude = lng;
             model.UserId = user.Id;
             model.FailureStatus = FailureStatus.Alındı.ToString();
-            var result=_failureRepo.Insert(model);
+            var result = _failureRepo.Insert(model);
             _failureRepo.Save();
 
             return View();
@@ -68,18 +68,46 @@ namespace AutoFix.Controllers
         public async Task<IActionResult> FailureGet()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-            var data = _failureRepo.Get(x=>x.UserId==user.Id).ToArray().ToList();
-            
-            
+            var data = _failureRepo.Get(x => x.UserId == user.Id).ToArray().ToList();
+
+
             return View(data);
         }
-        public async Task<IActionResult> FailureDelete(Guid id)
+        public IActionResult FailureDelete(Guid id)
         {
             _failureRepo.Delete(id);
             return View();
+        }
+        [HttpGet]
+        public IActionResult FailureUpdate(Guid id)
+        {
+
+            var data = _failureRepo.GetById(id);
+            if (data == null) return NotFound();// 404 sayfası yapılacak
+
+            var model = new FailureLoggingViewModel()
+            {
+                AddressDetail = data.AddressDetail,
+                FailureDescription = data.FailureDescription,
+                FailureName = data.FailureName,
+                FailureSatus = data.FailureStatus,
+                Latitude = data.Latitude,
+                Longitude = data.Longitude
+            };
+            //Mapper yapılacak
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> FailureUpdate(FailureLogging model)
+        {
+
+
+
+            //_failureRepo.Update(model);
+            //return View();
+            return View();
 
         }
-
 
     }
 }
