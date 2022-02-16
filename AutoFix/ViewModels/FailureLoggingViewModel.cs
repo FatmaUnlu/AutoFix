@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoFix.Models.Identity;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoFix.ViewModels
 {
@@ -13,12 +15,14 @@ namespace AutoFix.ViewModels
         [StringLength(100)]
         public string FailureDescription { get; set; }
         public string FailureSatus { get; set; }
-        public float Latitude { get; set; }//Enlem
-        public float Longitude { get; set; }//Boylam
+        public string Latitude { get; set; }//Enlem
+        public string Longitude { get; set; }//Boylam
         [Required(ErrorMessage = "Arıza adres detay bilgileri boş geçilemez.")]
         [Display(Name = "Arıza Adres Detay")]
         [StringLength(70)]
         public string AddressDetail { get; set; }
+       // public virtual ApplicationUser ApplicationUser { get; set; }
+
 
     }
 }

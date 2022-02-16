@@ -1,10 +1,12 @@
-﻿using AutoFix.Models.Identity;
+﻿using AutoFix.Models.Abstracts;
+using AutoFix.Models.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoFix.Models.Entities
 {
-    public class Address : BaseEntity
+    public class Address: BaseEntity<Guid>
     {
         public string Line { get; set; }
         public string PostCode { get; set; }

@@ -4,14 +4,16 @@ using AutoFix.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoFix.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20220215193434_LongitudeLatitudeStringType")]
+    partial class LongitudeLatitudeStringType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,55 +82,6 @@ namespace AutoFix.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("City");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.FailureLogging", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AddressDetail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedUser")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("FailureDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FailureName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FailureStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Latitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Longitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedUser")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FailureLoggings");
                 });
 
             modelBuilder.Entity("AutoFix.Models.Entities.State", b =>
@@ -413,15 +366,6 @@ namespace AutoFix.Migrations
                     b.Navigation("State");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.FailureLogging", b =>
-                {
-                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("AutoFix.Models.Entities.State", b =>
