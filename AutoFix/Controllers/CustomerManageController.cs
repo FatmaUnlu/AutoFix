@@ -85,16 +85,17 @@ namespace AutoFix.Controllers
             var data = _failureRepo.GetById(id);
             if (data == null) return NotFound();// 404 sayfası yapılacak
 
-            var model = new FailureLoggingViewModel()
-            {
-                AddressDetail = data.AddressDetail,
-                FailureDescription = data.FailureDescription,
-                FailureName = data.FailureName,
-                FailureSatus = data.FailureStatus,
-                Latitude = data.Latitude,
-                Longitude = data.Longitude
-            };
+            //var model = new FailureLoggingViewModel()
+            //{
+            //    AddressDetail = data.AddressDetail,
+            //    FailureDescription = data.FailureDescription,
+            //    FailureName = data.FailureName,
+            //    FailureSatus = data.FailureStatus,
+            //    Latitude = data.Latitude,
+            //    Longitude = data.Longitude
+            //};
             //Mapper yapılacak
+           var model = _mapper.Map<FailureLoggingViewModel>(data);
             return View(model);
         }
         [HttpPost]

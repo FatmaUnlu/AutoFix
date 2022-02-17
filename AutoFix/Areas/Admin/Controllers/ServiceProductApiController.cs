@@ -1,10 +1,9 @@
 ﻿using AutoFix.Data;
 using AutoFix.Extensions;
-using AutoFix.Models;
+using AutoFix.Models.Entities;
 using AutoFix.ViewModels;
 using DevExtreme.AspNet.Data;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;

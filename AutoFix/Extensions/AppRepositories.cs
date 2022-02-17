@@ -8,7 +8,8 @@ namespace AutoFix.Extensions
         public static IServiceCollection AddAppRepositories(this IServiceCollection services)
         {
             services.AddScoped<FailureRepo>();
-            
+            services.AddScoped<ServiceProductRepo>();
+
             return services;
 
         }

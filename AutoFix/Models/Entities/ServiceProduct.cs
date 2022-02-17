@@ -1,9 +1,7 @@
 ﻿using AutoFix.Models.Abstracts;
-using AutoFix.Models.Entities;
-using Microsoft.AspNetCore.Http;
 using System;
 
-namespace AutoFix.Models
+namespace AutoFix.Models.Entities
 {
     public class ServiceProduct:BaseEntity<Guid>
     {

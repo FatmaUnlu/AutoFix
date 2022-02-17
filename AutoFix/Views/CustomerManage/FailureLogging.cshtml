@@ -74,7 +74,7 @@
                             <button type="submit" class="btn signup-btn mt-lg-3">Arıza Kayıt</button>
                         </div>
                     </form>
-                    @*<span>Zten bir hesabınız var mı? <a asp-controller="Account" asp-action="Login">Giriş Yap</a></span>*@
+                    @*<span>Zten bir hesabınız var mı? <a asp-controller="Accp*ount" asp-action="Login">Giriş Yap</a></span>*@
                 </div>
             </div>
 
@@ -91,7 +91,27 @@
         }
 }
 @section Scripts{
-          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrJQHntRLm3k8KUd_GFyskV0L-h_T9BxE"></script>
       <script src="~/assets/js/harita.js"></script>
+    
+     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
+    <script>
+          $(()=>{
+     var lat=document.getElementById("lat");
+     console.log(lat.value);
+     //lat=parseFloat(lat.value);
+
+     var lng=document.getElementById("lng");
+     console.log(lng.value);
+      //lng=parseFloat(lat.value);
+
+      var position = {
+          lat :lat.value,
+          lng: lng.value
+      };
+        konumBul(position);
+    })
+     
+    </script>
+    
        
 }

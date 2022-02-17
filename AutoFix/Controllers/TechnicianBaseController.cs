@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoFix.Controllers
 {
-    [Authorize(Roles = "Teknisyen")]
+    //[Authorize(Roles = "Teknisyen")]
     public class TechnicianBaseController : Controller
     {
        

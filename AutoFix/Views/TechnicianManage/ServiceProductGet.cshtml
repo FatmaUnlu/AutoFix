@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<ServiceProductViewModel>
+
+@{
     ViewBag.Title = "Ürün Servis Sayfası";
 }
  <!-- Page Title -->
@@ -39,15 +41,15 @@
                 </div>
               
                     <div id="Container" class="row">
-            @for(int i = 0; i < 10; i++)
+            @foreach(var item in Model)
             {
                 <div class="col-sm-6 col-lg-3 mix ui tyre">
                         <div class="parts-item">
                             <div class="parts-top">
-                                <img src="assets/img/home-one/parts/1.png" alt="Parts">
+                                <img src="@item.PicturePath" alt="Parts">
                             </div>
-                            <h3>Audeck Tyre 200</h3>
-                            <span>$120.00</span>
+                            <h3>@item.Name</h3>
+                            <span>₺@item.Price</span>
                             <div class="cmn-btn">
                                 <a class="banner-btn-left" href="cart.html">
                                     Book Now
