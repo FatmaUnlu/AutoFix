@@ -16,5 +16,7 @@ namespace AutoFix.Data
 
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
         public DbSet<FailureLogging> FailureLoggings { get; set; }
+        public DbSet<CartItem> ShoppingCarts { get; set; }
+
     }
 }
