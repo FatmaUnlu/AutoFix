@@ -17,7 +17,6 @@ namespace AutoFix.Models.Entities
         public virtual ApplicationUser ApplicationUser { get; set; }
         public Guid ServiceProductId { get; set; }
         [ForeignKey(nameof(ServiceProductId))]
-
         public virtual ServiceProduct ServiceProduct { get; set; }
     }
 }
