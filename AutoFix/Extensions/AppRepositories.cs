@@ -10,8 +10,7 @@ namespace AutoFix.Extensions
             services.AddScoped<FailureRepo>();
             services.AddScoped<ServiceProductRepo>();
             services.AddScoped<CartRepo>();
-
-
+         
             return services;
 
         }

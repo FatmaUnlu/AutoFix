@@ -6,5 +6,6 @@ namespace AutoFix.Services
     public interface IEmailSender
     {
         Task SendAsyc(EmailMessage message);
+
     }
 }
