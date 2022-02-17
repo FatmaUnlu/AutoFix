@@ -7,7 +7,7 @@ namespace AutoFix.Models.Entities
 {
     public class CartItem : BaseEntity<Guid>
     {
-        public string FailureId { get; set; }
+        public Guid FailureId { get; set; }
 
         [ForeignKey(nameof(FailureId))]
         public virtual FailureLogging Failure { get; set; }
@@ -15,7 +15,7 @@ namespace AutoFix.Models.Entities
 
         [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public int ServiceProductId { get; set; }
+        public Guid ServiceProductId { get; set; }
         [ForeignKey(nameof(ServiceProductId))]
 
         public virtual ServiceProduct ServiceProduct { get; set; }
