@@ -7,6 +7,5 @@ namespace AutoFix.Services
     {
         Task SendAsyc(EmailMessage message);
 
-
     }
 }
