@@ -11,5 +11,9 @@ namespace AutoFix.Repository
         {
 
         }
+        public FailureLogging GetByTechnicianId(string id)
+        {
+            return Table.Find(id);
+        }
     }
 }
