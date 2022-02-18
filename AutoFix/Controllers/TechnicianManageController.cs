@@ -93,12 +93,14 @@ namespace AutoFix.Controllers
 
             return View();
         }
+
+
         #endregion
         //TODO
         /*
          * Eklenenler tabloda gösterilecek
          * Tabloya remove kolonu eklenecek
-         * Ödeme işlemlerine geçilecek
+         * Ödeme işlemlerine geçilecek7,
          */
 
 

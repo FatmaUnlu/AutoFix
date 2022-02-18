@@ -70,20 +70,21 @@ namespace AutoFix.Controllers
             //    });
             //}
 
-            ViewBag.Technicians = tech;
+            //ViewBag.Technicians = tech;
+            //return View(failures);
             return View(failures);
         }
-        [HttpPost]
-        public IActionResult GetFailureLogging(string[] Technician)
-        {
-            //var failures = _failureRepo.GetById(id)
+        //[HttpPost]
+        //public IActionResult GetFailureLogging(string[] Technician)
+        //{
+        //    //var failures = _failureRepo.GetById(id)
           
           
 
 
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
     }
