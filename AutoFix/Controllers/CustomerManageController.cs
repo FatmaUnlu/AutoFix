@@ -57,7 +57,7 @@ namespace AutoFix.Controllers
             }
             model.Latitude = lat;
             model.Longitude = lng;
-            model.UserId = user.Id;
+            model.CreatedUser = user.Id;
             model.FailureStatus = FailureStatus.Alındı.ToString();
             var result = _failureRepo.Insert(model);
             _failureRepo.Save();
@@ -68,7 +68,7 @@ namespace AutoFix.Controllers
         public async Task<IActionResult> FailureGet()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-            var data = _failureRepo.Get(x => x.UserId == user.Id).ToArray().ToList();
+            var data = _failureRepo.Get(x => x.CreatedUser == user.Id).ToArray().ToList();
 
 
             return View(data);

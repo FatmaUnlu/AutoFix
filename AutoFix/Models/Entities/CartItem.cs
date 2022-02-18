@@ -18,5 +18,13 @@ namespace AutoFix.Models.Entities
         public Guid ServiceProductId { get; set; }
         [ForeignKey(nameof(ServiceProductId))]
         public virtual ServiceProduct ServiceProduct { get; set; }
+        public string OrderStatus { get; set; }
+    }
+    public enum OrderStatus
+    {
+        Eklendi,
+        İptal_Edildi,
+        Ödendi
+
     }
 }

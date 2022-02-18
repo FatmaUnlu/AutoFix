@@ -15,9 +15,9 @@ namespace AutoFix.Models.Entities
         public string Longitude { get; set; }//Boylam
         public string AddressDetail { get; set; }
         [StringLength(450)]
-        public string UserId { get; set; }
+        public string TechnicianId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey(nameof(TechnicianId))]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
 
