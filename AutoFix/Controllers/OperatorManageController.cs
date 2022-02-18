@@ -26,6 +26,27 @@ namespace AutoFix.Controllers
             var failures = _failureRepo.Get(x => x.FailureStatus == x.FailureStatus.ToString());
 
 
+            //foreach (var item in tech)
+            //{
+            //    Technicians.Add(new SelectListItem
+            //    {
+            //        Text = $"{item.Name} {item.Surname}",
+            //        Value = item.Id.ToString()
+            //    });
+            //}
+
+            ViewBag.Technicians = tech;
+            return View(failures);
+        }
+        [HttpPost]
+        public IActionResult GetFailureLogging(string[] Technician)
+        {
+            //var failures = _failureRepo.GetById(id)
+          
+          
+
+
+
             return View();
         }
     }
