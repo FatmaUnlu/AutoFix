@@ -56,8 +56,8 @@ namespace AutoFix.Controllers
 
             var x = _userManager.GetUsersInRoleAsync("Teknisyen").Result;
 
-            var techId = _userManager.GetUserId(x => x.RollNames == "Teknisyen");
-            var tech = x.OfType<ApplicationUser>();
+            //var techId = _userManager.GetUserId(x => x.RollNames == "Teknisyen");
+            //var tech = x.OfType<ApplicationUser>();
 
 
 
