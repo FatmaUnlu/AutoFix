@@ -71,25 +71,25 @@ namespace AutoFix.Controllers
 
             }
             //failure bilgileri
-            var failure = _failureRepo.GetByTechnicianId(user.Id);
-            if (failure == null)
-            {
-                return BadRequest(new JsonResponseViewModel()
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Arıza kayıtlarında  bir sorun oluştu"
-                });
+            //var failure = _failureRepo.GetByTechnicianId(user.Id);
+            //if (failure == null)
+            //{
+            //    return BadRequest(new JsonResponseViewModel()
+            //    {
+            //        IsSuccess = false,
+            //        ErrorMessage = "Arıza kayıtlarında  bir sorun oluştu"
+            //    });
 
-            }
-            CartItem cartItem = new CartItem()
-            {
-                Failure = failure,
-                ServiceProduct = serviceProduct,
-                CreatedUser = user.Id,
-                UserId = failure.CreatedUser
-            };
-            var result = _cartRepo.Insert(cartItem);
-            _cartRepo.Save();
+            //}
+            //CartItem cartItem = new CartItem()
+            //{
+            //    Failure = failure,
+            //    ServiceProduct = serviceProduct,
+            //    CreatedUser = user.Id,
+            //    UserId = failure.CreatedUser
+            //};
+            //var result = _cartRepo.Insert(cartItem);
+            //_cartRepo.Save();
 
             return View();
         }

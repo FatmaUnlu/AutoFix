@@ -21,6 +21,7 @@ namespace AutoFix.Extensions
             });
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IPaymentService, IyzicoPaymentService>();
             return services;
         }
     }

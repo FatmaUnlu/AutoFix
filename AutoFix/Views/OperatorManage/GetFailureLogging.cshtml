@@ -6,7 +6,7 @@
     <img src="~/assets/img/home-one/footer-car.png" alt="Title">
     <div class="container">
         <div class="page-title-content">
-            <h2> ARIZA YÖNLENDİRME</h2>
+            <h2> ARIZA-SERVİS İŞLEMLERİ</h2>
             <ul>
                 <li>
                     <a asp-controller="Home" asp-action="Index">Home</a>
@@ -21,10 +21,21 @@
 </div>
 <!-- End Page Title -->
 <!-- Cart -->
-<form method="post" asp-action="GetFailureLogging" asp-controller="OperatorManage">
-<section class="cart-area ptb-100">
+
+<div class="cmn-btn row sorting-menu ">
+                    <ul style="margin-top:2em;" > 
+                       <li class="filter active"> <a  asp-controller ="OperatorManage" asp-action="GetFailureStatus" asp-route-id="Alındı">Alındı</a></li>
+                       <li class="filter active"><a asp-controller ="OperatorManage" asp-action="GetFailureStatus" asp-route-id="Yönlendirildi">Yönlendirildi </a></li>
+                       <li class="filter active"> <a asp-controller ="OperatorManage" asp-action="GetFailureStatus" asp-route-id="Beklemede">Beklemede</a></li>
+                       <li class="filter active"><a asp-controller ="OperatorManage" asp-action="GetFailureStatus" asp-route-id="HizmetVeriliyor">Hizmet Veriliyor</a></li>
+                       <li class="filter active"> <a asp-controller ="OperatorManage" asp-action="GetFailureStatus" asp-route-id="Tamamlandı">Tamamlandı</a></li>             
+                              
+                    </ul>
+                </div>
+<section class="cart-area ptb-75 mb-7">
     <div class="container">
         <div class="cart-wrap">
+
             <table class="table">
                 <thead class="thead">
                     <tr>
@@ -33,6 +44,8 @@
                         <th class="table-head" scope="col">Adres Detayı</th>
                         <th class="table-head" scope="col">Hizmet Durumu</th>
                         <th class="table-head" scope="col">Yönlendir</th>
+                        @* <th class="table-head" scope="col">Atama Yap</th>*@
+
 
                     </tr>
                 </thead>
@@ -46,25 +59,25 @@
                             <td>@item.AddressDetail</td>
                             <td>@item.FailureStatus</td>
 
-
                             @if (item.FailureStatus == FailureStatus.Alındı.ToString())
                             {
-                                <td class="cmn-btn" >
+                                <td class="cmn-btn">
                                     <div class="row">
-                                        <div class="col-md-12" >
-                                            <select class="form-select" >
-                                                <option selected>Teknisyen Seç</option>
+                                        <div class="col-md-12">
+                                            <select class="form-select" asp-for="@item.TechnicianId" id="technician" name="technician">
+                                                @* <option selected>Teknisyen Seç</option>*@
+                                                <option value="none" selected disabled hidden>Teknisyen Seç</option>
                                                 @foreach (ApplicationUser tech in ViewBag.Technicians)
                                                 {
-                             
-
                                                     <option value="@tech.Id">  @tech.Name @tech.Surname</option>
                                                 }
-
                                             </select>
+
                                         </div>
                                     </div>
                                 </td>
+                                <input type="hidden" id="failureId" name="failureId" value="@item.Id" />
+
                             }
                         </tr>
                     }
@@ -74,5 +87,39 @@
         </div>
     </div>
 </section>
-</form>
+
 <!-- End Cart -->
+@section Scripts{
+<script>
+
+   // $(document).ready(function(){
+        //var id=document.getElementById("technician").value();
+        
+        $('#technician').change(function(){
+            alert("tık var");
+            var technicianId=$('#technician').val();
+            var failureId=$('#failureId').val();
+            $.ajax({
+               
+                url:"/operatorManage/technicianRoute",
+                type:"POST",
+                data:
+                {"technicianId":technicianId,
+                "failureId" :failureId
+                },
+                //data:$(this).val();
+               // data:$(this).find("option:selected").val(),
+                datatype:"json",
+                //url:"/OperatorManage/TechnicianRoute"
+                 error:function(request,status,error){
+                           console.log(request);
+                       },
+                       success:function(response){
+                           console.log(response);                         
+                       }
+            });
+        });
+    //});
+</script>
+}
+

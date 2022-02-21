@@ -14,7 +14,9 @@ namespace AutoFix.ViewModels
         [Display(Name = "Arıza Tanım")]
         [StringLength(100)]
         public string FailureDescription { get; set; }
-        public string FailureSatus { get; set; }
+        public string FailureStatus { get; set; }
+        public string TechnicianId { get; set; }
+
         public string Latitude { get; set; }//Enlem
         public string Longitude { get; set; }//Boylam
         [Required(ErrorMessage = "Arıza adres detay bilgileri boş geçilemez.")]
