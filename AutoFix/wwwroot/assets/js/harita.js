@@ -56,7 +56,7 @@ function konumBul(position) {
         });
     } else {
         if (navigator.geolocation) {
-            console.log(); ('Geolocation destekliyor')
+            console.log('Geolocation destekliyor');
             navigator.geolocation.getCurrentPosition(function (data) {
                 console.log(data);
 
