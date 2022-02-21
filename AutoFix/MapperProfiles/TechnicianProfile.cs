@@ -9,6 +9,7 @@ namespace AutoFix.MapperProfiles
         public TechnicianProfile()
         {
             CreateMap<ServiceProduct, ServiceProductViewModel>().ReverseMap();
+            CreateMap<CartItem, CartItemViewModel>().ReverseMap();
         }
     }
 }

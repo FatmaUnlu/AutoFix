@@ -87,24 +87,30 @@
         }
 }
 @section Scripts{
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
+
 
 <script src="~/assets/js/harita.js"></script>
-   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
+
 
 <script>
 
     $(()=>{
-     var lat=document.getElementById("lat");
-     console.log(lat.value);
-     //lat=parseFloat(lat.value);
+     //var lat=document.getElementById("lat");
+     //console.log(lat.value);
+     ////lat=parseFloat(lat.value);
 
-     var lng=document.getElementById("lng");
-     console.log(lng.value);
+     //var lng=document.getElementById("lng");
+     //console.log(lng.value);
       //lng=parseFloat(lat.value);
 
+      //var position = {
+      //    lat :lat.value,
+      //    lng: lng.value
+      //};
       var position = {
-          lat :lat.value,
-          lng: lng.value
+          lat :@Model.Latitude,
+          lng: @Model.Longitude
       };
         konumBul(position);
     })

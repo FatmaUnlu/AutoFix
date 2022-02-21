@@ -1,12 +1,13 @@
-﻿using AutoFix.Models.Abstracts;
+﻿using AutoFix.Models.Entities;
 using AutoFix.Models.Identity;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AutoFix.Models.Entities
+namespace AutoFix.ViewModels
 {
-    public class CartItem : BaseEntity<Guid>
+    public class CartItemViewModel
     {
+        public Guid Id { get; set; }
         public Guid FailureId { get; set; }
 
         [ForeignKey(nameof(FailureId))]
@@ -19,12 +20,5 @@ namespace AutoFix.Models.Entities
         [ForeignKey(nameof(ServiceProductId))]
         public virtual ServiceProduct ServiceProduct { get; set; }
         public string OrderStatus { get; set; }
-    }
-    public enum OrderStatus
-    {
-        Eklendi,
-        İptal_Edildi,
-        Ödendi
-
     }
 }

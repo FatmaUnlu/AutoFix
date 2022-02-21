@@ -27,6 +27,7 @@ namespace AutoFix.Extensions
             }
             return String.Join("", messages);
         }
+
         
     }
 }

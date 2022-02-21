@@ -2,6 +2,8 @@
 using AutoFix.Models.Entities;
 using AutoFix.Repository.Abstracts;
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace AutoFix.Repository
 {
@@ -11,9 +13,13 @@ namespace AutoFix.Repository
         {
 
         }
-        public FailureLogging GetByTechnicianId(string id)
+       
+        public IQueryable<FailureLogging> GetByTechnicianId(string id)
         {
-            return Table.Find(id);
+            return Table.Where(x => x.TechnicianId == id &&x.FailureStatus== FailureStatus.Yönlendirildi.ToString()||x.FailureStatus==FailureStatus.Beklemede.ToString()
+            || x.FailureStatus == FailureStatus.HizmetVeriliyor.ToString());
         }
+
+
     }
 }

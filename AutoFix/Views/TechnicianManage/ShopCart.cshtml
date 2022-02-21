@@ -1,0 +1,90 @@
+﻿@model List<CartItemViewModel>
+
+@{
+    ViewBag.Title = "Fiyat Sayfası";
+}
+ <!-- Page Title -->
+        <div class="page-title-area">
+            <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Sepet</h2>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-chevron-right'></i>
+                        </li>
+                        <li>Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Title -->
+<!-- Cart -->
+<section class="cart-area ptb-100">
+    <div class="container">
+        <div class="cart-wrap">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th class="table-head" scope="col">Resim</th>
+                        <th class="table-head" scope="col">Arıza</th>
+                        <th class="table-head" scope="col">Hizmet-Ürün</th>
+                        <th class="table-head" scope="col">Fiyat</th>
+                        <th class="table-head" scope="col">Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th class="table-item" scope="row">
+                                <img src="@item.ServiceProduct.PicturePath" alt="Parts">
+                            </th>
+                            <td>@item.Failure.FailureName</td>
+                            <td>@item.ServiceProduct.Name</td>
+                            <td>₺@item.ServiceProduct.Price</td>
+                            @if (Context.User.IsInRole(RoleNames.Teknisyen))
+                            {
+                                <td>
+                                    <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="ShopProductDelete" asp-route-id="@item.Id">
+                                        <i class='bx bx-x '></i>
+                                        @*  <i class="bi bi-trash"></i>*@
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+            <div class="shop-back">
+                <a href="#">Go for Order?</a>
+            </div>
+            <div class="total-shopping">
+                <h2>Toplam Sipariş</h2>
+                @{
+                    decimal total = 0;
+                    @foreach (var item in Model)
+                    {
+                        total += @item.ServiceProduct.Price;
+                    }
+                    <h3>Toplam: <span>₺@total</span></h3>
+
+                    @if (Context.User.IsInRole(RoleNames.Teknisyen))
+                    {
+                        <a>Müşteriye Yönlendir</a>
+                    }
+                    else
+                    {
+                        <a >Ödeme Yap</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Cart -->

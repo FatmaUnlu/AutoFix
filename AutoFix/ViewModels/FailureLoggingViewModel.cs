@@ -6,6 +6,7 @@ namespace AutoFix.ViewModels
 {
     public class FailureLoggingViewModel
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Arıza alanı boş geçilemez.")]
         [Display(Name = "Arıza")]
         [StringLength(70)]
@@ -14,7 +15,7 @@ namespace AutoFix.ViewModels
         [Display(Name = "Arıza Tanım")]
         [StringLength(100)]
         public string FailureDescription { get; set; }
-        public string FailureSatus { get; set; }
+        public string FailureStatus { get; set; }
         public string Latitude { get; set; }//Enlem
         public string Longitude { get; set; }//Boylam
         [Required(ErrorMessage = "Arıza adres detay bilgileri boş geçilemez.")]
