@@ -1,60 +1,78 @@
-﻿@model List<FailureLogging>
- <!-- Page Title -->
-        <div class="page-title-area">
-            <img src="~/assets/img/home-one/footer-car.png" alt="Title">
-            <div class="container">
-                <div class="page-title-content">
-                    <h2> ARIZA LİSTELEME</h2>
-                    <ul>
-                        <li>
-                            <a asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li>
-                            <i class='bx bx-chevron-right'></i>
-                        </li>
-                        <li>Arıza Listeleme </li>
-                    </ul>
-                </div>
-            </div>
+﻿@using AutoFix.Models.Identity
+@model List<FailureLogging>
+
+<!-- Page Title -->
+<div class="page-title-area">
+    <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+    <div class="container">
+        <div class="page-title-content">
+            <h2> ARIZA YÖNLENDİRME</h2>
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li>
+                    <i class='bx bx-chevron-right'></i>
+                </li>
+                <li>Arıza Yönlendirme </li>
+            </ul>
         </div>
-        <!-- End Page Title -->
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Cart -->
+<form method="post" asp-action="GetFailureLogging" asp-controller="OperatorManage">
+<section class="cart-area ptb-100">
+    <div class="container">
+        <div class="cart-wrap">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th class="table-head" scope="col">Arıza Tanım</th>
+                        <th class="table-head" scope="col">Arıza Açıklama</th>
+                        <th class="table-head" scope="col">Adres Detayı</th>
+                        <th class="table-head" scope="col">Hizmet Durumu</th>
+                        <th class="table-head" scope="col">Yönlendir</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.FailureName</td>
+                            <td>@item.FailureDescription</td>
+                            <td>@item.AddressDetail</td>
+                            <td>@item.FailureStatus</td>
 
 
-        <!-- Cart -->
-        <section class="cart-area ptb-100">
-            <div class="container">
-                <div class="cart-wrap">
-                    <table class="table">
-                        <thead class="thead">
-                            <tr>
-                                <th class="table-head" scope="col">Arıza Tanım</th>
-                                <th class="table-head" scope="col">Arıza Açıklama</th>
-                                <th class="table-head" scope="col">Adres Detayı</th>
-                                <th class="table-head" scope="col">Hizmet Durumu</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(var item in Model)
+                            @if (item.FailureStatus == FailureStatus.Alındı.ToString())
                             {
-                                <tr>
+                                <td class="cmn-btn" >
+                                    <div class="row">
+                                        <div class="col-md-12" >
+                                            <select class="form-select" >
+                                                <option selected>Teknisyen Seç</option>
+                                                @foreach (ApplicationUser tech in ViewBag.Technicians)
+                                                {
+                             
 
-                                <td>@item.FailureName</td>
-                                <td>@item.FailureDescription</td>
-                                <td>@item.AddressDetail</td>
-                               
+                                                    <option value="@tech.Id">  @tech.Name @tech.Surname</option>
+                                                }
 
-                                }
-                                
-                            </tr>
-                        
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
                             }
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-                          
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </section>
-        <!-- End Cart -->
+        </div>
+    </div>
+</section>
+</form>
+<!-- End Cart -->
