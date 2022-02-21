@@ -2,6 +2,7 @@
 using AutoFix.Models.Entities;
 using AutoFix.Repository.Abstracts;
 using System;
+using System.Linq;
 
 namespace AutoFix.Repository
 {
@@ -11,5 +12,7 @@ namespace AutoFix.Repository
         {
 
         }
+
+        
     }
 }

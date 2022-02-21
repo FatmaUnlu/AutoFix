@@ -69,8 +69,6 @@ namespace AutoFix.Controllers
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var data = _failureRepo.Get(x => x.CreatedUser == user.Id).ToArray().ToList();
-
-
             return View(data);
         }
         public IActionResult FailureDelete(Guid id)

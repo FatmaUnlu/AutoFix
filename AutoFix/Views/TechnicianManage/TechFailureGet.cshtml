@@ -1,0 +1,122 @@
+﻿@model List<FailureLoggingViewModel>
+<!-- Page Title -->
+<div class="page-title-area">
+    <img src="~/assets/img/home-one/footer-car.png" alt="Title">
+    <div class="container">
+        <div class="page-title-content">
+            <h2> ARIZA LİSTEM</h2>
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li>
+                    <i class='bx bx-chevron-right'></i>
+                </li>
+                <li>Arıza Listele </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Cart -->
+<section class="cart-area ptb-100">
+    <div class="container">
+        <div class="cart-wrap">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th class="table-head" scope="col">Arıza Tanım</th>
+                        <th class="table-head" scope="col">Arıza Açıklama</th>
+                        <th class="table-head" scope="col">Adres Detayı</th>
+                        @*<th class="table-head" scope="col">Hizmet Durumu</th>*@
+                        <th class="table-head" scope="col">Hizmet Durumu</th>
+                        <th class="table-head" scope="col">İşlem Ekle</th>
+                        <th class="table-head" scope="col">İşlemler</th>
+                        <th class="table-head" scope="col">Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FailureName</td>
+                            <td>@item.FailureDescription</td>
+                            <td>@item.AddressDetail</td>
+                            @*<td>@item.FailureStatus</td>*@
+                            <td class="cmn-btn">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select class="form-select" asp-for="@item.FailureStatus" id="rootStatus" name="rootStatus">
+                                           
+                                            <option value="" selected disabled hidden>Durum Seç</option>
+                                            @foreach (var failure in Enum.GetValues(typeof(FailureStatus)).Cast<FailureStatus>().ToList())
+                                            {
+                                                <option value="@failure"> @failure</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <input type="hidden" id="failureId" name="failureId" value="@item.Id" />
+
+                           
+                            <td>
+                                <a class="btn btn-warning" asp-controller="TechnicianManage" asp-action="ServiceProductGet" asp-route-id="@item.Id">
+                                    <i class='bx bx-x '></i>
+                                    @*  <i class="bi bi-trash"></i>*@
+                                </a>
+                            </td>
+                             <td>
+                                <a class="btn btn-primary" asp-controller="TechnicianManage" asp-action="ShopCart" asp-route-id="@item.Id">
+                                    <i class='bx bx-x '></i>
+                                    @*  <i class="bi bi-trash"></i>*@
+                                </a>
+                            </td>
+                             <td>
+                                <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="FailureDelete" asp-route-id="@item.Id">
+                                    <i class='bx bx-x '></i>
+                                    @*  <i class="bi bi-trash"></i>*@
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+<!-- End Cart -->
+
+@section Scripts{
+    <script>
+         $('#rootStatus').change(function(){
+            alert("tık var");
+            var rootStatus=$('#rootStatus').val();
+            var failureId=$('#failureId').val();
+            $.ajax({
+               
+                url:"/technicianManage/StatusUpdate",
+                type:"POST",
+                data:
+                {"status":rootStatus,
+                "failureId" :failureId
+                },
+                //data:$(this).val();
+               // data:$(this).find("option:selected").val(),
+                datatype:"json",
+                //url:"/OperatorManage/TechnicianRoute"
+                 error:function(request,status,error){
+                           console.log(request);
+                       },
+                       success:function(response){
+                           console.log(response);                         
+                       }
+            });
+        });
+    </script>
+}

@@ -2,41 +2,57 @@
 
 function konumBul(position) {
     console.log(position);
-    if (position != null) {
-        position.lat = parseFloat(position.lat);
-        position.lng = parseFloat(position.lng);
+    if (position !== null) {
+        //position.lat = parseFloat(position.lat);
+        //position.lng = parseFloat(position.lng);
 
         //harita iþaretlenecek
-        var map = new google.maps.Map($('#map')[0], {
-            zoom: 15,
-            //center: new google.maps.LatLng(40.747688, -74.004142),
-            center: position,
+        $(document).ready(function () {
+           
+            var map = new google.maps.Map($('#map')[0], {
+                zoom: 15,
+                //center: new google.maps.LatLng(40.747688, -74.004142),
+                center: position,
 
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-        var marker;
-        google.maps.event.addListener(map, 'click', function (e) {
-            if (marker == null) {
-                marker = new google.maps.Marker({
-                    position: position,
-                    title: "Hello World!"
-                });
-                marker.setMap(map);
-                console.log(marker.getPosition().lat());
-            }
-            else {
-                marker.setMap(null);
-                marker = new google.maps.Marker({
-                    position: position,
-                    title: "Hello World!"
-                });
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var marker=new google.maps.Marker({
+                position: position,
+                map,
+                title: 'Arýza Konum',
+            });
+            //var marker = new google.maps.Marker({
+            //    position: position,
+            //    title: 'Arýza Konum'
+            //});
+
+            //marker.setMap(map);
+            //var marker;
+            google.maps.event.addListener(map, 'click', function (e) {
+                if (marker == null) {
+                    marker = new google.maps.Marker({
+                        position: e["latLng"],
+                        title: "Hello World!"
+                    });
+                    marker.setMap(map);
+                    console.log(marker.getPosition().lat());
+                }
+                else {
+                    marker.setMap(null);
+                    marker = new google.maps.Marker({
+                        position: e["latLng"],
+                        title: "Hello World!"
+                    });
+                }
                 marker.setMap(map);
                 console.log(marker.getPosition().lat());
                 console.log(marker.getPosition().lng());
                 document.getElementById("lat").value = marker.getPosition().lat();
                 document.getElementById("lng").value = marker.getPosition().lng();
+            });
 
-            }
+            /*console.log(marker.getPosition().lat());*/
+
         });
     } else {
         if (navigator.geolocation) {
@@ -76,13 +92,12 @@ function konumBul(position) {
                                 position: e["latLng"],
                                 title: "Hello World!"
                             });
-                            marker.setMap(map);
-                            console.log(marker.getPosition().lat());
-                            console.log(marker.getPosition().lng());
-                            document.getElementById("lat").value = marker.getPosition().lat();
-                            document.getElementById("lng").value = marker.getPosition().lng();
-
                         }
+                        marker.setMap(map);
+                        console.log(marker.getPosition().lat());
+                        console.log(marker.getPosition().lng());
+                        document.getElementById("lat").value = marker.getPosition().lat();
+                        document.getElementById("lng").value = marker.getPosition().lng();
                     });
 
                     /*console.log(marker.getPosition().lat());*/

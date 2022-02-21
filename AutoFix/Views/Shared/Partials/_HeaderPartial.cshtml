@@ -2,147 +2,184 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Http
 @inject SignInManager<ApplicationUser> signInManager
-@inject UserManager<ApplicationUser> userManager   
- <!-- Start Navbar Area -->
-        <div class="navbar-area fixed-top">
-            <!-- Menu For Mobile Device -->
-            <div class="mobile-nav">
-                <a href="index.html" class="logo">
+@inject UserManager<ApplicationUser> userManager
+<!-- Start Navbar Area -->
+<div class="navbar-area fixed-top">
+    <!-- Menu For Mobile Device -->
+    <div class="mobile-nav">
+        <a href="index.html" class="logo">
+            <img src="~/assets/img/logo.png" alt="Logo">
+        </a>
+    </div>
+
+    <!-- Menu For Desktop Device -->
+    <div class="main-nav">
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a class="navbar-brand" href="index.html">
                     <img src="~/assets/img/logo.png" alt="Logo">
                 </a>
-            </div>
-
-            <!-- Menu For Desktop Device -->
-            <div class="main-nav">
-                <div class="container">
-                    <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="index.html">
-                            <img src="~/assets/img/logo.png" alt="Logo">
-                        </a>
-                        <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                            <ul class="navbar-nav ml-auto">
+                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle active">Home</a>
+                            <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link dropdown-toggle active">Home</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="index.html" class="nav-link active">Home Page One</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="index-2.html" class="nav-link">Home Page Two</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="index-3.html" class="nav-link">Home Page Three</a>
-                                        </li>
-                                    </ul>
+                                    <a href="index.html" class="nav-link active">Home Page One</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="about.html" class="nav-link">About</a>
+                                    <a href="index-2.html" class="nav-link">Home Page Two</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link dropdown-toggle">Services</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="service.html" class="nav-link">Service</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="service-details.html" class="nav-link">Service Details</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pricing.html" class="nav-link">Pricing</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link dropdown-toggle">Blog</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="blog.html" class="nav-link">Blog</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="blog-details.html" class="nav-link">Blog Details</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link dropdown-toggle">Pages</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="shop.html" class="nav-link">Shop</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="shop-details.html" class="nav-link">Shop Details</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="cart.html" class="nav-link">Cart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="checkout.html" class="nav-link">Checkout</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="sign-up.html" class="nav-link">Sign Up</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="sign-in.html" class="nav-link">Sign In</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="engineer.html" class="nav-link">Engineer</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="testimonial.html" class="nav-link">Testimonial</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="faq.html" class="nav-link">FAQ</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="coming-soon.html" class="nav-link">Coming Soon</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="terms-and-conditions.html" class="nav-link">Terms & Conditions</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item navbar-btn">
-                                    <a href="contact.html" class="nav-link">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Account" asp-action="Profile" class="nav-link">Profile</a>
+                                    <a href="index-3.html" class="nav-link">Home Page Three</a>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="cmn-btn row">                           
-                       
-                            @if (signInManager.IsSignedIn(Context.User))
+                        </li>
+                        <li class="nav-item">
+                            <a href="about.html" class="nav-link">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle">Services</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a href="service.html" class="nav-link">Service</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="service-details.html" class="nav-link">Service Details</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pricing.html" class="nav-link">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle">Blog</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a href="blog.html" class="nav-link">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="blog-details.html" class="nav-link">Blog Details</a>
+                                </li>
+                            </ul>
+                        </li>
+                        @*Pages started*@
+                        @if (Context.User.IsInRole(RoleNames.Teknisyen))
                         {
-                            
-                           
-                                <a class=" banner-btn-left" asp-controller="Account" asp-action="Logout" >Çıkış Yap <i></i></a> 
-                           
-                            @if (Context.User.IsInRole(RoleNames.Admin))
-                            {
+                            <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a asp-controller="TechnicianManage" asp-action="TechFailureGet" class="nav-link">Arıza Listem</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
+                                </li>
                                 
-                                <a  class="banner-btn-left " asp-area ="Admin" asp-controller ="Manage" asp-action="Index" > Admin Panel <i></i></a>
-                               
+                            </ul>
+                        </li>
+                        }
+                        @if (Context.User.IsInRole(RoleNames.Musteri))
+                        {
+                            <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a asp-controller="CustomerManage" asp-action="FailureGet" class="nav-link">Arıza Listem</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
+                                </li>
                                 
-                            }
+                            </ul>
+                        </li>
                         }
                         else
                         {
-                            <a  class="banner-btn-left" asp-controller="Account" asp-action="Login"><i class='bx bxs-user-plus'></i>Giriş Yap  </a>
+                            
+                        <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle">Pages</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a href="shop.html" class="nav-link">Shop</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="cart.html" class="nav-link">Cart</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="checkout.html" class="nav-link">Checkout</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="sign-up.html" class="nav-link">Sign Up</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="sign-in.html" class="nav-link">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="engineer.html" class="nav-link">Engineer</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="testimonial.html" class="nav-link">Testimonial</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="faq.html" class="nav-link">FAQ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="coming-soon.html" class="nav-link">Coming Soon</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="terms-and-conditions.html" class="nav-link">Terms & Conditions</a>
+                                </li>
+                            </ul>
+                        </li>
                         }
-                       
-                        </div>     
-                    </nav>
+
+                        @*Pages end*@
+                        <li class="nav-item navbar-btn">
+                            <a href="contact.html" class="nav-link">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Account" asp-action="Profile" class="nav-link">Profile</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+                <div class="cmn-btn row">
+
+                    @if (signInManager.IsSignedIn(Context.User))
+                    {
+
+                        <div class="col-lg-5">
+                            <a asp-controller="Account" asp-action="Logout" class=" banner-btn-left">Çıkış Yap <i></i></a>
+                        </div>
+
+                        @if (Context.User.IsInRole(RoleNames.Admin))
+                        {
+                            <div class="col-lg-5">
+                                <a asp-area="Admin" asp-controller="Manage" asp-action="Index" class="banner-btn-left "> Admin Panel <i></i></a>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="banner-btn-left"><i class='bx bxs-user-plus'></i>Giriş Yap  </a>
+                    }
+
+                </div>
+            </nav>
         </div>
-        <!-- End Navbar Area -->
+    </div>
+</div>
+<!-- End Navbar Area -->
 @section Styles{
-      .main-nav nav .cmn-btn 
+      .main-nav nav .cmn-btn
        width: 30%;
        text-align: right;
 
 }
-      

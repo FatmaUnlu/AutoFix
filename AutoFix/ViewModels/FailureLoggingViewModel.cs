@@ -6,6 +6,7 @@ namespace AutoFix.ViewModels
 {
     public class FailureLoggingViewModel
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Arıza alanı boş geçilemez.")]
         [Display(Name = "Arıza")]
         [StringLength(70)]
