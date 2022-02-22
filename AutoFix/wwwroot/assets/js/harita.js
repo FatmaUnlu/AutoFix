@@ -1,4 +1,4 @@
-
+ï»¿
 
 function konumBul(position) {
     console.log(position);
@@ -6,9 +6,9 @@ function konumBul(position) {
         //position.lat = parseFloat(position.lat);
         //position.lng = parseFloat(position.lng);
 
-        //harita iþaretlenecek
+        //harita iï¿½aretlenecek
         $(document).ready(function () {
-           
+
             var map = new google.maps.Map($('#map')[0], {
                 zoom: 15,
                 //center: new google.maps.LatLng(40.747688, -74.004142),
@@ -16,14 +16,14 @@ function konumBul(position) {
 
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
-            var marker=new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: position,
                 map,
-                title: 'Arýza Konum',
+                title: 'ArÄ±za Konum',
             });
             //var marker = new google.maps.Marker({
             //    position: position,
-            //    title: 'Arýza Konum'
+            //    title: 'Arï¿½za Konum'
             //});
 
             //marker.setMap(map);
@@ -56,7 +56,7 @@ function konumBul(position) {
         });
     } else {
         if (navigator.geolocation) {
-            console.log(); ('Geolocation destekliyor')
+            console.log('Geolocation destekliyor');
             navigator.geolocation.getCurrentPosition(function (data) {
                 console.log(data);
 
@@ -111,8 +111,7 @@ function konumBul(position) {
             alert('Geolocation desteklemiyor')
         }
     }
-    
+
 
 }
-
 

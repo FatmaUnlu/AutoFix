@@ -33,7 +33,7 @@
                         <th class="table-head" scope="col">Arıza</th>
                         <th class="table-head" scope="col">Hizmet-Ürün</th>
                         <th class="table-head" scope="col">Fiyat</th>
-                        <th class="table-head" scope="col">Sil</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -45,18 +45,8 @@
                             </th>
                             <td>@item.Failure.FailureName</td>
                             <td>@item.ServiceProduct.Name</td>
-                            <td>₺@item.ServiceProduct.Price</td>
-                            @if (Context.User.IsInRole(RoleNames.Teknisyen))
-                            {
-                                <td>
-                                    <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="ShopProductDelete" asp-route-id="@item.Id">
-                                        <i class='bx bx-x '></i>
-                                        @*  <i class="bi bi-trash"></i>*@
-                                    </a>
-                                </td>
-                            }
+                            <td>₺@item.ServiceProduct.Price</td>     
                         </tr>
-
                     }
 
                 </tbody>
@@ -72,17 +62,12 @@
                     {
                         total += @item.ServiceProduct.Price;
                     }
-                    <h3>Toplam: <span>₺@total</span></h3>
 
-                    @if (Context.User.IsInRole(RoleNames.Teknisyen))
-                    {
-                        <a asp-controller="TechnicianManage" asp-action="CustomerRoot" asp-route-id="@Model[0].FailureId">Müşteriye Yönlendir</a>
-                    }
-                    else
-                    {
-                        <a >Ödeme Yap</a>
-                    }
+                    <h3>Toplam: <span>₺@total</span></h3>
                 }
+ 
+                        <a >Ödeme Yap</a>
+                    
             </div>
         </div>
     </div>

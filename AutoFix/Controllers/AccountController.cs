@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using System.Web;
+
 
 namespace AutoFix.Controllers
 {
@@ -281,14 +281,6 @@ namespace AutoFix.Controllers
         
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-
-            //var model = new UserProfileViewModel()
-            //{
-            //    Email = user.Email,
-            //    Name = user.Name,
-            //    Surname = user.Surname
-            //};
-
             var model = _mapper.Map<UserProfileViewModel>(user);
             return View(model);
         }
@@ -317,20 +309,8 @@ namespace AutoFix.Controllers
                 user.Email = model.Email;
                 user.EmailConfirmed = false;
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
-                    protocol: Request.Scheme);
-
-                var emailMessage = new EmailMessage()
-                {
-                    Contacts = new string[] { user.Email },
-                    Body =
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
-                    Subject = "Confirm your email"
-                };
-
-                await _emailSender.SendAsyc(emailMessage);
+                await SendConfirmEmailAsync(user);
+                
             }
 
             var result = await _userManager.UpdateAsync(user);

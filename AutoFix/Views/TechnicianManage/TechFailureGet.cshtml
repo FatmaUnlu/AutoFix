@@ -1,5 +1,10 @@
 ﻿@model List<FailureLoggingViewModel>
 <!-- Page Title -->
+
+@*<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>*@
 <div class="page-title-area">
     <img src="~/assets/img/home-one/footer-car.png" alt="Title">
     <div class="container">
@@ -28,6 +33,7 @@
                         <th class="table-head" scope="col">Arıza Tanım</th>
                         <th class="table-head" scope="col">Arıza Açıklama</th>
                         <th class="table-head" scope="col">Adres Detayı</th>
+                        <th class="table-head" scope="col">Harita</th>
                         @*<th class="table-head" scope="col">Hizmet Durumu</th>*@
                         <th class="table-head" scope="col">Hizmet Durumu</th>
                         <th class="table-head" scope="col">İşlem Ekle</th>
@@ -42,12 +48,25 @@
                             <td>@item.FailureName</td>
                             <td>@item.FailureDescription</td>
                             <td>@item.AddressDetail</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                            <button id="buttonHarita" name="buttonHarita" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <input type="hidden" id="dynamicId" value="@item.Id" />
+                                    <input type="hidden" id="lng" value="@item.Longitude" />
+                                    <input type="hidden" id="lat" value="@item.Latitude" />
+                                    Harita
+                                </button>
+
+                                
+
+
+                            </td>
                             @*<td>@item.FailureStatus</td>*@
                             <td class="cmn-btn">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-select" asp-for="@item.FailureStatus" id="rootStatus" name="rootStatus">
-                                           
+
                                             <option value="" selected disabled hidden>Durum Seç</option>
                                             @foreach (var failure in Enum.GetValues(typeof(FailureStatus)).Cast<FailureStatus>().ToList())
                                             {
@@ -60,20 +79,20 @@
                             </td>
                             <input type="hidden" id="failureId" name="failureId" value="@item.Id" />
 
-                           
+
                             <td>
                                 <a class="btn btn-warning" asp-controller="TechnicianManage" asp-action="ServiceProductGet" asp-route-id="@item.Id">
                                     <i class='bx bx-x '></i>
                                     @*  <i class="bi bi-trash"></i>*@
                                 </a>
                             </td>
-                             <td>
+                            <td>
                                 <a class="btn btn-primary" asp-controller="TechnicianManage" asp-action="ShopCart" asp-route-id="@item.Id">
                                     <i class='bx bx-x '></i>
                                     @*  <i class="bi bi-trash"></i>*@
                                 </a>
                             </td>
-                             <td>
+                            <td>
                                 <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="FailureDelete" asp-route-id="@item.Id">
                                     <i class='bx bx-x '></i>
                                     @*  <i class="bi bi-trash"></i>*@
@@ -90,33 +109,113 @@
         </div>
     </div>
 </section>
-<!-- End Cart -->
 
+
+
+<div class="container mt-3">
+  <h3>Modal Example</h3>
+  <p>Click on the button to open the modal.</p>
+  
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
+    Open modal
+  </button>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" id="map-canvas">
+        Modal body..
+        
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+@section Styles{
+
+    #map-canvas{
+  width:500px;
+	height:300px;
+  padding-bottom:5px}
+
+}
+
+
+
+<!-- End Cart -->
 @section Scripts{
-    <script>
-         $('#rootStatus').change(function(){
-            alert("tık var");
-            var rootStatus=$('#rootStatus').val();
-            var failureId=$('#failureId').val();
-            $.ajax({
-               
-                url:"/technicianManage/StatusUpdate",
-                type:"POST",
-                data:
-                {"status":rootStatus,
-                "failureId" :failureId
-                },
-                //data:$(this).val();
-               // data:$(this).find("option:selected").val(),
-                datatype:"json",
-                //url:"/OperatorManage/TechnicianRoute"
-                 error:function(request,status,error){
-                           console.log(request);
-                       },
-                       success:function(response){
-                           console.log(response);                         
-                       }
-            });
-        });
-    </script>
+
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
+
+  
+
+      @*<script src="~/assets/js/technicianMaps.js"></script>*@
+       @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+
+
+<script>
+
+        //var name=document.getElementById("dynamicId").value;
+        //     //Resim modal js
+        //$("#"+name+"").on({
+        //    'click': function(){
+        //        alert("modalsss");
+        //        $('#haritaModal').modal('show')
+
+        ///}});
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+
+              $('#rootStatus').change(function(){
+              alert("tık var");
+              var rootStatus=$('#rootStatus').val();
+              var failureId=$('#failureId').val();
+              $.ajax({
+
+                  url:"/technicianManage/StatusUpdate",
+                  type:"POST",
+                  data:
+                  {"status":rootStatus,
+                  "failureId" :failureId
+                  },
+                  //data:$(this).val();
+                 // data:$(this).find("option:selected").val(),
+                  datatype:"json",
+                  //url:"/OperatorManage/TechnicianRoute"
+                   error:function(request,status,error){
+                             console.log(request);
+                         },
+                         success:function(response){
+                             console.log(response);
+                         }
+              });
+          });
+
+
+</script>
+
+
 }
