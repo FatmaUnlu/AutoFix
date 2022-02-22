@@ -19,6 +19,8 @@ namespace AutoFix.Models.Entities
         [ForeignKey(nameof(ServiceProductId))]
         public virtual ServiceProduct ServiceProduct { get; set; }
         public string OrderStatus { get; set; }
+        public string Price { get; set; }
+
     }
     public enum OrderStatus
     {

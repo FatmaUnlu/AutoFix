@@ -82,8 +82,6 @@ namespace AutoFix.Areas.Admin.Controllers
                 //});
             }
 
-
-
             _dbContext.ServiceProducts.Add(data);
 
             var result = _dbContext.SaveChanges();

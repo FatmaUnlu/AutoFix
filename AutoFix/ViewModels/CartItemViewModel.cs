@@ -12,6 +12,7 @@ namespace AutoFix.ViewModels
 
         [ForeignKey(nameof(FailureId))]
         public virtual FailureLogging Failure { get; set; }
+        public virtual CartItem CartItem { get; set; }
         public string CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
@@ -20,5 +21,7 @@ namespace AutoFix.ViewModels
         [ForeignKey(nameof(ServiceProductId))]
         public virtual ServiceProduct ServiceProduct { get; set; }
         public string OrderStatus { get; set; }
+
+
     }
 }

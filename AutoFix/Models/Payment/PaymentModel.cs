@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoFix.Models.Entities;
+using System.Collections.Generic;
 
 namespace AutoFix.Models.Payment
 {
@@ -12,6 +13,7 @@ namespace AutoFix.Models.Payment
         public List<BasketModel> BasketModel { get; set; }
         public CustomerModel CustomerModel { get; set; }
         public AddressModel AddressModel { get; set; }
+        public List<CartItem> CartItem { get; set; }
         public string Ip { get; set; }
         public string UserId { get; set; }
     }

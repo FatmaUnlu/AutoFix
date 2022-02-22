@@ -1,4 +1,5 @@
-﻿@model PaymentViewModel
+﻿@using System.Globalization
+@model PaymentViewModel
 @{
     ViewBag.Title = "Ödeme Sayfası";
 }
@@ -24,14 +25,21 @@
 <!-- End Page Title -->
 <section class="checkout-area ptb-100">
     <div class="container">
+        <h3 class="title">@ViewBag.ServiceProduct.Name</h3>
+        <ul class="breadcrumb-nav">
+            <li>@($"{ViewBag.ServiceProduct.Price:0.00}TL")</li>
+        </ul>
         <div class="user-actions mb-40">
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
-        <form asp-action="Index" method="post">
+        <form asp-action="Purchase" method="post">
+            <input asp-for="Installment" type="hidden" id="hdInstallment" value="1" />
+            <input type="hidden" id="Amount" name="Amount" value='@ViewBag.ServiceProduct.Price.ToString(new CultureInfo ("en-US"))' />
+            <input type="hidden" asp-for="CartItem.Id" />
             <div class="row">
                 <div class="col-lg-6">
                     <div class="checkout-item">
-                        <h2 class="title">Kart Bilgileri</h2>                      
+                        <h2 class="title">Kart Bilgileri</h2>
                         <div class="checkout-one">
                             <div class="form-group">
                                 <label asp-for="CardModel.CardHolderName"></label>
@@ -40,12 +48,12 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CardModel.CardNumber"></label>
-                                <input asp-for="CardModel.CardNumber" id="txtCardNumber" class="form-control"/>
+                                <input asp-for="CardModel.CardNumber" id="txtCardNumber" class="form-control" />
                                 <span asp-validation-for="CardModel.CardNumber" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CardModel.ExpireMonth"></label>
-                                <input asp-for="CardModel.ExpireMonth" class="form-control"/>
+                                <input asp-for="CardModel.ExpireMonth" class="form-control" />
                                 <span asp-validation-for="CardModel.ExpireMonth" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -54,17 +62,17 @@
                                 <span asp-validation-for="CardModel.ExpireYear" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                               <label asp-for="CardModel.Cvc"></label>
-                                    <input asp-for="CardModel.Cvc"  class="form-control" />
-                                    <span asp-validation-for="CardModel.Cvc" class="text-danger"></span>
-                            </div>                           
+                                <label asp-for="CardModel.Cvc"></label>
+                                <input asp-for="CardModel.Cvc" class="form-control" />
+                                <span asp-validation-for="CardModel.Cvc" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="checkout-item">
                         <h2>Ödeme Seçenekleri</h2>
-                       <div class="order-table table-responsive">
+                        <div class="order-table table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -74,7 +82,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="table-installments">
-                                   
                                 </tbody>
                             </table>
                         </div>
@@ -90,7 +97,7 @@
 <!-- End Checkout -->
 @section Scripts
 {
-<script>
+    <script>
            $(document).ready(function(){
                console.log("Jquery OK")
            });
@@ -99,13 +106,13 @@
                var bin=$(this).val();
                //console.log($(this).val()); // basıldığı andaki input değeri alır
 
-               if(bin.length>=6 && bin.length<=16){ 
+               if(bin.length>=6 && bin.length<=16){
                    console.log(bin);
                    var model={
                        binNumber:bin
                    };
                    $.ajax({// ajax bir metod içerisinde ise obje istiyor.sayfada sadece belirli bir kısım için veri alma verme yapılacaksa ajax kullanışır.
-                       url:'@Url.Action("CheckInstallment","Payment")', //payment sayfasındaki checkinstalment  
+                       url:'@Url.Action("CheckInstallment","Payment")', //payment sayfasındaki checkinstalment
                        type:"POST",
                        data:model,
                        dataType:"json",
@@ -123,7 +130,7 @@
            function fillInstallments(installmentPrices){
                $("#table-installments").empty();
                for(var i =0;i<installmentPrices.length; i++){
-                  
+
                var data = installmentPrices[i];
                //elemam üretildi
                var tr  = document.createElement("tr");
@@ -132,7 +139,7 @@
                var td3  = document.createElement("td");
                var radio = document.createElement("input");
                var label = document.createElement("label");
-    
+
                //attributeler değiştirildi
                $(radio).attr("type","radio").attr("name","install-radio").attr("data",data.installmentNumber).attr("id","rd"+i).appendTo(td1); //radio button özellikleri ayarlandı ve td1 kolununa eklendi.
 
@@ -140,9 +147,9 @@
               $(label).attr("for","rd"+i).html(data.installmentNumber).appendTo(td1);
 
               $(radio).on('change',function(){
-                  
+
                   $('#hdInstallment').val($(this).attr("data"));
-                 
+
                   cosole.log($(this).attr("data")); //datayı oku
                   console.log($(this).val());
               });
@@ -153,20 +160,20 @@
 
               $(td2).html(data.price);
               $(td3).html(data.totalPrice);
-              
+
               $(tr).append(td1).append(td2).append(td3).appendTo($("#table-installments"));
 
                }
            }
-</script>
+    </script>
 }
 @section Styles
     {
-<style>
-    input {
-        border: solid 1px #e3eeff;
-        height: 50px;
-        padding: 0 15px;
-    }
-</style>
-    }
+    <style>
+        input {
+            border: solid 1px #e3eeff;
+            height: 50px;
+            padding: 0 15px;
+        }
+    </style>
+}

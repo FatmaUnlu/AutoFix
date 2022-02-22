@@ -34,7 +34,7 @@ namespace AutoFix.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> FailureLogging(FailureLogging model)
+        public async Task<IActionResult> FailureLogging(FailureLoggingViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -56,10 +56,11 @@ namespace AutoFix.Controllers
             }
             model.CreatedUser = user.Id;
             model.FailureStatus = FailureStatus.Alındı.ToString();
-            var result = _failureRepo.Insert(model);
+            var data = _mapper.Map<FailureLogging>(model);
+            var result = _failureRepo.Insert(data);
             _failureRepo.Save();
-
-            return RedirectToAction("Detail","CustomerManager",new {id = result});
+            return View(result);
+            //return RedirectToAction("Detail","CustomerManager",new {id = result});
         }
 
         public async Task<IActionResult> FailureGet()

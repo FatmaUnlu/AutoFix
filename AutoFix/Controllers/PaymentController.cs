@@ -1,7 +1,10 @@
 ﻿using AutoFix.Extensions;
+using AutoFix.Models.Entities;
 using AutoFix.Models.Payment;
+using AutoFix.Repository;
 using AutoFix.Services;
 using AutoFix.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,11 +15,15 @@ namespace AutoFix.Controllers
 {
     public class PaymentController : Controller
     {
-        private readonly IPaymentService _paymentService;        
+        private readonly IPaymentService _paymentService;
+        private readonly ServiceProductRepo _serviceProductRepo;
+        private readonly IMapper _mapper; 
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService, ServiceProductRepo serviceProductRepo, IMapper mapper)
         {
             _paymentService= paymentService;
+            _serviceProductRepo = serviceProductRepo;
+            _mapper = mapper;
         }
         [Authorize]
         public IActionResult Index()
@@ -61,11 +68,29 @@ namespace AutoFix.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult Purchase()
-        {
-            
-            return View();
-        }
+        //[Authorize]
+        //public IActionResult Purchase(List<CartItemViewModel> model )
+        //{
+        //    //var data = _serviceProductRepo.GetById(id);
+
+        //    //if (data == null)
+        //    //{
+        //    //    return RedirectToAction("Index", "Home");
+        //    //}
+
+        //    var model = _mapper.Map<ServiceProductViewModel>(data);
+        //    ViewBag.ServiceProduct = model;
+
+        //    var model2  = new  PaymentViewModel()
+        //    {
+        //        CartItem = new CartItem()
+        //        {
+                    
+        //            ServiceProduct = data.Name,
+        //        }
+        //    }
+
+        //    return View();
+        //}
     }
 }

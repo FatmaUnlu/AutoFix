@@ -1,12 +1,17 @@
-﻿using AutoFix.Extensions;
+﻿using AutoFix.Data;
+using AutoFix.Extensions;
 using AutoFix.Models.Entities;
 using AutoFix.Models.Identity;
+using AutoFix.Models.Payment;
 using AutoFix.Repository;
+using AutoFix.Services;
 using AutoFix.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,18 +22,22 @@ namespace AutoFix.Controllers
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly FailureRepo _failureRepo;
         private readonly CartRepo _cartRepo;
+        private readonly IPaymentService _paymentService;
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly MyContext _context;
 
 
-        public TechnicianManageController(ServiceProductRepo serviceProductRepo, UserManager<ApplicationUser> userManager, IMapper mapper, FailureRepo failureRepo, CartRepo cartRepo)
+        public TechnicianManageController(ServiceProductRepo serviceProductRepo, UserManager<ApplicationUser> userManager, IMapper mapper, FailureRepo failureRepo, CartRepo cartRepo, IPaymentService paymentService, MyContext context)
         {
             _serviceProductRepo = serviceProductRepo;
             _userManager = userManager;
             _mapper = mapper;
             _failureRepo = failureRepo;
             _cartRepo = cartRepo;
+            _paymentService = paymentService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -51,10 +60,10 @@ namespace AutoFix.Controllers
         public IActionResult ServiceProductGet(string id)
         {
             TempData["FailureId"] = id;
-            var data = _serviceProductRepo.Get().ToList().Select(x => _mapper.Map<ServiceProductViewModel>(x)).ToList(); 
+            var data = _serviceProductRepo.Get().ToList().Select(x => _mapper.Map<ServiceProductViewModel>(x)).ToList();
             return View(data);
         }
-        public async  Task<IActionResult> ServiceProductAdd(Guid id)
+        public async Task<IActionResult> ServiceProductAdd(Guid id)
         {
             //Teknisyen bilgileri- userTechnian
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
@@ -83,13 +92,13 @@ namespace AutoFix.Controllers
 
             var cartItem = new CartItem()
             {
-                CreatedUser=user.Id,
+                CreatedUser = user.Id,
                 Failure = failure,
                 FailureId = failure.Id,
                 CustomerId = failure.CreatedUser,
                 ServiceProductId = serviceProduct.Id,
-                OrderStatus=OrderStatus.Eklendi.ToString()
-                
+                OrderStatus = OrderStatus.Eklendi.ToString()
+
             };
             var result = _cartRepo.Insert(cartItem);
             _cartRepo.Save();
@@ -99,7 +108,7 @@ namespace AutoFix.Controllers
         }
 
         #endregion
-      
+
 
         public IActionResult StatusUpdate(string status, string failureId)
         {
@@ -107,13 +116,13 @@ namespace AutoFix.Controllers
             var failure = _failureRepo.GetById(Guid.Parse(failureId));
             failure.FailureStatus = status;
             _failureRepo.Update(failure);
-            return View();  
+            return View();
         }
 
         #region ShopCart
         public IActionResult ShopCart(string id)
         {
-            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)).Select(x=>x.ServiceProductId).ToList();
+            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)).Select(x => x.ServiceProductId).ToList();
             var failure = _failureRepo.GetById(Guid.Parse(id));
 
             var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
@@ -121,7 +130,7 @@ namespace AutoFix.Controllers
             int sayac = 0;
             foreach (var item in shopcart)
             {
-                
+
                 for (int i = 0; i < cartItemProducts.Count; i++)
                 {
                     item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[sayac]);
@@ -135,12 +144,121 @@ namespace AutoFix.Controllers
         }
 
         #endregion
-            //TODO
-            /*
-             * Eklenenler tabloda gösterilecek
-             * Tabloya remove kolonu eklenecek
-             * Ödeme işlemlerine geçilecek7,
-             */
+        //TODO
+        /*
+         * Eklenenler tabloda gösterilecek
+         * Tabloya remove kolonu eklenecek
+         * Ödeme işlemlerine geçilecek7,
+         */
 
+
+        [HttpPost]
+        public IActionResult CheckInstallment(string binNumber, decimal price)
+        {
+            if (binNumber.Length < 6 || binNumber.Length > 16) return BadRequest(new
+            {
+                Message = "Bad Request"
+            });
+
+            var result = _paymentService.CheckInstallment(binNumber, price);
+            return View();
         }
+
+        [HttpPost]
+        public IActionResult Index(PaymentViewModel model)
+        {
+            var paymentModel = new PaymentModel()
+            {
+                Installment = model.Installment,
+                //AddressModel = new AddressModel(),
+                //BasketModel = new List<BasketModel>(),
+                CartItem = new List<CartItem>(),
+                CustomerModel = new CustomerModel(),
+                CardModel = model.CardModel,
+                Price = 1000,
+                UserId = HttpContext.GetUserId(),
+                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
+            };
+
+            var installmentInfo = _paymentService.CheckInstallment(paymentModel.CardModel.CardNumber.Substring(0, 6), paymentModel.Price);
+
+            var installmentNumber = installmentInfo.InstallmentPrices.FirstOrDefault(x => x.InstallmentNumber == model.Installment);
+
+            paymentModel.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice.Replace('.', ',') : installmentInfo.InstallmentPrices[0].TotalPrice.Replace('.', ','));
+
+            var result = _paymentService.Pay(paymentModel);
+            return View();
+        }
+
+        public IActionResult Purchase(Guid id)
+        {
+            var data = _context.ServiceProducts.Find(id);
+
+            if (data == null)
+            {
+                return RedirectToAction("Purchase", "Technician");
+            }
+
+            var model = _mapper.Map<ServiceProductViewModel>(data);
+            ViewBag.Subs = model;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Purchase(PaymentViewModel model)
+        {
+            //var type = await _serviceProductRepo.FindAsync(model.CartItem.Id);
+            var type = await _context.ServiceProducts.FindAsync(model.CartItem.Id);
+
+            var cartItem = new CartItem()
+            {
+                Id = type.Id,
+                ServiceProduct = model.CartItem.ServiceProduct,
+                Price = model.CartItem.ServiceProduct.Price.ToString(new CultureInfo("en-us")),
+            };
+
+            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
+
+            var customerModel = new CustomerModel()
+            {               
+                Email = user.Email,
+                GsmNumber = user.PhoneNumber,
+                Id = user.Id,
+                IdentityNumber = user.Id,
+                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
+                Name = user.Name,
+                Surname = user.Surname,              
+                LastLoginDate = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}",
+                RegistirationDate = $"{user.CreateDate:yyyy-MM-dd HH:mm:ss}",
+            };
+
+            var paymentModel = new PaymentModel()
+            {
+                Installment = model.Installment,
+
+                CartItem = new List<CartItem>() { cartItem },
+                CustomerModel = customerModel,
+                CardModel = model.CardModel,
+                Price = model.Amount,
+                UserId = HttpContext.GetUserId(),
+                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
+            };
+
+
+            var installmentInfo = _paymentService.CheckInstallment(model.CardModel.CardNumber.Substring(0, 6), paymentModel.Price);
+
+            var installmentNumber = installmentInfo.InstallmentPrices.FirstOrDefault(x => x.InstallmentNumber == model.Installment);
+
+            paymentModel.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice : installmentInfo.InstallmentPrices[0].TotalPrice);
+
+            ////legacy code
+
+            var result = _paymentService.Pay(paymentModel);
+            var serviceProduct = _mapper.Map<ServiceProductViewModel>(type);
+            ViewBag.ServiceProduct = serviceProduct;
+
+            return View();
+        }
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using AutoFix.Models.Payment;
+﻿using AutoFix.Models.Entities;
+using AutoFix.Models.Payment;
 
 namespace AutoFix.ViewModels
 {
@@ -6,7 +7,7 @@ namespace AutoFix.ViewModels
     {
         public CardModel CardModel { get; set; }
         public AddressModel AddressModel { get; set; }
-        public BasketModel BasketModel { get; set; }
+        public CartItem CartItem { get; set; }
         public decimal Paid { get; set; }
         public decimal Amount { get; set; }
         public decimal PaidAmount { get; set; }
