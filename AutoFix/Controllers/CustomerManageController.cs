@@ -4,31 +4,34 @@ using AutoFix.Models.Identity;
 using AutoFix.Repository;
 using AutoFix.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+//using System.Web.Http;
 
 namespace AutoFix.Controllers
 {
-    public class CustomerManageController : CustomerBaseController
+    [Authorize(Roles = "Müşteri")]
+    public class CustomerManageController : BaseController
     {
         private readonly FailureRepo _failureRepo;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CartRepo _cartRepo;
+        private readonly ServiceProductRepo _serviceProductRepo;
 
-        public CustomerManageController(FailureRepo failureRepo, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public CustomerManageController(FailureRepo failureRepo, IMapper mapper, UserManager<ApplicationUser> userManager, CartRepo cartRepo, ServiceProductRepo serviceProductRepo)
         {
             _failureRepo = failureRepo;
-            _userManager = userManager;
             _mapper = mapper;
+            _userManager = userManager;
+            _cartRepo = cartRepo;
+            _serviceProductRepo = serviceProductRepo;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
         public IActionResult FailureLogging()
         {
             return View();
@@ -97,13 +100,31 @@ namespace AutoFix.Controllers
         [HttpPost]
         public async Task<IActionResult> FailureUpdate(FailureLogging model)
         {
-
-
-
             //_failureRepo.Update(model);
             //return View();
             return View();
 
+        }
+        public async Task<IActionResult> Basket()
+        {
+            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
+
+            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
+            if(shopcart.Count==0)
+            {
+                return View();
+            }
+            foreach (var item in shopcart)
+            {
+                var failure = _failureRepo.GetById(item.FailureId);
+                item.Failure = failure;
+                var product = _serviceProductRepo.GetById(item.ServiceProductId);
+                item.ServiceProduct = product;
+            }
+            
+            
+
+            return View(shopcart);
         }
 
     }

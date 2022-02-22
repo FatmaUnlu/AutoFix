@@ -25,8 +25,9 @@ namespace AutoFix.Models.Entities
     public enum OrderStatus
     {
         Eklendi,
-        İptal_Edildi,
-        Ödendi
+        Iptal_Edildi,
+        Odeme_Bekliyor,
+        Odendi
 
     }
 }

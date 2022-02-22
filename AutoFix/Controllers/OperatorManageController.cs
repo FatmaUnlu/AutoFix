@@ -2,6 +2,7 @@
 using AutoFix.Models.Entities;
 using AutoFix.Models.Identity;
 using AutoFix.Repository;
+using AutoFix.Services;
 using AutoFix.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -19,14 +20,15 @@ namespace AutoFix.Controllers
 
         private readonly FailureRepo _failureRepo;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<AplicationRole> _roleManager;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
-        public OperatorManageController(FailureRepo failureRepo, UserManager<ApplicationUser> userManager, RoleManager<AplicationRole> _roleManager, IMapper mapper)
+        public OperatorManageController(FailureRepo failureRepo, UserManager<ApplicationUser> userManager, IMapper mapper, IEmailSender emailSender)
         {
             _failureRepo = failureRepo;
             _userManager = userManager;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
         public IActionResult Index()
         {
@@ -51,7 +53,7 @@ namespace AutoFix.Controllers
             return View(data);
         }
        [HttpPost]
-        public IActionResult TechnicianRoute(string technicianId,string failureId)
+        public async Task<IActionResult> TechnicianRoute(string technicianId,string failureId)
         {
             var data = _failureRepo.GetById(Guid.Parse(failureId));
             data.TechnicianId = technicianId;
@@ -65,6 +67,19 @@ namespace AutoFix.Controllers
                 data.FailureStatus = FailureStatus.Yönlendirildi.ToString();
             }
             _failureRepo.Update(data);
+            var technician =  await _userManager.FindByIdAsync(technicianId);
+            var emailMesage = new EmailMessage()
+            {
+                Contacts = new string[] { technician.Email },
+                Body =  data.FailureName+" arıza işlemi tarafınıza tanımlanmıştır.",
+                Subject = "Tarafınıza arıza tanımlandı"
+            };
+
+            await _emailSender.SendAsyc(emailMesage);
+
+
+
+
             return RedirectToAction("Index", "Home");
         }
     }
