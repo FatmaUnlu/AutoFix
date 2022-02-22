@@ -37,7 +37,7 @@ namespace AutoFix.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> FailureLogging(string lat, string lng, FailureLogging model)
+        public async Task<IActionResult> FailureLogging(FailureLogging model)
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +46,6 @@ namespace AutoFix.Controllers
                     IsSuccess = false,
                     ErrorMessage = ModelState.ToFullErrorString()
                 });
-                return View(model);
             }
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             if (user == null)
@@ -58,14 +57,12 @@ namespace AutoFix.Controllers
                 });
 
             }
-            model.Latitude = lat;
-            model.Longitude = lng;
             model.CreatedUser = user.Id;
             model.FailureStatus = FailureStatus.Alındı.ToString();
             var result = _failureRepo.Insert(model);
             _failureRepo.Save();
 
-            return View();
+            return RedirectToAction("Detail","CustomerManager",new {id = result});
         }
 
         public async Task<IActionResult> FailureGet()
