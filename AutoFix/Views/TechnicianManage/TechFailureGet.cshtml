@@ -1,10 +1,9 @@
 ﻿@model List<FailureLoggingViewModel>
 <!-- Page Title -->
-
 @*<head>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-</head>*@
+    </head>*@
 <div class="page-title-area">
     <img src="~/assets/img/home-one/footer-car.png" alt="Title">
     <div class="container">
@@ -38,7 +37,7 @@
                         <th class="table-head" scope="col">Hizmet Durumu</th>
                         <th class="table-head" scope="col">İşlem Ekle</th>
                         <th class="table-head" scope="col">İşlemler</th>
-                        <th class="table-head" scope="col">Sil</th>
+                        @*<th class="table-head" scope="col">Sil</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -50,14 +49,12 @@
                             <td>@item.AddressDetail</td>
                             <td>
                                 <!-- Button trigger modal -->
-                            <button id="buttonHarita" name="buttonHarita" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    <input type="hidden" id="dynamicId" value="@item.Id" />
-                                    <input type="hidden" id="lng" value="@item.Longitude" />
-                                    <input type="hidden" id="lat" value="@item.Latitude" />
+                            <button id="@item.Id" onClick="HaritaTık(this.id)" value="@item.Id" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
                                     Harita
                                 </button>
-
-                                
+                                <input type="hidden" id="dynamicId" value="@item.Id" />
+                                <input type="hidden" id="lng" value='@item.Longitude' />
+                                <input type="hidden" id="lat" value='@item.Latitude' />
 
 
                             </td>
@@ -92,12 +89,12 @@
                                     @*  <i class="bi bi-trash"></i>*@
                                 </a>
                             </td>
-                            <td>
-                                <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="FailureDelete" asp-route-id="@item.Id">
-                                    <i class='bx bx-x '></i>
-                                    @*  <i class="bi bi-trash"></i>*@
+                            @*<td>
+                                <a class="btn btn-danger" asp-controller="TechnicianManage" asp-action="FailureIptal" asp-route-id="@item.Id">
+                                <i class='bx bx-x '></i>
+                                <i class="bi bi-trash"></i>
                                 </a>
-                            </td>
+                                </td>*@
                         </tr>
 
                     }
@@ -111,40 +108,30 @@
 </section>
 
 
-
-<div class="container mt-3">
-  <h3>Modal Example</h3>
-  <p>Click on the button to open the modal.</p>
-  
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
-    Open modal
-  </button>
-</div>
-
 <!-- The Modal -->
 <div class="modal" id="myModal1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-      <!-- Modal body -->
-      <div class="modal-body" id="map-canvas">
-        Modal body..
-        
-      </div>
+            <!-- Modal body -->
+            <div class="modal-body " id="map-canvas" style="width:750px;height:450px;padding-bottom:5px;">
+                Modal body..
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
+            </div>
 
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
     </div>
-  </div>
 </div>
 
 
@@ -165,54 +152,90 @@
 
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
-
-  
-
-      @*<script src="~/assets/js/technicianMaps.js"></script>*@
-       @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
-
-
 <script>
 
-        //var name=document.getElementById("dynamicId").value;
-        //     //Resim modal js
-        //$("#"+name+"").on({
-        //    'click': function(){
-        //        alert("modalsss");
-        //        $('#haritaModal').modal('show')
 
-        ///}});
+    function HaritaTık(tiklanan_id)
+    {      // alert(tiklanan_id);
+         $('#'+tiklanan_id).click(function(){
+            //alert(tiklanan_id+"Harita  Açılıyor");
+
+            var failureId=tiklanan_id;
+            $.ajax({
+
+                url:"/technicianManage/mapPosition",
+                type:"POST",
+                data:
+                {"failureId" :failureId
+                },
+                //data:$(this).val();
+               // data:$(this).find("option:selected").val(),
+                datatype:"json",
+                //url:"/OperatorManage/TechnicianRoute"
+                 error:function(request,status,error){
+                           console.log(request);
+                       },
+                       success: function (failureId) {
+                        //alert(failureId);
+                        var konum = {
+                        lat: parseFloat(failureId.latitude),
+                        lng: parseFloat(failureId.longitude)
+                        }
+                        $(document).ready(function () {
+
+                        var map = new google.maps.Map($('#map-canvas')[0], {
+                    zoom: 15,
+                    //center: new google.maps.LatLng(40.747688, -74.004142),
+                    center: konum,
+
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+                var marker = new google.maps.Marker(
+                    {
+                        position: konum,
+                        map: map,
+                        title: 'Arıza Adresi'}
+                );
+
+
+                /*console.log(marker.getPosition().lat());*/
+
+            });
 
 
 
-        //////////////////////////////////////////////////////////////////////////////////////////
+            }
+
+            });
+        });
+    }
 
 
-              $('#rootStatus').change(function(){
-              alert("tık var");
-              var rootStatus=$('#rootStatus').val();
-              var failureId=$('#failureId').val();
-              $.ajax({
 
-                  url:"/technicianManage/StatusUpdate",
-                  type:"POST",
-                  data:
-                  {"status":rootStatus,
-                  "failureId" :failureId
-                  },
-                  //data:$(this).val();
-                 // data:$(this).find("option:selected").val(),
-                  datatype:"json",
-                  //url:"/OperatorManage/TechnicianRoute"
-                   error:function(request,status,error){
-                             console.log(request);
-                         },
-                         success:function(response){
-                             console.log(response);
-                         }
-              });
+          $('#rootStatus').change(function(){
+          alert("tık var");
+          var rootStatus=$('#rootStatus').val();
+          var failureId=$('#failureId').val();
+          $.ajax({
+
+              url:"/technicianManage/StatusUpdate",
+              type:"POST",
+              data:
+              {"status":rootStatus,
+              "failureId" :failureId
+              },
+              //data:$(this).val();
+             // data:$(this).find("option:selected").val(),
+              datatype:"json",
+              //url:"/OperatorManage/TechnicianRoute"
+               error:function(request,status,error){
+                         console.log(request);
+                     },
+                     success:function(response){
+                         console.log(response);
+                     }
           });
+      });
 
 
 </script>
