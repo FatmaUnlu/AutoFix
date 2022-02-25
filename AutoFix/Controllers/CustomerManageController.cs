@@ -1,4 +1,5 @@
 ﻿using AutoFix.Extensions;
+using AutoFix.Models;
 using AutoFix.Models.Entities;
 using AutoFix.Models.Identity;
 using AutoFix.Models.Payment;
@@ -27,8 +28,10 @@ namespace AutoFix.Controllers
         private readonly CartRepo _cartRepo;
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly IPaymentService _paymentService;
+        private readonly IEmailSender _emailSender;
 
-        public CustomerManageController(FailureRepo failureRepo, IMapper mapper, UserManager<ApplicationUser> userManager, CartRepo cartRepo, ServiceProductRepo serviceProductRepo, IPaymentService paymentService)
+
+        public CustomerManageController(FailureRepo failureRepo, IMapper mapper, UserManager<ApplicationUser> userManager, CartRepo cartRepo, ServiceProductRepo serviceProductRepo, IPaymentService paymentService, IEmailSender emailSender)
         {
             _failureRepo = failureRepo;
             _mapper = mapper;
@@ -36,6 +39,7 @@ namespace AutoFix.Controllers
             _cartRepo = cartRepo;
             _serviceProductRepo = serviceProductRepo;
             _paymentService = paymentService;
+            _emailSender = emailSender;
         }
 
         public IActionResult FailureLogging()
@@ -43,7 +47,7 @@ namespace AutoFix.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> FailureLogging(FailureLoggingViewModel model)
+        public async Task<IActionResult> FailureLogging(string lat,string lng,FailureLoggingViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -63,12 +67,23 @@ namespace AutoFix.Controllers
                 });
 
             }
+            model.Longitude = lng;
+            model.Latitude = lat;
             model.CreatedUser = user.Id;
             model.FailureStatus = FailureStatus.Alındı.ToString();
             var data = _mapper.Map<FailureLogging>(model);
             var result = _failureRepo.Insert(data);
             _failureRepo.Save();
-            return View(result);
+            var emailMesage = new EmailMessage()
+            {
+                Contacts = new string[] { user.Email },
+                Body = "Arıza kaydınız alınmıştır.",
+                Subject = "Arıza kayıt bilgilendirme mailidir."
+            };
+            await _emailSender.SendAsyc(emailMesage);
+
+            return RedirectToAction("FailureGet", "CustomerManage");
+            //return View(result);result son kaydın idsini tutar.
             //return RedirectToAction("Detail","CustomerManager",new {id = result});
         }
 
@@ -80,7 +95,9 @@ namespace AutoFix.Controllers
         }
         public IActionResult FailureDelete(Guid id)
         {
-            _failureRepo.Delete(id);
+            var data = _failureRepo.GetById(id);
+            data.IsDeleted = true;
+            _failureRepo.Update(data);
             return View();
         }
         [HttpGet]
@@ -104,7 +121,7 @@ namespace AutoFix.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> FailureUpdate(FailureLogging model)
+        public async Task<IActionResult> FailureUpdate(FailureLoggingViewModel model)
         {
             //_failureRepo.Update(model);
             //return View();
