@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +31,7 @@ namespace AutoFix.Controllers
         private readonly CartRepo _cartRepo;
         private readonly IPaymentService _paymentService;
 
-        private readonly UserManager<ApplicationUser> _userManager;
+        
        
         private readonly IMapper _mapper;
         private readonly MyContext _context;
