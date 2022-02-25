@@ -15,6 +15,7 @@ using System.Web.WebPages.Html;
 
 namespace AutoFix.Controllers
 {
+    //[Authorize(Roles = "Operator")]
     public class OperatorManageController : Controller
     {
 

@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,14 +25,9 @@ namespace AutoFix.Controllers
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly FailureRepo _failureRepo;
         public readonly UserManager<ApplicationUser> _userManager;
-
         private readonly CartRepo _cartRepo;
-        private readonly IPaymentService _paymentService;
-
-        
-       
         private readonly IMapper _mapper;
-        private readonly MyContext _context;
+      
 
 
         public TechnicianManageController(ServiceProductRepo serviceProductRepo, IMapper mapper, FailureRepo failureRepo, CartRepo cartRepo, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
@@ -55,15 +48,28 @@ namespace AutoFix.Controllers
         public async Task<IActionResult> TechFailureGet()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-            var data = _failureRepo.GetByTechnicianId(user.Id).ToList().Select(x => _mapper.Map<FailureLoggingViewModel>(x)).ToList(); ;
+            var data = _failureRepo.GetByTechnicianId(user.Id).ToList().Select(x => _mapper.Map<FailureLoggingViewModel>(x)).ToList();
 
             return View(data);
         }
-        #endregion
 
-        #region Shop
-        //Teknisyen verdiği hizmetler için işlemler
-        [HttpGet]
+        [HttpPost]
+        public JsonResult MapPosition( string failureId)
+        {
+            var failure = _failureRepo.GetById(Guid.Parse(failureId));
+
+
+            var degisken = failure;
+
+            return Json(degisken);
+        }
+
+
+            #endregion
+
+            #region Shop
+            //Teknisyen verdiği hizmetler için işlemler
+            [HttpGet]
         public IActionResult ServiceProductGet(string id)
         {
             TempData["FailureId"] = id;
@@ -196,115 +202,7 @@ namespace AutoFix.Controllers
          * Tabloya remove kolonu eklenecek
          * Ödeme işlemlerine geçilecek7,
          */
-
-
-        [HttpPost]
-        public IActionResult CheckInstallment(string binNumber, decimal price)
-        {
-            if (binNumber.Length < 6 || binNumber.Length > 16) return BadRequest(new
-            {
-                Message = "Bad Request"
-            });
-
-            var result = _paymentService.CheckInstallment(binNumber, price);
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Index(PaymentViewModel model)
-        {
-            var paymentModel = new PaymentModel()
-            {
-                Installment = model.Installment,
-                //AddressModel = new AddressModel(),
-                //BasketModel = new List<BasketModel>(),
-                CartItem = new List<CartItem>(),
-                CustomerModel = new CustomerModel(),
-                CardModel = model.CardModel,
-                Price = 1000,
-                UserId = HttpContext.GetUserId(),
-                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
-            };
-
-            var installmentInfo = _paymentService.CheckInstallment(paymentModel.CardModel.CardNumber.Substring(0, 6), paymentModel.Price);
-
-            var installmentNumber = installmentInfo.InstallmentPrices.FirstOrDefault(x => x.InstallmentNumber == model.Installment);
-
-            paymentModel.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice.Replace('.', ',') : installmentInfo.InstallmentPrices[0].TotalPrice.Replace('.', ','));
-
-            var result = _paymentService.Pay(paymentModel);
-            return View();
-        }
-
-        public IActionResult Purchase(Guid id)
-        {
-            var data = _context.ServiceProducts.Find(id);
-
-            if (data == null)
-            {
-                return RedirectToAction("Purchase", "Technician");
-            }
-
-            var model = _mapper.Map<ServiceProductViewModel>(data);
-            ViewBag.Subs = model;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Purchase(PaymentViewModel model)
-        {
-            //var type = await _serviceProductRepo.FindAsync(model.CartItem.Id);
-            var type = await _context.ServiceProducts.FindAsync(model.CartItem.Id);
-
-            var cartItem = new CartItem()
-            {
-                Id = type.Id,
-                ServiceProduct = model.CartItem.ServiceProduct,
-                Price = model.CartItem.ServiceProduct.Price.ToString(new CultureInfo("en-us")),
-            };
-
-            var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-
-            var customerModel = new CustomerModel()
-            {               
-                Email = user.Email,
-                GsmNumber = user.PhoneNumber,
-                Id = user.Id,
-                IdentityNumber = user.Id,
-                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
-                Name = user.Name,
-                Surname = user.Surname,              
-                LastLoginDate = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}",
-                RegistirationDate = $"{user.CreateDate:yyyy-MM-dd HH:mm:ss}",
-            };
-
-            var paymentModel = new PaymentModel()
-            {
-                Installment = model.Installment,
-
-                CartItem = new List<CartItem>() { cartItem },
-                CustomerModel = customerModel,
-                CardModel = model.CardModel,
-                Price = model.Amount,
-                UserId = HttpContext.GetUserId(),
-                Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString(),
-            };
-
-
-            var installmentInfo = _paymentService.CheckInstallment(model.CardModel.CardNumber.Substring(0, 6), paymentModel.Price);
-
-            var installmentNumber = installmentInfo.InstallmentPrices.FirstOrDefault(x => x.InstallmentNumber == model.Installment);
-
-            paymentModel.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice : installmentInfo.InstallmentPrices[0].TotalPrice);
-
-            ////legacy code
-
-            var result = _paymentService.Pay(paymentModel);
-            var serviceProduct = _mapper.Map<ServiceProductViewModel>(type);
-            ViewBag.ServiceProduct = serviceProduct;
-
-            return View();
-        }
+ 
 
     }
 }
