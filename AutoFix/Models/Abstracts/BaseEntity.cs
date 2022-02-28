@@ -14,7 +14,7 @@ namespace AutoFix.Models.Abstracts
         [StringLength(128)]
         //public DateTime? DeletedDate { get; set; }
 
-        //public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
         public string UpdatedUser { get; set; }
     }
 }

@@ -25,21 +25,22 @@
 <!-- End Page Title -->
 <section class="checkout-area ptb-100">
     <div class="container">
-        <h3 class="title">@ViewBag.ServiceProduct.Name</h3>
+    
         <ul class="breadcrumb-nav">
-            <li>@($"{ViewBag.ServiceProduct.Price:0.00}TL")</li>
+      
         </ul>
         <div class="user-actions mb-40">
-            <div asp-validation-summary="All" class="text-danger"></div>
+           @* <div asp-validation-summary="All" class="text-danger"></div>*@
         </div>
-        <form asp-action="Purchase" method="post">
+        <form asp-controller="CustomerManage"asp-action="Purchase" method="post">
             <input asp-for="Installment" type="hidden" id="hdInstallment" value="1" />
-            <input type="hidden" id="Amount" name="Amount" value='@ViewBag.ServiceProduct.Price.ToString(new CultureInfo ("en-US"))' />
-            <input type="hidden" asp-for="CartItem.Id" />
+            <input type="hidden" id="Amount" name="Amount" value='@ViewBag.Total.ToString(new CultureInfo("en-US"))' />
+          
+           
             <div class="row">
                 <div class="col-lg-6">
                     <div class="checkout-item">
-                        <h2 class="title">Kart Bilgileri</h2>
+                        <h2 style="font-size: 25px;">Kart Bilgileri</h2>
                         <div class="checkout-one">
                             <div class="form-group">
                                 <label asp-for="CardModel.CardHolderName"></label>
@@ -71,10 +72,11 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="checkout-item">
-                        <h2>Ödeme Seçenekleri</h2>
+                        <h2 style="font-size: 25px;" >Ödeme Seçenekleri</h2>
                         <div class="order-table table-responsive">
                             <table class="table">
                                 <thead>
+                                    <tr><h4 ><p class="ml-5">Toplam : @ViewBag.Total.ToString(new CultureInfo("en-US")) ₺</p></h4></tr>
                                     <tr>
                                         <th></th>
                                         <th>Taksit </th>
@@ -109,17 +111,21 @@
                if(bin.length>=6 && bin.length<=16){
                    console.log(bin);
                    var model={
-                       binNumber:bin
+                       binNumber:bin,
+                       //price:@ViewBag.Total.ToString(new CultureInfo("en-US"))
+                       price:parseFloat(@ViewBag.Total)
                    };
                    $.ajax({// ajax bir metod içerisinde ise obje istiyor.sayfada sadece belirli bir kısım için veri alma verme yapılacaksa ajax kullanışır.
-                       url:'@Url.Action("CheckInstallment","Payment")', //payment sayfasındaki checkinstalment
+                       url:'@Url.Action("CheckInstallment","CustomerManage")', //payment sayfasındaki checkinstalment
                        type:"POST",
                        data:model,
                        dataType:"json",
                        error:function(request,status,error){
+                           console.log("eroorrr");
                            console.log(request);
                        },
                        success:function(response){
+                           console.log("Success");
                            console.log(response);
                           fillInstallments(response.installmentPrices);
                        }

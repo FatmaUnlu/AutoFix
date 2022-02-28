@@ -5,6 +5,7 @@ using AutoFix.Repository;
 using AutoFix.Services;
 using AutoFix.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,6 +16,7 @@ using System.Web.WebPages.Html;
 
 namespace AutoFix.Controllers
 {
+    [Authorize(Roles = "Operator")]
     public class OperatorManageController : Controller
     {
 
@@ -76,8 +78,6 @@ namespace AutoFix.Controllers
             };
 
             await _emailSender.SendAsyc(emailMesage);
-
-
 
 
             return RedirectToAction("Index", "Home");

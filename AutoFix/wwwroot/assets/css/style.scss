@@ -2730,9 +2730,9 @@ footer {
 
         .thead {
             background-color: $yellow-color;
-    
+
             tr {
-                .table-head  {
+                .table-head {
                     color: $white-color;
                     font-size: 18px;
                     padding-top: 18px;
@@ -2740,16 +2740,18 @@ footer {
                 }
             }
         }
+
         tr {
             .table-item {
                 img {
                     width: 50px;
                 }
             }
+
             td {
                 font-size: $all-size;
                 color: $black-color;
-                
+
                 a {
                     color: $black-color;
                     display: block;
@@ -2761,11 +2763,13 @@ footer {
                 }
             }
         }
+
         td, th {
             border: 1px solid #dee2e6;
             vertical-align: middle;
         }
     }
+
     .shop-back {
         margin-bottom: 20px;
 
@@ -2781,6 +2785,7 @@ footer {
             }
         }
     }
+
     .total-shopping {
         h2 {
             color: $black-color;
@@ -2792,6 +2797,7 @@ footer {
             margin-bottom: 20px;
             font-weight: 700;
         }
+
         h3 {
             color: $black-color;
             font-size: 20px;
@@ -2801,6 +2807,7 @@ footer {
                 margin-left: 70px;
             }
         }
+
         a {
             margin-top: 20px;
             display: inline-block;
@@ -2808,6 +2815,19 @@ footer {
             background-color: $yellow-color;
             font-size: 17px;
             padding: 15px 60px;
+
+            &:hover {
+                background-color: $black-color;
+            }
+        }
+
+        input {
+            margin-top: 20px;
+            display: inline-block;
+            color: $white-color;
+            background-color: $yellow-color;
+            font-size: 17px;
+            padding: 15px 60px; 
 
             &:hover {
                 background-color: $black-color;
@@ -2839,12 +2859,12 @@ footer {
 
     h2 {
         text-align: center;
-        font-size: 35px;
+        font-size: 25px;
         margin-bottom: 50px;
         background-color: $yellow-color;
         padding-top: 15px;
         padding-bottom: 15px;
-        font-weight: 600;
+        font-weight: 500;
         color: $white-color;
     }
     .checkout-one {
@@ -3548,3 +3568,5 @@ footer {
     line-height: 30px;
     padding-left: 10px;
 }
+
+

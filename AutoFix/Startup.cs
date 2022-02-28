@@ -34,7 +34,7 @@ namespace AutoFix
             services.AddControllersWithViews();
             //IoC Container
             services.AddDbContext<MyContext>(options =>
-            {
+           {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"));
             });
 

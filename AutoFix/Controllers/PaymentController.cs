@@ -49,8 +49,8 @@ namespace AutoFix.Controllers
             var paymentModel = new PaymentModel()
             {
                 Installment = model.Installment,
-                AddressModel = new AddressModel(),
-                BasketModel = new List<BasketModel>(),
+                //AddressModel = new AddressModel(),
+                //BasketModel = new List<BasketModel>(),
                 CustomerModel = new CustomerModel(),
                 CardModel = model.CardModel,
                 Price = 1000,

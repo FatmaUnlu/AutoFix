@@ -1,8 +1,10 @@
-﻿@model List<CartItemViewModel>
-
+﻿@*@model List<CartItemViewModel>*@
+@using System.Globalization
+@model PaymentViewModel
 @{
     ViewBag.Title = "Fiyat Sayfası";
 }
+
  <!-- Page Title -->
         <div class="page-title-area">
             <img src="~/assets/img/home-one/footer-car.png" alt="Title">
@@ -34,11 +36,13 @@
                         <th class="table-head" scope="col">Hizmet-Ürün</th>
                         <th class="table-head" scope="col">Fiyat</th>
                         
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.CartItem)
                     {
+                          <input asp-for="CartItem" type="hidden" value="@item" />
                         <tr>
                             <th class="table-item" scope="row">
                                 <img src="@item.ServiceProduct.PicturePath" alt="Parts">
@@ -58,18 +62,48 @@
                 <h2>Toplam Sipariş</h2>
                 @{
                     decimal total = 0;
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.CartItem)
                     {
                         total += @item.ServiceProduct.Price;
                     }
 
                     <h3>Toplam: <span>₺@total</span></h3>
-                }
- 
-                        <a >Ödeme Yap</a>
+                   
+                    <form asp-action="Basket" asp-controller="CustomerManage">
+                     <input asp-for="Amount" type="hidden" value="@total" />
                     
+                    <input style="margin-top: 20px;display: inline-block;color: #ffffff;background-color:  #fdb819;font-size: 17px;padding: 15px 60px; border-color:#fdb819 " type="submit"  value="ÖDEME YAP"/>
+                    
+                    </form>
+                
+                    //<a asp-controller="CustomerManage" asp-action="Purchase" asp-route-id="@total.ToString(new CultureInfo ("en-US"))" >Ödeme Yap </a>
+                   
+
+                    //<a asp-action="Purchase" asp-controller="CustomerManage" >Ödeme Yap </a>
+                    
+                }
+                
             </div>
         </div>
     </div>
 </section>
 <!-- End Cart -->
+
+@section Styles{
+    .total-shopping {
+         input {
+            margin-top: 20px;
+            display: inline-block;
+            color: $white-color;
+            background-color: $yellow-color;
+            font-size: 17px;
+            padding: 15px 60px; 
+
+            &:hover {
+                background-color: $black-color;
+            }
+        }
+    }
+
+ 
+}
