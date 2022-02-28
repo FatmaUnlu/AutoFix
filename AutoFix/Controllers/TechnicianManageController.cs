@@ -31,8 +31,6 @@ namespace AutoFix.Controllers
 
         private readonly CartRepo _cartRepo;
         private readonly IPaymentService _paymentService;
-
-        private readonly UserManager<ApplicationUser> _userManager;
        
         private readonly IMapper _mapper;
         private readonly MyContext _context;

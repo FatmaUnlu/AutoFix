@@ -1,0 +1,56 @@
+﻿@model CartItemViewModel
+<!DOCTYPE html>
+<!--
+Template Name: NobleUI - HTML Bootstrap 5 Admin Dashboard Template
+Author: NobleUI
+Purchase: https://1.envato.market/nobleui_admin
+Website: https://www.nobleui.com
+Portfolio: https://themeforest.net/user/nobleui/portfolio
+Contact: nobleui123@gmail.com
+License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
+-->
+<html lang="en">
+
+<body>
+
+    <div class="col-xl-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Pie chart</h6>
+                <div id="apexPie"></div>
+            </div>
+        </div>
+    </div>
+  
+        <input type="hidden" id="ServiceProductId" name="ServiceProductId" value="ServiceProductId" />   
+
+</body>
+</html>
+
+@section Scripts{
+    <!-- Custom js for this page -->
+    <script src="../../../admin-assets/js/apexcharts-light.js"></script>
+    <script>       
+        var ctx = document.getElementById("apexPie").getContext('2d');
+        var apexPie = new Chart(ctx, {
+            url: '@Url.Action("ProductReport","Report")' ,
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: [
+                        "#2ecc71",
+                        "#3498db",
+                        "#95a5a6",
+                        "#9b59b6",
+                        "#f1c40f",
+                        "#e74c3c",
+                        "#34495e"
+                    ],
+                    data: model.ServiceProductId,
+                }]
+            }
+        });
+
+    </script>
+}
