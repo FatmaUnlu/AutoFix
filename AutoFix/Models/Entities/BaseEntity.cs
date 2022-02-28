@@ -1,20 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AutoFix.Models.Abstracts
+namespace AutoFix.Models.Entities
 {
-    public abstract class BaseEntity<TKey> : IEntity<TKey>
+    public class BaseEntity
     {
-        [Key]
-        public TKey Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         [StringLength(128)]
         public string CreatedUser { get; set; }
         public DateTime? UpdatedDate { get; set; }
         [StringLength(128)]
-        //public DateTime? DeletedDate { get; set; }
 
-        public bool IsDeleted { get; set; } = false;
         public string UpdatedUser { get; set; }
     }
 }

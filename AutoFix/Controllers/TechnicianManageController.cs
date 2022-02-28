@@ -63,10 +63,7 @@ namespace AutoFix.Controllers
 
             return Json(degisken);
         }
-
-
             #endregion
-
             #region Shop
             //Teknisyen verdiği hizmetler için işlemler
             [HttpGet]
@@ -76,7 +73,8 @@ namespace AutoFix.Controllers
             var data = _serviceProductRepo.Get().ToList().Select(x => _mapper.Map<ServiceProductViewModel>(x)).ToList();
             return View(data);
         }
-        public async Task<IActionResult> ServiceProductAdd(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> ServiceProductAdd(string productId)
         {
             //Teknisyen bilgileri- userTechnian
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
@@ -89,7 +87,7 @@ namespace AutoFix.Controllers
                 });
             }
             // hizmet-Ürün bilgileri
-            var serviceProduct = _serviceProductRepo.GetById(id);
+            var serviceProduct = _serviceProductRepo.GetById(Guid.Parse(productId));
             if (serviceProduct == null)
             {
                 return BadRequest(new JsonResponseViewModel()
@@ -116,7 +114,9 @@ namespace AutoFix.Controllers
             var result = _cartRepo.Insert(cartItem);
             _cartRepo.Save();
 
-            return RedirectToAction("index", "home");
+           
+            return View();
+            //return RedirectToAction("index", "home");
             //return View();
         }
 
@@ -138,8 +138,8 @@ namespace AutoFix.Controllers
                 var emailMesage = new EmailMessage()
                 {
                     Contacts = new string[] { customer.Email },
-                    Body = "İşlem bilgilendirme mailidir.",
-                    Subject = "Arıza işleminiz tamamlandı"
+                    Body = "Arıza işleminiz tamamlandı",
+                    Subject = "İşlem bilgilendirme mailidir."
                 };
                 await _emailSender.SendAsyc(emailMesage);
 
@@ -148,10 +148,11 @@ namespace AutoFix.Controllers
         }
 
         #region ShopCart
-       /// [Authorize(Roles = "Müşteri")]
+        /// [Authorize(Roles = "Müşteri")]
         public IActionResult ShopCart(string id)
         {
-            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.OrderStatus==OrderStatus.Eklendi.ToString()).Select(x=>x.ServiceProductId).ToList();
+           
+            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.OrderStatus==OrderStatus.Eklendi.ToString()&& x.IsDeleted==false).Select(x=>x.ServiceProductId).ToList();
 
             if (cartItemProducts.Count==0)
             {
@@ -159,23 +160,31 @@ namespace AutoFix.Controllers
             }
             var failure = _failureRepo.GetById(Guid.Parse(id));
 
-            var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
+            var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)&&x.IsDeleted==false).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
 
             int sayac = 0;
             foreach (var item in shopcart)
             {
                 for (int i = 0; i < cartItemProducts.Count; i++)
                 {
-                    item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[sayac]);
+                    item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[i]);
                     sayac++;
                     break;
                 }
                 item.Failure = failure;
             }
-            
+            TempData["FailureId"] = id;
             return View(shopcart);
         }
 
+        public IActionResult ShopProductDelete(Guid id)
+        {
+            var data=_cartRepo.GetById(id);
+            data.IsDeleted = true;
+            _cartRepo.Update(data);
+            var failureId = TempData["FailureId"];
+            return RedirectToAction("ShopCart","TechnicianManage", new { id = failureId });
+        }
         public async Task<IActionResult> CustomerRoot(Guid id)
         {
             var cartItemProducts = _cartRepo.Get(x => x.FailureId == id && x.OrderStatus==OrderStatus.Eklendi.ToString()).ToList();
@@ -196,13 +205,6 @@ namespace AutoFix.Controllers
             return RedirectToAction("TechFailureGet", "TechnicianManage");
         }
         #endregion
-        //TODO
-        /*
-         * Eklenenler tabloda gösterilecek
-         * Tabloya remove kolonu eklenecek
-         * Ödeme işlemlerine geçilecek7,
-         */
- 
 
     }
 }

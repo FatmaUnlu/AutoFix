@@ -52,7 +52,7 @@
                             <h3>@item.Name</h3>
                             <span>₺@item.Price</span>
                             <div class="cmn-btn">
-                                <a class="banner-btn-left" asp-controller ="TechnicianManage" asp-action="ServiceProductAdd"  asp-route-id="@item.Id">
+                                <a href="javascript:ProductAdd(this.id)"class="banner-btn-left"  id="@item.Id" onclick="ProductAdd(this.id)">
                                     Satın Al 
                                 </a>
                             </div>
@@ -67,3 +67,42 @@
             </div>
         </section>
         <!-- End Parts -->
+
+
+        <!-- End Cart -->
+@section Scripts{
+
+<script>
+    
+    function ProductAdd(tiklanan_id)
+    {    
+      // alert();
+            var productId=tiklanan_id;
+
+         $.ajax({
+               
+                url:"/technicianManage/ServiceProductAdd",
+                type:"POST",
+                data:
+                {"productId":productId
+                },
+                //data:$(this).val();
+               // data:$(this).find("option:selected").val(),
+                datatype:"json",
+                //url:"/OperatorManage/TechnicianRoute"
+                 error:function(request,status,error){
+                           console.log(request);
+                       },
+                       success:function(){
+                           //console.log(response);
+                            alert("Ürün eklendi");
+                       }
+                      
+            });
+    };
+       
+    
+
+         
+</script>
+}

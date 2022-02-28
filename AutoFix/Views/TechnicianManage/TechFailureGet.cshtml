@@ -1,9 +1,6 @@
 ﻿@model List<FailureLoggingViewModel>
 <!-- Page Title -->
-@*<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    </head>*@
 <div class="page-title-area">
     <img src="~/assets/img/home-one/footer-car.png" alt="Title">
     <div class="container">
@@ -99,7 +96,6 @@
 
                     }
 
-
                 </tbody>
             </table>
 
@@ -145,8 +141,6 @@
 
 }
 
-
-
 <!-- End Cart -->
 @section Scripts{
 
@@ -154,12 +148,10 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
 <script>
 
-
     function HaritaTık(tiklanan_id)
     {      // alert(tiklanan_id);
          $('#'+tiklanan_id).click(function(){
             //alert(tiklanan_id+"Harita  Açılıyor");
-
             var failureId=tiklanan_id;
             $.ajax({
 
@@ -196,28 +188,18 @@
                         map: map,
                         title: 'Arıza Adresi'}
                 );
-
-
                 /*console.log(marker.getPosition().lat());*/
-
             });
-
-
-
             }
-
             });
         });
     }
-
-
 
           $('#rootStatus').change(function(){
           alert("tık var");
           var rootStatus=$('#rootStatus').val();
           var failureId=$('#failureId').val();
           $.ajax({
-
               url:"/technicianManage/StatusUpdate",
               type:"POST",
               data:
@@ -236,9 +218,5 @@
                      }
           });
       });
-
-
 </script>
-
-
 }
