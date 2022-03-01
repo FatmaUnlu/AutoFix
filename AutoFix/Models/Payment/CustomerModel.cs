@@ -8,7 +8,7 @@
         public string IdentityNumber { get; set; }
         public string Email { get; set; }
         public string GsmNumber { get; set; }
-        public string RegistirationDate { get; set; }
+        public string RegistrationDate { get; set; }
         public string LastLoginDate { get; set; }
         public string RegistrationAddress { get; set; }
         public string City { get; set; }

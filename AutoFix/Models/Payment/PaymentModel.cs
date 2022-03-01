@@ -12,9 +12,9 @@ namespace AutoFix.Models.Payment
         public CardModel CardModel { get; set; }
         public CustomerModel Customer { get; set; }
         public List<BasketModel> BasketModel { get; set; }
-        public CustomerModel CustomerModel { get; set; }
+        //public CustomerModel CustomerModel { get; set; }
         public AddressModel AddressModel { get; set; }
-        public List<CartItem> CartItem { get; set; }
+        //public List<CartItem> CartItem { get; set; }
         public string Ip { get; set; }
         public string UserId { get; set; }
     }
