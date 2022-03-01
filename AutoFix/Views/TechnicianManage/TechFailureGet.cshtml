@@ -148,6 +148,30 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIt0Djb3XUNND2CsaE410PeakDp7CMvr0"></script>
 <script>
 
+    $('#rootStatus').change(function(){
+          alert("tık var");
+          var rootStatus=$('#rootStatus').val();
+          var failureId=$('#failureId').val();
+          $.ajax({
+              url:"/technicianManage/StatusUpdate",
+              type:"POST",
+              data:
+              {"status":rootStatus,
+              "failureId" :failureId
+              },
+              //data:$(this).val();
+             // data:$(this).find("option:selected").val(),
+              datatype:"json",
+              //url:"/OperatorManage/TechnicianRoute"
+               error:function(request,status,error){
+                         console.log(request);
+                     },
+                     success:function(response){
+                         console.log(response);
+                     }
+          });
+      });
+
     function HaritaTık(tiklanan_id)
     {      // alert(tiklanan_id);
          $('#'+tiklanan_id).click(function(){
@@ -195,28 +219,6 @@
         });
     }
 
-          $('#rootStatus').change(function(){
-          alert("tık var");
-          var rootStatus=$('#rootStatus').val();
-          var failureId=$('#failureId').val();
-          $.ajax({
-              url:"/technicianManage/StatusUpdate",
-              type:"POST",
-              data:
-              {"status":rootStatus,
-              "failureId" :failureId
-              },
-              //data:$(this).val();
-             // data:$(this).find("option:selected").val(),
-              datatype:"json",
-              //url:"/OperatorManage/TechnicianRoute"
-               error:function(request,status,error){
-                         console.log(request);
-                     },
-                     success:function(response){
-                         console.log(response);
-                     }
-          });
-      });
+          
 </script>
 }

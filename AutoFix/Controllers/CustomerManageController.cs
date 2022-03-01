@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 //using System.Web.Http;
 
@@ -22,6 +23,7 @@ namespace AutoFix.Controllers
     [Authorize(Roles = "Müşteri")]
     public class CustomerManageController : BaseController
     {
+        #region dependency
         private readonly FailureRepo _failureRepo;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,7 +31,7 @@ namespace AutoFix.Controllers
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly IPaymentService _paymentService;
         private readonly IEmailSender _emailSender;
-
+        #endregion
 
         public CustomerManageController(FailureRepo failureRepo, IMapper mapper, UserManager<ApplicationUser> userManager, CartRepo cartRepo, ServiceProductRepo serviceProductRepo, IPaymentService paymentService, IEmailSender emailSender)
         {
@@ -40,6 +42,10 @@ namespace AutoFix.Controllers
             _serviceProductRepo = serviceProductRepo;
             _paymentService = paymentService;
             _emailSender = emailSender;
+
+            var cultureInfo = CultureInfo.GetCultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
 
         public IActionResult FailureLogging()
@@ -90,15 +96,17 @@ namespace AutoFix.Controllers
         public async Task<IActionResult> FailureGet()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-            var data = _failureRepo.Get(x => x.CreatedUser == user.Id).ToArray().ToList();
+            var data = _failureRepo.Get(x => x.CreatedUser == user.Id&&x.IsDeleted==false).ToArray().ToList();
             return View(data);
         }
         public IActionResult FailureDelete(Guid id)
         {
+            //Soft deleted
             var data = _failureRepo.GetById(id);
             data.IsDeleted = true;
             _failureRepo.Update(data);
-            return View();
+            //Silme için bildirim verdir
+            return RedirectToAction("FailureGet", "CustomerManage");
         }
         [HttpGet]
         public IActionResult FailureUpdate(Guid id)
@@ -106,27 +114,18 @@ namespace AutoFix.Controllers
 
             var data = _failureRepo.GetById(id);
             if (data == null) return NotFound();// 404 sayfası yapılacak
-
-            //var model = new FailureLoggingViewModel()
-            //{
-            //    AddressDetail = data.AddressDetail,
-            //    FailureDescription = data.FailureDescription,
-            //    FailureName = data.FailureName,
-            //    FailureSatus = data.FailureStatus,
-            //    Latitude = data.Latitude,
-            //    Longitude = data.Longitude
-            //};
-            //Mapper yapılacak
            var model = _mapper.Map<FailureLoggingViewModel>(data);
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> FailureUpdate(FailureLoggingViewModel model)
+        public IActionResult FailureUpdate(string lat, string lng, FailureLoggingViewModel model)
         {
-            //_failureRepo.Update(model);
-            //return View();
-            return View();
-
+            model.Latitude = lat;
+            model.Longitude = lng;
+            var data = _mapper.Map<FailureLogging>(model);
+            //Güncelleme için bildirim verdir
+            _failureRepo.Update(data);
+            return RedirectToAction("FailureGet", "CustomerManage");
         }
         [HttpGet]
         public async Task<IActionResult> Basket()
@@ -139,28 +138,22 @@ namespace AutoFix.Controllers
             {
                 return View();
             }
-            decimal total;
+            
             foreach (var item in shopcart)
             {
                 var failure = _failureRepo.GetById(item.FailureId);
                 item.Failure = failure;
                 var product = _serviceProductRepo.GetById(item.ServiceProductId);
                 item.ServiceProduct = product;
-                
-
             }
             var modelPayment = new PaymentViewModel();
             modelPayment.CartItem = shopcart;
-
-            //TempData["model"] = "emre";
-            //ViewData["model2"] = modelPayment;
             return View(modelPayment);
         }
 
         [HttpPost]
         public IActionResult Basket(PaymentViewModel model)
         {
-            //decimal amount=model.Amount;
             TempData["Amount"]=model.Amount.ToString();
             return RedirectToAction("Purchase", "CustomerManage");
         }
@@ -170,13 +163,11 @@ namespace AutoFix.Controllers
         {
             var amount =TempData["Amount"];
             ViewBag.Total = amount;
-            return View();
-
-            
+            return View();  
         }
         [HttpPost]
         public async Task<IActionResult> Purchase(PaymentViewModel model)
-        {
+        { 
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var basketModel = new List<BasketModel>();
             var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).ToList();
@@ -217,22 +208,19 @@ namespace AutoFix.Controllers
                 Surname = user.Surname,
                 ZipCode = addressModel.ZipCode,
                 LastLoginDate = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}",
+                RegistrationDate = $"{user.CreateDate:yyyy-MM-dd HH:mm:ss}",
                 RegistrationAddress = "hdthty",
-                //RegistrationDate = $"{user.CreateDate:yyyy-MM-dd HH:mm:ss}"
-
             };
-         
-
             var modelPayment = new PaymentModel()
             {
                 AddressModel=addressModel,
                 Installment = model.Installment,
-                CartItem =shopcart,
+                //CartItem =shopcart,
                 BasketModel = basketModel, //new List<BasketModel>(){ basketModel },
                 CardModel=model.CardModel,
                 Price=model.Amount,
                 UserId = HttpContext.GetUserId(),
-                CustomerModel=customerModel,
+                Customer=customerModel,
                 Ip = Request.HttpContext.Connection.RemoteIpAddress?.ToString()
             };
            
@@ -241,11 +229,27 @@ namespace AutoFix.Controllers
 
             var installmentNumber = installmentInfo.InstallmentPrices.FirstOrDefault(x => x.InstallmentNumber == model.Installment);
 
-            //modelPayment.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice : installmentInfo.InstallmentPrices[0].TotalPrice);
-            modelPayment.PaidPrice =modelPayment.Price;
+            modelPayment.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice : installmentInfo.InstallmentPrices[0].TotalPrice);
 
             //legacy code
             var result = _paymentService.Pay(modelPayment);
+            if(result.Status== "success")
+            {
+                foreach (var item in shopcart)
+                {
+                    item.OrderStatus = OrderStatus.Odendi.ToString();
+                    _cartRepo.Update(item);
+                }
+                var email = new EmailMessage()
+                {
+                    Contacts = new string[] { user.Email },
+                    Body = "Ödeme İşleminiz Başarılı Bir Şekilde Gerçekleşmiştir.",
+                    Subject = "Başarılı Ödeme"
+                };
+
+                await _emailSender.SendAsyc(email);
+            }
+            
             return View();
 
         }

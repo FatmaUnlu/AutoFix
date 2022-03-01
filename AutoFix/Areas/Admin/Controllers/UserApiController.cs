@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -82,7 +84,7 @@ namespace AutoFix.Areas.Admin.Controllers
         [HttpGet]
         public async Task<object> RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
         {
-            string role = string.Empty;
+            string role = string.Empty;  
             if (!string.IsNullOrEmpty(userId))
             {
                 var user = await _userManager.FindByIdAsync(userId);
@@ -99,29 +101,52 @@ namespace AutoFix.Areas.Admin.Controllers
                    Selected = x.Name == role ? true : false
                });
 
+            if (loadOptions.Filter != null)
+            {
+                List<string> data1 = new List<string>();
+                var resultJson1 = JsonConvert.SerializeObject(loadOptions.Filter);
+                for (int i = 0; i < loadOptions.Filter.Count; i = i + 2)
+                {
+                    var filter = JsonConvert.DeserializeObject(loadOptions.Filter[i].ToString()) as IList;
+                    data1.Add(filter[2].ToString());
+                    //data1.Add(loadOptions.Filter[i].ToString());
+                    //var resultJson = JsonConvert.SerializeObject(loadOptions.Filter[i]);
+
+
+                }
+            }
+
+
+
             var userRoles = _dbContext.UserRoles.Where(x => x.UserId == userId).Select(x => x.RoleId).ToList();
 
             return Ok(DataSourceLoader.Load(data, loadOptions));
         }
 
-        //[HttpGet]
-        //public IActionResult GetTest()
-        //{
-        //    var users = new List<UserProfileViewModel>();
-        //    for (int i = 0; i < 10000; i++)
-        //    {
-        //        users.Add(new UserProfileViewModel
-        //        {
-        //            Email = "Deneme" + i,
-        //            Surname = "Soyad" + i,
-        //            Name = "ad" + i
-        //        });
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> UpdateRoles(string key, string values)
+        {
+            return Ok();
+        }
 
-        //    return Ok(new JsonResponseViewModel()
-        //    {
-        //        Data = users
-        //    });
-        //}
-    }
+            //[HttpGet]
+            //public IActionResult GetTest()
+            //{
+            //    var users = new List<UserProfileViewModel>();
+            //    for (int i = 0; i < 10000; i++)
+            //    {
+            //        users.Add(new UserProfileViewModel
+            //        {
+            //            Email = "Deneme" + i,
+            //            Surname = "Soyad" + i,
+            //            Name = "ad" + i
+            //        });
+            //    }
+
+            //    return Ok(new JsonResponseViewModel()
+            //    {
+            //        Data = users
+            //    });
+            //}
+        }
 }
