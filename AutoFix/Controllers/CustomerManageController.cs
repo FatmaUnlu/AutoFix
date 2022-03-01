@@ -136,7 +136,7 @@ namespace AutoFix.Controllers
                 //.Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
             if(shopcart.Count==0)
             {
-                return View();
+                return RedirectToAction("Index", "Home");//sepet boş
             }
             
             foreach (var item in shopcart)
@@ -249,8 +249,8 @@ namespace AutoFix.Controllers
 
                 await _emailSender.SendAsyc(email);
             }
-            
-            return View();
+
+            return RedirectToAction("Index", "Home");
 
         }
 

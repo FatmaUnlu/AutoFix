@@ -40,7 +40,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.CartItem)
+                    @if (Model.CartItem.Count==0)
+                    {
+                        <p>Sepetiniz de hiçbir ürün yoktur</p>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.CartItem)
                     {
                           <input asp-for="CartItem" type="hidden" value="@item" />
                         <tr>
@@ -52,6 +58,8 @@
                             <td>₺@item.ServiceProduct.Price</td>     
                         </tr>
                     }
+                    }
+                    
 
                 </tbody>
             </table>
