@@ -1,16 +1,12 @@
 ﻿using AutoFix.Data;
+using AutoFix.Models.Entities;
 using AutoFix.Repository;
-using AutoFix.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoFix.Areas.Admin.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : AdminBaseController
     {
         private readonly CartRepo _cartRepo;
         private readonly ServiceProductRepo _serviceProductRepo;
@@ -27,18 +23,21 @@ namespace AutoFix.Areas.Admin.Controllers
             return View();
         }
        
-        public IActionResult ProductReport(string id)
+        public IActionResult ProductReport()
         {
-            
-            //var data1 = _cartRepo.SoldProducts(id).ToList();          
-            //var data =JsonConvert.SerializeObject(data1);
-            
+            //var data1 = _cartRepo.Get(x => x.OrderStatus == OrderStatus.Odendi.ToString()).GroupBy(x => x.ServiceProductId).Select(x => x.ServiceProductId);
+            //var query = (from Satilanlar in _cartRepo.Get(x => x.OrderStatus == OrderStatus.Odendi.ToString())
+            //            group Satilanlar by Satilanlar.ServiceProductId into newGroup
+            //            orderby newGroup.Key
+            //            select newGroup).ToList();
+
+            //var data1 = _cartRepo.SoldProducts().ToList();          
+            //var data = JsonConvert.SerializeObject(data1);
 
             return View();
         }
         public IActionResult ReportProduct()
         {
-
             //List<PieData> chartData = new List<PieData>
             //{
             //    new PieData { xValue =  "Chrome", yValue = 37, text = "37%" },

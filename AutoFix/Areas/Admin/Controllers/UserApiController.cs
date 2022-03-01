@@ -123,11 +123,11 @@ namespace AutoFix.Areas.Admin.Controllers
             return Ok(DataSourceLoader.Load(data, loadOptions));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> UpdateRoles(string key, string values)
-        {
-            return Ok();
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> UpdateRoles(string key, string values)
+        //{
+        //    return Ok();
+        //}
 
             //[HttpGet]
             //public IActionResult GetTest()

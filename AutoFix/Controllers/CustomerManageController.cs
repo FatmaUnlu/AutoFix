@@ -132,7 +132,7 @@ namespace AutoFix.Controllers
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
 
-            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).ToList();
+            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor).ToList();
                 //.Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
             if(shopcart.Count==0)
             {
@@ -144,7 +144,7 @@ namespace AutoFix.Controllers
                 var failure = _failureRepo.GetById(item.FailureId);
                 item.Failure = failure;
                 var product = _serviceProductRepo.GetById(item.ServiceProductId);
-                item.ServiceProduct = product;
+                item.Product = product;
             }
             var modelPayment = new PaymentViewModel();
             modelPayment.CartItem = shopcart;
@@ -170,7 +170,7 @@ namespace AutoFix.Controllers
         { 
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var basketModel = new List<BasketModel>();
-            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).ToList();
+            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor).ToList();
             //.Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
             if (shopcart.Count == 0)
             {
@@ -182,7 +182,7 @@ namespace AutoFix.Controllers
                 var failure = _failureRepo.GetById(item.FailureId);
                 item.Failure = failure;
                 var product = _serviceProductRepo.GetById(item.ServiceProductId);
-                item.ServiceProduct = product;
+                item.Product = product;
                 basketModel.Add(_mapper.Map <BasketModel>(product));
 
             }
@@ -237,7 +237,7 @@ namespace AutoFix.Controllers
             {
                 foreach (var item in shopcart)
                 {
-                    item.OrderStatus = OrderStatus.Odendi.ToString();
+                    item.OrderStatus = OrderStatus.Odendi;
                     _cartRepo.Update(item);
                 }
                 var email = new EmailMessage()

@@ -2,8 +2,6 @@
 using AutoFix.Models.Entities;
 using AutoFix.Repository.Abstracts;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoFix.Repository
 {
