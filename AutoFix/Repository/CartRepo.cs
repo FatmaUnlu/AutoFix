@@ -13,10 +13,11 @@ namespace AutoFix.Repository
 
         }
         //satılan ürünleri getirme
-        public IQueryable<CartItem> SoldProducts()
-        {
-            return (IQueryable<CartItem>)Table.Where(x=> x.OrderStatus == OrderStatus.Odendi.ToString()).Select(x=>x.ServiceProductId);
-        }
+        //public IQueryable<CartItem> SoldProducts()
+        //{
+        //    return Table.Where(x => x.OrderStatus == OrderStatus.Odendi.ToString()).Select(x => x.ServiceProductId);
+        //}
+        
 
     }
 }
