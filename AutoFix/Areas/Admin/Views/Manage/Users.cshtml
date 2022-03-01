@@ -24,162 +24,165 @@
 {
 <script src="~/vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
 <script>
-    var dataGrid = null;
-    var editingUserId = null;
-    $(() => {
-        var url = '../../../api/userapi';
-        function loadGrid() {
-            dataGrid = $('#dxGrid').dxDataGrid({
-                remoteOperations: { paging: true, filtering: true, sorting: true, grouping: true, summary: true, groupPaging: true },
-                dataSource: DevExpress.data.AspNet.createStore({
-                    key: 'id',
-                    loadUrl: `${url}/getusers`,
-                    updateUrl: `${url}/updateusers`
-                    //insertUrl: `${url}/InsertOrder`,
-                    //deleteUrl: `${url}/DeleteOrder`,
-                    //onBeforeSend(method, ajaxOptions) {
-                    //    ajaxOptions.xhrFields = { withCredentials: true };
-                    //}
-                }),
-                editing: {
-                    mode: 'form',
-                    allowUpdating: true
-                },    
-                showColumnLines: true,
-                allowColumnResizing: true,
-                showRowLines: true,
-                rowAlternationEnabled: true,
-                showBorders: true,
-                searchPanel: {
-                    visible: true,
-                    width: 240,
-                    placeholder: "Ara..."
-                },
-                filterRow: {
-                    visible: true,
-                    applyFilter: "auto"
-                },
-                headerFilter: {
-                    visible: true
-                },
-                export: {
-                    enabled: true,
-                    fileName: `Tüm Kullanıcılar_${parseInt(Math.random() * 1000000000)}`,
-                    allowExportSelectedData: true
-                },
-                paging: {
-                    pageSize: 20
-                },
-                pager: {
-                    showPageSizeSelector: true,
-                    allowedPageSizes: [5, 15, 30, 45],
-                    showInfo: true
-                },
-                selection: {
-                    mode: "multiple"
-                },
-                columns: [
-                    {
-                        caption: 'Id',
-                        dataField: "id",
-                        visible: false,
-                        allowFiltering: false,
-                        formItem: { visible: false }
+        var dataGrid = null;
+        var editingUserId = null;
+        $(() => {
+            var url = '../../../api/userapi';
+            function loadGrid() {
+                dataGrid = $('#dxGrid').dxDataGrid({
+                    remoteOperations: { paging: true, filtering: true, sorting: true, grouping: true, summary: true, groupPaging: true },
+                    dataSource: DevExpress.data.AspNet.createStore({
+                        key: 'id',
+                        loadUrl: `${url}/getusers`,
+                        updateUrl: `${url}/updateusers`
+                        //insertUrl: `${url}/InsertOrder`,
+                        //deleteUrl: `${url}/DeleteOrder`,
+                        //onBeforeSend(method, ajaxOptions) {
+                        //    ajaxOptions.xhrFields = { withCredentials: true };
+                        //}
+                    }),
+                    editing: {
+                        mode: 'form',
+                        allowUpdating: true
                     },
-                    {
-                        caption: 'Ad',
-                        dataField: "name"
+                    showColumnLines: true,
+                    allowColumnResizing: true,
+                    showRowLines: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    searchPanel: {
+                        visible: true,
+                        width: 240,
+                        placeholder: "Ara..."
                     },
-                    {
-                        caption: 'Soyad',
-                        dataField: "surname"
+                    filterRow: {
+                        visible: true,
+                        applyFilter: "auto"
                     },
-                    {
-                        caption: 'E-Posta',
-                        dataField: "email"
+                    headerFilter: {
+                        visible: true
                     },
-                    {
-                        caption: 'Email Onay',
-                        dataField: 'emailConfirmed',
-                        dataType: 'boolean'
+                    export: {
+                        enabled: true,
+                        fileName: `Tüm Kullanıcılar_${parseInt(Math.random() * 1000000000)}`,
+                        allowExportSelectedData: true
                     },
-                    {
-                        caption: 'Telefon Numarası',
-                        dataField: 'phoneNumber',
+                    paging: {
+                        pageSize: 20
                     },
-                    {
-                        caption: 'Kayıt Tarihi',
-                        dataField: "createDate",
-                        dataType: "date",
-                        format: 'dd/MM/yyyy',
-                        sortOrder: "desc"
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [5, 15, 30, 45],
+                        showInfo: true
                     },
-                    //{
-                    //    caption : "Rol Atama",
-                    //    dataField: "roleId",
-                    //    lookup: {
-                    //        dataSource: {
-                    //           store: DevExpress.data.AspNet.createStore({
-                    //           key: "id",
-                    //           loadUrl: "../../../api/userapi/roleslookup",
-                    //           onBeforeSend(method, ajaxOptions) {
-                    //               ajaxOptions.data.userId = editingUserId;
-                    //                console.log(ajaxOptions);
-                    //        },
-                               
-                    //           }),
-                    //         _fnFeatureHtmlPaginate: true,
-                    //          pageSize: 10
-                              
-                    //       },
-                    //       displayExpr: "text",
-                    //       valueExpr: "value"
-                    //    }
-                    // }
+                    selection: {
+                        mode: "multiple"
+                    },
+                    columns: [
+                        {
+                            caption: 'Id',
+                            dataField: "id",
+                            visible: false,
+                            allowFiltering: false,
+                            formItem: { visible: false }
+                        },
+                        {
+                            caption: 'Ad',
+                            dataField: "name"
+                        },
+                        {
+                            caption: 'Soyad',
+                            dataField: "surname"
+                        },
+                        {
+                            caption: 'E-Posta',
+                            dataField: "email"
+                        },
+                        {
+                            caption: 'Email Onay',
+                            dataField: 'emailConfirmed',
+                            dataType: 'boolean'
+                        },
+                        {
+                            caption: 'Telefon Numarası',
+                            dataField: 'phoneNumber',
+                        },
+                        {
+                            caption: 'Kayıt Tarihi',
+                            dataField: "createDate",
+                            dataType: "date",
+                            format: 'dd/MM/yyyy',
+                            sortOrder: "desc"
+                        },
+                        //{
+                        //    caption : "Rol Atama",
+                        //    dataField: "roleId",
+                        //    lookup: {
+                        //        dataSource: {
+                        //           store: DevExpress.data.AspNet.createStore({
+                        //           key: "id",
+                        //           loadUrl: "../../../api/userapi/roleslookup",
+                        //           onBeforeSend(method, ajaxOptions) {
+                        //               ajaxOptions.data.userId = editingUserId;
+                        //                console.log(ajaxOptions);
+                        //        },
 
-                    {
-                        caption:"Rol Atama",
-                        dataField:"roleId",
-                        cellTemplate: function (container, options) {
-                   container.append($("<div class='list-InGrid'>" + 'States Here ' + options.value + "</div>"));
-                   
-                 },
-                  editCellTemplate: function($cell, cellData){
-                  var $tagBox = $("<div>").dxTagBox({
-                  dataSource: {
-                                store: DevExpress.data.AspNet.createStore({
-                                key: "id",
-                                loadUrl: "../../../api/userapi/roleslookup",
-                                onBeforeSend(method, ajaxOptions) {
-                                ajaxOptions.data.userId = editingUserId;
-                                console.log(ajaxOptions);
-                                }
-                                }),
-                                _fnFeatureHtmlPaginate: true,
-                                pageSize: 10 
-                            },
-                     searchEnabled: true, placeholder: "Select Vertical(s)",
-                            hideSelectedItems: true,   acceptCustomValue: false,
-                    displayExpr: 'text',
-                  
-                    valueExpr: 'value',
+                        //           }),
+                        //         _fnFeatureHtmlPaginate: true,
+                        //          pageSize: 10
+
+                        //       },
+                        //       displayExpr: "text",
+                        //       valueExpr: "value"
+                        //    }
+                        // }
+
+                        {
+                            caption:"Rol Atama",
+                            dataField:"roleId",
+                            visible:false,
+                            cellTemplate: function (container, options) {
+                            container.append($("<div class='list-InGrid'>" + 'States Here ' + options.value + "</div>"));},
+                      editCellTemplate: function($cell, cellData){
+                      var $tagBox = $("<div>").dxTagBox({
+                      dataSource: {
+                                    store: DevExpress.data.AspNet.createStore({
+                                    key: "id",
+                                    loadUrl: "../../../api/userapi/roleslookup",                           
+                                    onBeforeSend(method, ajaxOptions) {
+                                    ajaxOptions.data.userId = editingUserId;
+                                     
+                                        console.log("rollll");
+                                    console.log(ajaxOptions.data.filter);
+
+                                    //console.log(ajaxOptions);
+                                    }
+                                    }),
+                                    _fnFeatureHtmlPaginate: true,
+                                    pageSize: 10
+                                },
+                         searchEnabled: true, placeholder: "Select Vertical(s)",
+                                hideSelectedItems: true,   acceptCustomValue: false,
+                        displayExpr: 'text',
+
+                        valueExpr: 'value',
 
 
-});
-$cell.append($tagBox);
-}
-
-                    }
-                    
-
-                ],
-                onEditingStart : function (options){
-                    editingUserId = options.key;
-                    console.log(editingUserId);
-                }
-            }).dxDataGrid("instance");
-        }
-        loadGrid();
     });
+    $cell.append($tagBox);
+    }
+
+                        }
+
+
+                    ],
+                    onEditingStart : function (options){
+                        editingUserId = options.key;
+                        console.log(editingUserId);
+                    }
+                }).dxDataGrid("instance");
+            }
+            loadGrid();
+        });
 </script>
 }

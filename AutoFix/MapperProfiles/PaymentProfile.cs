@@ -16,7 +16,7 @@ namespace AutoFix.MapperProfiles
             CreateMap<InstallmentPriceModel, InstallmentPrice>().ReverseMap();
             CreateMap<InstallmentModel, InstallmentDetail>().ReverseMap();
             CreateMap<PaymentResponseModel, Payment>().ReverseMap();
-            CreateMap<BasketModel, ServiceProduct>().ReverseMap();
+            CreateMap<BasketItem, ServiceProduct>().ReverseMap();
 
         }
     }

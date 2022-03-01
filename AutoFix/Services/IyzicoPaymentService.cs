@@ -50,7 +50,7 @@ namespace AutoFix.Services
                 PaymentChannel = PaymentChannel.WEB.ToString(),
                 PaymentGroup = PaymentGroup.SUBSCRIPTION.ToString(),
                 PaymentCard = _mapper.Map<PaymentCard>(model.CardModel),
-                Buyer = _mapper.Map<Buyer>(model.CustomerModel),
+                Buyer = _mapper.Map<Buyer>(model.Customer),
                 BillingAddress = _mapper.Map<Address>(model.AddressModel)
             };
 
@@ -58,6 +58,8 @@ namespace AutoFix.Services
 
             foreach (var basketModel in model.BasketModel)
             {
+                basketModel.ItemType =BasketItemType.VIRTUAL.ToString();
+                basketModel.Category1 = "Hizmet";
                 basketItems.Add(_mapper.Map<BasketItem>(basketModel));
             }
 

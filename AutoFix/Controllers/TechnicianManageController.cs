@@ -187,6 +187,7 @@ namespace AutoFix.Controllers
         }
         public async Task<IActionResult> CustomerRoot(Guid id)
         {
+
             var cartItemProducts = _cartRepo.Get(x => x.FailureId == id && x.OrderStatus==OrderStatus.Eklendi.ToString()).ToList();
             foreach (var item in cartItemProducts)
             {
@@ -202,6 +203,10 @@ namespace AutoFix.Controllers
                 Subject = "Ödeme bilgilendirme."
             };
             await _emailSender.SendAsyc(emailMesage);
+            var failure=_failureRepo.GetById(id);
+            failure.FailureStatus = FailureStatus.Tamamlandi.ToString();
+            _failureRepo.Update(failure);
+
             return RedirectToAction("TechFailureGet", "TechnicianManage");
         }
         #endregion

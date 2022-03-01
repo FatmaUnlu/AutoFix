@@ -9,6 +9,7 @@ namespace AutoFix.ViewModels
         public CardModel CardModel { get; set; }
         //public AddressModel AddressModel { get; set; }
         public CustomerModel Customer { get; set; }
+        public BasketModel BasketModel { get; set; }
 
         public List<CartItem> CartItem { get; set; }
         public decimal Paid { get; set; }
