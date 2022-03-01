@@ -1,16 +1,11 @@
 ﻿using AutoFix.Data;
 using AutoFix.Repository;
-using AutoFix.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoFix.Areas.Admin.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : AdminBaseController
     {
         private readonly CartRepo _cartRepo;
         private readonly ServiceProductRepo _serviceProductRepo;
