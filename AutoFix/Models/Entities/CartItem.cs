@@ -14,12 +14,13 @@ namespace AutoFix.Models.Entities
         public string CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        public virtual ApplicationUser CustomerUser { get; set; }
+        public virtual ApplicationUser Customer { get; set; }
+
+
         public Guid ServiceProductId { get; set; }
         [ForeignKey(nameof(ServiceProductId))]
-        public virtual ServiceProduct ServiceProduct { get; set; }
-        public string OrderStatus { get; set; }
-        public string Price { get; set; }
+        public virtual ServiceProduct Product { get; set; }
+        public OrderStatus OrderStatus { get; set; }
 
     }
     public enum OrderStatus
@@ -28,6 +29,5 @@ namespace AutoFix.Models.Entities
         Iptal_Edildi,
         Odeme_Bekliyor,
         Odendi
-
     }
 }

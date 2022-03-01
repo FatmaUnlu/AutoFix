@@ -26,10 +26,10 @@ namespace AutoFix.Areas.Admin.Controllers
         public IActionResult ProductReport()
         {
             //var data1 = _cartRepo.Get(x => x.OrderStatus == OrderStatus.Odendi.ToString()).GroupBy(x => x.ServiceProductId).Select(x => x.ServiceProductId);
-            var query = (from Satilanlar in _cartRepo.Get(x => x.OrderStatus == OrderStatus.Odendi.ToString()).AsEnumerable()
-                        group Satilanlar by Satilanlar.ServiceProductId into newGroup
-                        orderby newGroup.Key
-                        select newGroup).ToList();
+            //var query = (from Satilanlar in _cartRepo.Get(x => x.OrderStatus == OrderStatus.Odendi.ToString())
+            //            group Satilanlar by Satilanlar.ServiceProductId into newGroup
+            //            orderby newGroup.Key
+            //            select newGroup).ToList();
 
             //var data1 = _cartRepo.SoldProducts().ToList();          
             //var data = JsonConvert.SerializeObject(data1);

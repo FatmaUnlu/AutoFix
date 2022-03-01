@@ -350,9 +350,6 @@ namespace AutoFix.Controllers
                 TempData["Message"] = message;
                 return View();
             }
-
-
-            return View();
         }
 
     }
