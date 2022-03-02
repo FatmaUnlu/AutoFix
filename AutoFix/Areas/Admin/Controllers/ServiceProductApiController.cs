@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
-using System.Web.Helpers;
 
 namespace AutoFix.Areas.Admin.Controllers
 {
@@ -71,10 +70,10 @@ namespace AutoFix.Areas.Admin.Controllers
                     Directory.CreateDirectory(path);
                 //data.PicturePath.SaveAs(dosyayolu);
                 data.PicturePath = dosyayolu;
-                WebImage img = new WebImage("C:/Users/BERNA/Desktop/Special/resim1.jpg");
-                img.Resize(142, 142, false);
+               // WebImage img = new WebImage("C:/Users/BERNA/Desktop/Special/resim1.jpg");
+                //img.Resize(142, 142, false);
                 //img.AddTextWatermark("Wissen", "RoyalBlue", opacity: 75, fontSize: 25, fontFamily: "Verdana", horizontalAlign: "Left");
-                img.Save(path);
+                //img.Save(path);
                 //new FotografRepo().Insert(new Fotograf()
                 //{
                 //    KonutID = yeniKonut.ID,

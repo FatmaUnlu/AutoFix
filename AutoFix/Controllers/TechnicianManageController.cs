@@ -20,7 +20,7 @@ namespace AutoFix.Controllers
 {
     [Authorize(Roles = "Teknisyen")]
     public class TechnicianManageController : BaseController
-    {
+    { 
         private readonly IEmailSender _emailSender;
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly FailureRepo _failureRepo;
@@ -123,7 +123,7 @@ namespace AutoFix.Controllers
         #endregion
 
 
-        public async Task<IActionResult> StatusUpdate(string status, string failureId)
+        public async Task<IActionResult> StatusUpdate(FailureStatus status, string failureId)
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
 
@@ -131,7 +131,7 @@ namespace AutoFix.Controllers
             var failure = _failureRepo.GetById(Guid.Parse(failureId));
             failure.FailureStatus = status;
             _failureRepo.Update(failure);
-            if (status == FailureStatus.Tamamlandi.ToString())
+            if (status == FailureStatus.Tamamlandi)
             {
                 var customer = await _userManager.FindByIdAsync(failure.CreatedUser);
 
@@ -162,9 +162,15 @@ namespace AutoFix.Controllers
 
             var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.IsDeleted == false).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
 
+            int sayac = 0;
             foreach (var item in shopcart)
             {
-                item.ServiceProduct = _serviceProductRepo.GetById(item.Id);
+                for (int i = 0; i < cartItemProducts.Count; i++)
+                {
+                    item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[sayac]);
+                    sayac++;
+                    break;
+                }
                 item.Failure = failure;
             }
             TempData["FailureId"] = id;
@@ -198,7 +204,7 @@ namespace AutoFix.Controllers
             };
             await _emailSender.SendAsyc(emailMesage);
             var failure = _failureRepo.GetById(id);
-            failure.FailureStatus = FailureStatus.Tamamlandi.ToString();
+            failure.FailureStatus = FailureStatus.Tamamlandi;
             _failureRepo.Update(failure);
 
             return RedirectToAction("TechFailureGet", "TechnicianManage");

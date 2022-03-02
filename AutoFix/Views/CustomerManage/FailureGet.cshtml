@@ -46,7 +46,7 @@
                                 <td>@item.AddressDetail</td>
                                 <td>@item.FailureStatus</td>
                                 
-                                @if (item.FailureStatus == FailureStatus.Alındı.ToString())
+                                @if (item.FailureStatus == FailureStatus.Alındı)
                                 {
                                     <td>
                                     <a class="btn btn-danger p-1" asp-controller ="CustomerManage" asp-action="FailureDelete" asp-route-id="@item.Id">
@@ -61,8 +61,24 @@
                                     </a>
                                 </td>
 
-                                }
+                            }
+                            else
+                            {
+                                 <td>
+                                    <a class="btn btn-danger p-1">
+                                        <i class='bx bx-x '></i>
+                                      @*  <i class="bi bi-trash"></i>*@
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success"  >
+                                        <i class='bx bx-x '></i>
+                                      @*  <i class="bi bi-trash"></i>*@
+                                    </a>
+                                </td>
                                 
+                            }
+
                             </tr>
                         
                             }

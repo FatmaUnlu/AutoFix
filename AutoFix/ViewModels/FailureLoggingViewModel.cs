@@ -1,4 +1,5 @@
-﻿using AutoFix.Models.Identity;
+﻿using AutoFix.Models.Entities;
+using AutoFix.Models.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +16,7 @@ namespace AutoFix.ViewModels
         [Display(Name = "Arıza Tanım")]
         [StringLength(100)]
         public string FailureDescription { get; set; }
-        public string FailureStatus { get; set; }
+        public FailureStatus FailureStatus { get; set; }
         public string TechnicianId { get; set; }
         public string CreatedUser { get; set; }
 

@@ -76,7 +76,7 @@ namespace AutoFix.Controllers
             model.Longitude = lng;
             model.Latitude = lat;
             model.CreatedUser = user.Id;
-            model.FailureStatus = FailureStatus.Alındı.ToString();
+            model.FailureStatus = FailureStatus.Alındı;
             var data = _mapper.Map<FailureLogging>(model);
             var result = _failureRepo.Insert(data);
             _failureRepo.Save();

@@ -7,9 +7,10 @@ namespace AutoFix.Models.Abstracts
     {
         [Key]
         public TKey Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }=DateTime.Now;
         [StringLength(128)]
         public string CreatedUser { get; set; }
+        [StringLength(128)]
         public DateTime? UpdatedDate { get; set; }
         [StringLength(128)]
         //public DateTime? DeletedDate { get; set; }

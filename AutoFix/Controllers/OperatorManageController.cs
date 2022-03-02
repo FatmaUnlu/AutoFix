@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.WebPages.Html;
+
 
 namespace AutoFix.Controllers
 {
@@ -39,13 +38,13 @@ namespace AutoFix.Controllers
 
         public IActionResult GetFailureLogging()
         {
-            var failures = _failureRepo.Get(x => x.FailureStatus == FailureStatus.Alındı.ToString()).ToList();
+            var failures = _failureRepo.Get(x => x.FailureStatus == FailureStatus.Alındı).ToList();
             var x = _userManager.GetUsersInRoleAsync("Teknisyen").Result;
             var tech = x.OfType<ApplicationUser>();
             ViewBag.Technicians = tech;
             return View(failures);
         }
-        public IActionResult GetFailureStatus(string id)
+        public IActionResult GetFailureStatus(FailureStatus id)
         {
 
             var data = _failureRepo.GetStatus(id).ToList().Select(x => _mapper.Map<FailureLoggingViewModel>(x)).ToList();
@@ -62,11 +61,11 @@ namespace AutoFix.Controllers
             var result = _failureRepo.IsTech(technicianId).ToList();
             if (result.Count>0)
             {
-                data.FailureStatus = FailureStatus.Beklemede.ToString(); 
+                data.FailureStatus = FailureStatus.Beklemede; 
             }
             else
             {
-                data.FailureStatus = FailureStatus.Yönlendirildi.ToString();
+                data.FailureStatus = FailureStatus.Yönlendirildi;
             }
             _failureRepo.Update(data);
             var technician =  await _userManager.FindByIdAsync(technicianId);

@@ -193,7 +193,7 @@ namespace AutoFix.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> ResetPassword()
+        public IActionResult ResetPassword()
         {
             return View();
         }
@@ -232,7 +232,7 @@ namespace AutoFix.Controllers
         [AllowAnonymous]
         [HttpGet]
         //confirm yapılmazsa pasif olarak kalır kullanıcı.
-        public async Task<IActionResult> ConfirmResetPassword(string userId, string code)
+        public IActionResult ConfirmResetPassword(string userId, string code)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
             {
