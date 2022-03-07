@@ -7,6 +7,7 @@ namespace AutoFix.Models.Entities
     {
         [Key]
         public int Id { get; set; }
+        [StringLength(40)]
         public string Name { get; set; }
         public int CityId { get; set; }
 

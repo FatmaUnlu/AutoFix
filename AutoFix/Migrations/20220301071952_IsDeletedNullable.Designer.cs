@@ -4,14 +4,16 @@ using AutoFix.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoFix.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20220301071952_IsDeletedNullable")]
+    partial class IsDeletedNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,14 +44,16 @@ namespace AutoFix.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ServiceProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasMaxLength(128)
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUser")
@@ -66,25 +70,6 @@ namespace AutoFix.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("AutoFix.Models.Entities.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("AutoFix.Models.Entities.FailureLogging", b =>
                 {
                     b.Property<Guid>("Id")
@@ -92,8 +77,7 @@ namespace AutoFix.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AddressDetail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -103,38 +87,29 @@ namespace AutoFix.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("FailureDescription")
-                        .HasMaxLength(350)
-                        .HasColumnType("nvarchar(350)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FailureName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FailureStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("FailureStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDeleted")
                         .HasMaxLength(128)
                         .HasColumnType("bit");
 
                     b.Property<string>("Latitude")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Longitude")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<string>("OperatorId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TechnicianId")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasMaxLength(128)
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUser")
@@ -142,33 +117,9 @@ namespace AutoFix.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperatorId");
-
                     b.HasIndex("TechnicianId");
 
                     b.ToTable("FailureLoggings");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.ServiceDetail", b =>
-                {
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FailureId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "FailureId");
-
-                    b.HasIndex("FailureId");
-
-                    b.ToTable("ServiceDetails");
                 });
 
             modelBuilder.Entity("AutoFix.Models.Entities.ServiceProduct", b =>
@@ -192,19 +143,16 @@ namespace AutoFix.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PicturePath")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(7, 2)
                         .HasColumnType("decimal(7,2)");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasMaxLength(128)
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUser")
@@ -213,27 +161,6 @@ namespace AutoFix.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServiceProducts");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.State", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("AutoFix.Models.Identity.AplicationRole", b =>
@@ -448,7 +375,7 @@ namespace AutoFix.Migrations
 
             modelBuilder.Entity("AutoFix.Models.Entities.CartItem", b =>
                 {
-                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "Customer")
+                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "CustomerUser")
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
@@ -458,62 +385,26 @@ namespace AutoFix.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AutoFix.Models.Entities.ServiceProduct", "Product")
+                    b.HasOne("AutoFix.Models.Entities.ServiceProduct", "ServiceProduct")
                         .WithMany()
                         .HasForeignKey("ServiceProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("CustomerUser");
 
                     b.Navigation("Failure");
 
-                    b.Navigation("Product");
+                    b.Navigation("ServiceProduct");
                 });
 
             modelBuilder.Entity("AutoFix.Models.Entities.FailureLogging", b =>
                 {
-                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "Operator")
-                        .WithMany()
-                        .HasForeignKey("OperatorId");
-
-                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "Technician")
+                    b.HasOne("AutoFix.Models.Identity.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("TechnicianId");
 
-                    b.Navigation("Operator");
-
-                    b.Navigation("Technician");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.ServiceDetail", b =>
-                {
-                    b.HasOne("AutoFix.Models.Entities.FailureLogging", "Faulire")
-                        .WithMany("ServiceDetails")
-                        .HasForeignKey("FailureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoFix.Models.Entities.ServiceProduct", "Product")
-                        .WithMany("ServiceDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Faulire");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.State", b =>
-                {
-                    b.HasOne("AutoFix.Models.Entities.City", "City")
-                        .WithMany("States")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -565,21 +456,6 @@ namespace AutoFix.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.City", b =>
-                {
-                    b.Navigation("States");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.FailureLogging", b =>
-                {
-                    b.Navigation("ServiceDetails");
-                });
-
-            modelBuilder.Entity("AutoFix.Models.Entities.ServiceProduct", b =>
-                {
-                    b.Navigation("ServiceDetails");
                 });
 #pragma warning restore 612, 618
         }

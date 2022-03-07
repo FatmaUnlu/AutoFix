@@ -40,18 +40,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.CartItem)
+                    
+                        @foreach (var item in Model.CartItem)
                     {
                           <input asp-for="CartItem" type="hidden" value="@item" />
                         <tr>
                             <th class="table-item" scope="row">
-                                <img src="@item.ServiceProduct.PicturePath" alt="Parts">
+                                <img src="@item.Product.PicturePath" alt="Parts">
                             </th>
                             <td>@item.Failure.FailureName</td>
-                            <td>@item.ServiceProduct.Name</td>
-                            <td>₺@item.ServiceProduct.Price</td>     
+                            <td>@item.Product.Name</td>
+                            <td>₺@item.Product.Price</td>     
                         </tr>
                     }
+                    
+                    
 
                 </tbody>
             </table>
@@ -64,7 +67,7 @@
                     decimal total = 0;
                     @foreach (var item in Model.CartItem)
                     {
-                        total += @item.ServiceProduct.Price;
+                        total += @item.Product.Price;
                     }
 
                     <h3>Toplam: <span>₺@total</span></h3>

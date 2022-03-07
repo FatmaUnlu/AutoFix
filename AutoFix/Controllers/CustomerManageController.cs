@@ -76,7 +76,7 @@ namespace AutoFix.Controllers
             model.Longitude = lng;
             model.Latitude = lat;
             model.CreatedUser = user.Id;
-            model.FailureStatus = FailureStatus.Alındı.ToString();
+            model.FailureStatus = FailureStatus.Alındı;
             var data = _mapper.Map<FailureLogging>(model);
             var result = _failureRepo.Insert(data);
             _failureRepo.Save();
@@ -132,11 +132,11 @@ namespace AutoFix.Controllers
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
 
-            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).ToList();
+            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor).ToList();
                 //.Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
             if(shopcart.Count==0)
             {
-                return View();
+                return RedirectToAction("Index", "Home");//sepet boş
             }
             
             foreach (var item in shopcart)
@@ -144,7 +144,7 @@ namespace AutoFix.Controllers
                 var failure = _failureRepo.GetById(item.FailureId);
                 item.Failure = failure;
                 var product = _serviceProductRepo.GetById(item.ServiceProductId);
-                item.ServiceProduct = product;
+                item.Product = product;
             }
             var modelPayment = new PaymentViewModel();
             modelPayment.CartItem = shopcart;
@@ -170,7 +170,7 @@ namespace AutoFix.Controllers
         { 
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var basketModel = new List<BasketModel>();
-            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor.ToString()).ToList();
+            var shopcart = _cartRepo.Get(x => x.CustomerId == user.Id && x.OrderStatus == OrderStatus.Odeme_Bekliyor).ToList();
             //.Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
             if (shopcart.Count == 0)
             {
@@ -182,7 +182,7 @@ namespace AutoFix.Controllers
                 var failure = _failureRepo.GetById(item.FailureId);
                 item.Failure = failure;
                 var product = _serviceProductRepo.GetById(item.ServiceProductId);
-                item.ServiceProduct = product;
+                item.Product = product;
                 basketModel.Add(_mapper.Map <BasketModel>(product));
 
             }
@@ -237,7 +237,7 @@ namespace AutoFix.Controllers
             {
                 foreach (var item in shopcart)
                 {
-                    item.OrderStatus = OrderStatus.Odendi.ToString();
+                    item.OrderStatus = OrderStatus.Odendi;
                     _cartRepo.Update(item);
                 }
                 var email = new EmailMessage()
@@ -249,8 +249,8 @@ namespace AutoFix.Controllers
 
                 await _emailSender.SendAsyc(email);
             }
-            
-            return View();
+
+            return RedirectToAction("Index", "Home");
 
         }
 

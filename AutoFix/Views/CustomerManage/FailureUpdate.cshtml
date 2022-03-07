@@ -31,6 +31,7 @@
             <div class="col-lg-12">
                 <div class="signup-item">
                     <form method="post" asp-controller="CustomerManage" asp-action="FailureUpdate">
+                        <input asp-for="CreatedUser" type="hidden" />
                         <input asp-for="Longitude" type="hidden" id="lng" name="lng" />
                         <input asp-for="Latitude" type="hidden" id="lat" name="lat" />
 

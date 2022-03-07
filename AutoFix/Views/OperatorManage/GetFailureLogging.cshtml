@@ -59,7 +59,7 @@
                             <td>@item.AddressDetail</td>
                             <td>@item.FailureStatus</td>
 
-                            @if (item.FailureStatus == FailureStatus.Alındı.ToString())
+                            @if (item.FailureStatus == FailureStatus.Alındı)
                             {
                                 <td class="cmn-btn">
                                     <div class="row">
@@ -107,10 +107,7 @@
                 {"technicianId":technicianId,
                 "failureId" :failureId
                 },
-                //data:$(this).val();
-               // data:$(this).find("option:selected").val(),
                 datatype:"json",
-                //url:"/OperatorManage/TechnicianRoute"
                  error:function(request,status,error){
                            console.log(request);
                        },

@@ -20,14 +20,14 @@ namespace AutoFix.Controllers
 {
     [Authorize(Roles = "Teknisyen")]
     public class TechnicianManageController : BaseController
-    {
+    { 
         private readonly IEmailSender _emailSender;
         private readonly ServiceProductRepo _serviceProductRepo;
         private readonly FailureRepo _failureRepo;
         public readonly UserManager<ApplicationUser> _userManager;
         private readonly CartRepo _cartRepo;
         private readonly IMapper _mapper;
-      
+
 
 
         public TechnicianManageController(ServiceProductRepo serviceProductRepo, IMapper mapper, FailureRepo failureRepo, CartRepo cartRepo, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
@@ -54,7 +54,7 @@ namespace AutoFix.Controllers
         }
 
         [HttpPost]
-        public JsonResult MapPosition( string failureId)
+        public JsonResult MapPosition(string failureId)
         {
             var failure = _failureRepo.GetById(Guid.Parse(failureId));
 
@@ -63,10 +63,10 @@ namespace AutoFix.Controllers
 
             return Json(degisken);
         }
-            #endregion
-            #region Shop
-            //Teknisyen verdiği hizmetler için işlemler
-            [HttpGet]
+        #endregion
+        #region Shop
+        //Teknisyen verdiği hizmetler için işlemler
+        [HttpGet]
         public IActionResult ServiceProductGet(string id)
         {
             TempData["FailureId"] = id;
@@ -108,13 +108,13 @@ namespace AutoFix.Controllers
                 FailureId = failure.Id,
                 CustomerId = failure.CreatedUser,
                 ServiceProductId = serviceProduct.Id,
-                OrderStatus = OrderStatus.Eklendi.ToString()
+                OrderStatus = OrderStatus.Eklendi
 
             };
             var result = _cartRepo.Insert(cartItem);
             _cartRepo.Save();
 
-           
+
             return View();
             //return RedirectToAction("index", "home");
             //return View();
@@ -123,7 +123,7 @@ namespace AutoFix.Controllers
         #endregion
 
 
-        public async Task<IActionResult> StatusUpdate(string status, string failureId)
+        public async Task<IActionResult> StatusUpdate(FailureStatus status, string failureId)
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
 
@@ -131,7 +131,7 @@ namespace AutoFix.Controllers
             var failure = _failureRepo.GetById(Guid.Parse(failureId));
             failure.FailureStatus = status;
             _failureRepo.Update(failure);
-            if(status==FailureStatus.Tamamlandi.ToString())
+            if (status == FailureStatus.Tamamlandi)
             {
                 var customer = await _userManager.FindByIdAsync(failure.CreatedUser);
 
@@ -144,30 +144,30 @@ namespace AutoFix.Controllers
                 await _emailSender.SendAsyc(emailMesage);
 
             }
-            return View();  
+            return View();
         }
 
         #region ShopCart
         /// [Authorize(Roles = "Müşteri")]
         public IActionResult ShopCart(string id)
         {
-           
-            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.OrderStatus==OrderStatus.Eklendi.ToString()&& x.IsDeleted==false).Select(x=>x.ServiceProductId).ToList();
 
-            if (cartItemProducts.Count==0)
+            var cartItemProducts = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.OrderStatus == OrderStatus.Eklendi && x.IsDeleted == false).Select(x => x.ServiceProductId).ToList();
+
+            if (cartItemProducts.Count == 0)
             {
                 return RedirectToAction("TechFailureGet", "TechnicianManage");
             }
             var failure = _failureRepo.GetById(Guid.Parse(id));
 
-            var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id)&&x.IsDeleted==false).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
+            var shopcart = _cartRepo.Get(x => x.FailureId == Guid.Parse(id) && x.IsDeleted == false).ToList().Select(x => _mapper.Map<CartItemViewModel>(x)).ToList();
 
             int sayac = 0;
             foreach (var item in shopcart)
             {
                 for (int i = 0; i < cartItemProducts.Count; i++)
                 {
-                    item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[i]);
+                    item.ServiceProduct = _serviceProductRepo.GetById(cartItemProducts[sayac]);
                     sayac++;
                     break;
                 }
@@ -179,22 +179,22 @@ namespace AutoFix.Controllers
 
         public IActionResult ShopProductDelete(Guid id)
         {
-            var data=_cartRepo.GetById(id);
+            var data = _cartRepo.GetById(id);
             data.IsDeleted = true;
             _cartRepo.Update(data);
             var failureId = TempData["FailureId"];
-            return RedirectToAction("ShopCart","TechnicianManage", new { id = failureId });
+            return RedirectToAction("ShopCart", "TechnicianManage", new { id = failureId });
         }
         public async Task<IActionResult> CustomerRoot(Guid id)
         {
 
-            var cartItemProducts = _cartRepo.Get(x => x.FailureId == id && x.OrderStatus==OrderStatus.Eklendi.ToString()).ToList();
+            var cartItemProducts = _cartRepo.Get(x => x.FailureId == id && x.OrderStatus == OrderStatus.Eklendi).ToList();
             foreach (var item in cartItemProducts)
             {
-                item.OrderStatus = OrderStatus.Odeme_Bekliyor.ToString();
+                item.OrderStatus = OrderStatus.Odeme_Bekliyor;
                 _cartRepo.Update(item);
             }
-            
+
             var user = await _userManager.FindByIdAsync(cartItemProducts[0].CustomerId);
             var emailMesage = new EmailMessage()
             {
@@ -203,8 +203,8 @@ namespace AutoFix.Controllers
                 Subject = "Ödeme bilgilendirme."
             };
             await _emailSender.SendAsyc(emailMesage);
-            var failure=_failureRepo.GetById(id);
-            failure.FailureStatus = FailureStatus.Tamamlandi.ToString();
+            var failure = _failureRepo.GetById(id);
+            failure.FailureStatus = FailureStatus.Tamamlandi;
             _failureRepo.Update(failure);
 
             return RedirectToAction("TechFailureGet", "TechnicianManage");
