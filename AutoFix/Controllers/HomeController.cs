@@ -30,5 +30,23 @@ namespace AutoFix.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Service()
+        {
+            return View();
+        }
+        public IActionResult Technicians()
+        {
+            return View();
+        }
+
     }
 }

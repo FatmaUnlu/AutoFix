@@ -22,151 +22,100 @@
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle active">Home</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="index.html" class="nav-link active">Home Page One</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-2.html" class="nav-link">Home Page Two</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-3.html" class="nav-link">Home Page Three</a>
-                                </li>
-                            </ul>
+                            <a asp-controller="Home" asp-action="Index" class="nav-link ">Ana Sayfa</a>
                         </li>
                         <li class="nav-item">
-                            <a href="about.html" class="nav-link">About</a>
+                            <a asp-controller="Home" asp-action="About" class="nav-link">Hakkımızda</a>
+                        </li>
+                        <li class="nav-item navbar-btn">
+                            <a asp-controller="Home" asp-action="Contact" class="nav-link">İletişim</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">Services</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="service.html" class="nav-link">Service</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="service-details.html" class="nav-link">Service Details</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pricing.html" class="nav-link">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="blog.html" class="nav-link">Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="blog-details.html" class="nav-link">Blog Details</a>
-                                </li>
-                            </ul>
+                            <a asp-controller="Home" asp-action="Service" class="nav-link ">Servisler</a>
                         </li>
                         @*Pages started*@
                         @if (Context.User.IsInRole(RoleNames.Teknisyen))
                         {
                             <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a asp-controller="TechnicianManage" asp-action="TechFailureGet" class="nav-link">Arıza Listem</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
-                                </li>
-                                
-                            </ul>
-                        </li>
+                                <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a asp-controller="TechnicianManage" asp-action="TechFailureGet" class="nav-link">Arıza Listem</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="shop-details.html" class="nav-link">Alışveriş Detayları</a>
+                                    </li>
+
+                                </ul>
+                            </li>
                         }
                         @if (Context.User.IsInRole(RoleNames.Operator))
                         {
                             <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a asp-controller="OperatorManage" asp-action="GetFailureLogging" class="nav-link">Arıza Yönlendir</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
-                                </li>
-                                
-                            </ul>
-                        </li>
+                                <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a asp-controller="OperatorManage" asp-action="GetFailureLogging" class="nav-link">Arıza Yönlendir</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="shop-details.html" class="nav-link">Alışveriş Detayları</a>
+                                    </li>
+
+                                </ul>
+                            </li>
                         }
                         @if (Context.User.IsInRole(RoleNames.Musteri))
                         {
                             <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a asp-controller="CustomerManage" asp-action="FailureLogging" class="nav-link">Arıza Kayıt</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="CustomerManage" asp-action="FailureGet" class="nav-link">Arıza Listem</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="CustomerManage" asp-action="Basket" class="nav-link">Sepetim</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
-                                </li>
-                                
-                            </ul>
-                        </li>
+                                <a href="#" class="nav-link dropdown-toggle">İşlemlerim</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a asp-controller="CustomerManage" asp-action="FailureLogging" class="nav-link">Arıza Kayıt</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="CustomerManage" asp-action="FailureGet" class="nav-link">Arıza Listem</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="CustomerManage" asp-action="Basket" class="nav-link">Sepetim</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="shop-details.html" class="nav-link">Alışveriş Detayları</a>
+                                    </li>
+
+                                </ul>
+                            </li>
                         }
                         else
                         {
-                            
-                        <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="shop.html" class="nav-link">Shop</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="shop-details.html" class="nav-link">Shop Details</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="cart.html" class="nav-link">Cart</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="checkout.html" class="nav-link">Checkout</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-up.html" class="nav-link">Sign Up</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-in.html" class="nav-link">Sign In</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="engineer.html" class="nav-link">Engineer</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="testimonial.html" class="nav-link">Testimonial</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="faq.html" class="nav-link">FAQ</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="coming-soon.html" class="nav-link">Coming Soon</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="terms-and-conditions.html" class="nav-link">Terms & Conditions</a>
-                                </li>
-                            </ul>
-                        </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link dropdown-toggle">Sayfalar</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a asp-controller="Account" asp-action="Register" class="nav-link">Üye Ol</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Home" asp-action="Technicians" class="nav-link">Teknisyenler</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="testimonial.html" class="nav-link">Referanslar</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="faq.html" class="nav-link">Sık Sorulan Sorular</a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
 
                         @*Pages end*@
                         <li class="nav-item navbar-btn">
-                            <a href="contact.html" class="nav-link">Contact</a>
+                            <a href="contact.html" class="nav-link">Sepet</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Account" asp-action="Profile" class="nav-link">Profile</a>
+                            <a asp-controller="Account" asp-action="Profile" class="nav-link">Hesap</a>
                         </li>
                     </ul>
                 </div>

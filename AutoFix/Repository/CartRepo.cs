@@ -17,7 +17,12 @@ namespace AutoFix.Repository
         //{
         //    return Table.Where(x => x.OrderStatus == OrderStatus.Odendi.ToString()).Select(x => x.ServiceProductId);
         //}
-        
+        //public IQueryable<CartItem> SoldProducts()
+        //{
+            
 
+        //    var query = Context.ShoppingCarts.Where(x => x.OrderStatus == OrderStatus.Odendi.ToString()).
+
+        //}
     }
 }

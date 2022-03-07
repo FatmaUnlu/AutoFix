@@ -1,0 +1,102 @@
+﻿<!-- Page Title -->
+<div class="page-title-area">
+    <img src="assets/img/home-one/footer-car.png" alt="Title">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>İletişim</h2>
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                </li>
+                <li>
+                    <i class='bx bx-chevron-right'></i>
+                </li>
+                <li>İletişim</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Contact Area -->
+<section class="contact-area pt-100 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="contact-item contact-left">
+                    <h3>Lokasyon</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis velit libero vero, aliquid magnam sed, quidem labore unde aspernatur esse iusto quo quas, dolorum atque dignissimos asperiores. Ab, est accusantium.</p>
+                    <ul>
+                        <li>
+                            <i class='bx bx-location-plus'></i>
+                            Address: Beşiktaş,İstanbul,Türkiye
+                        </li>
+                        <li>
+                            <i class='bx bx-mail-send'></i>
+                            <a href="mailto:info@audeck.com">
+                                info@autofix.com
+                            </a>
+                        </li>
+                        <li>
+                            <i class='bx bx-phone-call'></i>
+                            <a href="tel:+8562-65516-595">
+                                +8562-65516-595
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-item contact-right">
+                    <h3>Bizimle İletişime Geçin</h3>
+                    <form id="contactForm">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <input type="text" name="name" id="name" class="form-control" required data-error="Lütfen adınızı girin" placeholder="Ad">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control" required data-error="Lütfen email adresinizi girin" placeholder="Email">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <input type="text" name="phone_number" id="phone_number" required data-error="Lütfen telefon numaranızı girin" class="form-control" placeholder="Telefon">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <input type="text" name="msg_subject" id="msg_subject" class="form-control" required data-error="Lütfen konuyu girin" placeholder="Konu">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <textarea name="message" class="form-control" id="message" cols="30" rows="8" required data-error="Mesajınızı yazın" placeholder="Mesaj"></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-12">
+                                <button type="submit" class="contact-btn btn">
+                                   Mesajınızı Gönderin
+                                </button>
+                                <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Contact Area -->
